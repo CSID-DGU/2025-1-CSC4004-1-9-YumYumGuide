@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  // context.params를 비동기적으로 처리
+  const params = await Promise.resolve(context.params);
   const id = params.id;
 
   // 여기서는 목업 데이터를 반환합니다
