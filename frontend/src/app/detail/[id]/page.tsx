@@ -23,7 +23,7 @@ export default function TripDetailPage({ params }: TripDetailProps) {
       
       try {
         setLoading(true);
-        // 실제 API 엔드포인트로 교체하세요
+        // 실제 API로 교체
         const response = await fetch(`/api/trips/${id}`);
         
         if (!response.ok) {
