@@ -29,36 +29,40 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full max-w-[500px] bg-white shadow-md border-t border-gray-200 rounded-t-3xl">
-      <div className="flex justify-between items-center h-[70px]">
-        {navItems.map((item) => (
-          <Link
-            href={item.href}
-            key={item.name}
-            onClick={() => setActive(item.name)}
-            className="flex flex-col items-center justify-center w-1/4"
-          >
-            <div className="flex flex-col items-center gap-1">
-              <img
-                src={item.icon}
-                alt={item.label}
-                className="w-6 h-6"
-                style={{
-                  filter: active === item.name ? "none" : "grayscale(100%) opacity(50%)",
-                }}
-              />
-              <span
-                className={`text-xs ${
-                  active === item.name ? "text-[#27C289]" : "text-gray-500"
-                }`}
-              >
-                {item.label}
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </nav>
+    <div className="fixed bottom-0 left-0 right-0 flex justify-center w-full z-50">
+      <nav className="w-full max-w-[500px] bg-white shadow-md border-t border-gray-200">
+        <div className="grid grid-cols-4 h-[70px]">
+          {navItems.map((item) => (
+            <Link
+              href={item.href}
+              key={item.name}
+              onClick={() => setActive(item.name)}
+              className="flex flex-col items-center justify-center"
+            >
+              <div className="flex flex-col items-center justify-center gap-1">
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <img
+                    src={item.icon}
+                    alt={item.label}
+                    className="w-5 h-5 object-contain"
+                    style={{
+                      filter: active === item.name ? "none" : "grayscale(100%) opacity(50%)",
+                    }}
+                  />
+                </div>
+                <span
+                  className={`text-xs ${
+                    active === item.name ? "text-[#27C289] font-medium" : "text-gray-500"
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </nav>
+    </div>
   );
 };
 
