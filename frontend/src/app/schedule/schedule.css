@@ -4,7 +4,7 @@
     width: 100%;
     margin: 0 auto;
     padding: 16px;
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(255, 255, 255);
     font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
     min-height: 100vh;
   }
@@ -69,22 +69,30 @@
     justify-content: space-between;
     margin-bottom: 24px;
     padding: 16px;
-    background-color: #f9f9f9;
+    background-color: #fffbfb;
     border-radius: 16px;
+    height: 100px;
   }
   
   .day-column {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 20px;
+    width: 50px;
   }
   
   .day-label {
     font-size: 14px;
     color: #666;
   }
-  
+
+  .weekly{
+    display: flex;
+    height: 12px;
+    margin-top: 12px;
+  }
+
   .date-circle {
     width: 36px;
     height: 36px;
@@ -109,6 +117,7 @@
   /* 일정 목록 영역 */
   .schedule-list {
     margin-top: 24px;
+    height: 62vh;
   }
   
   .list-title {
@@ -121,7 +130,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 16px;
-    padding: 8px 0;
+    padding: 8px 8px;
     border-bottom: 1px solid #f0f0f0;
   }
   
@@ -160,6 +169,11 @@
     font-weight: 500;
     margin-bottom: 4px;
   }
+  .schedule-subtitle{
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 4px;
+  }
   
   .schedule-location {
     display: flex;
@@ -171,5 +185,6 @@
   .schedule-arrow {
     margin-left: 8px;
     color: #ccc;
+    margin-right: 20px;
   }
   
