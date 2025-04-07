@@ -1,10 +1,12 @@
 'use client';
 
-import Navbar from '../componets/nav';
-import { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import Navbar from '../componets/nav';
+import './schedule.css';
 
-export default function SchedulePage() {
+const Schedule = () => {
   // 요일 데이터
   const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const dates = [18, 19, 20, 21, 22, 23, 24];
@@ -16,52 +18,54 @@ export default function SchedulePage() {
       date: '2025.04.22',
       title: '도쿄타워',
       location: 'Minato City, Tokyo',
-      image: '/icons/home.png'
+      image: '/tokyo-tower.jpg' // 실제 이미지 경로로 대체 필요
     },
     {
       id: 2,
       date: '2025.04.22',
       title: '스카이트리',
       location: 'Sumida City, Tokyo',
-      image: '/icons/schedule.png'
+      image: '/skytree.jpg' // 실제 이미지 경로로 대체 필요
     },
     {
       id: 3,
       date: '2025.04.22',
       title: '규카츠 모토무라 시부야점',
       location: 'Shibuya, Tokyo',
-      image: '/icons/Location.png'
+      image: '/restaurant.jpg' // 실제 이미지 경로로 대체 필요
     }
   ];
 
   return (
-    <div className="max-w-[500px] w-full mx-auto bg-white min-h-screen pb-24">
+    <div className="schedule-container max-w-[500px] mx-auto bg-white min-h-screen pb-20">
       {/* 헤더 */}
-      <div className="flex justify-between items-center p-4">
-        <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+      <div className="schedule-header flex justify-between items-center p-4">
+        <button className="back-button w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
           <span>&lt;</span>
         </button>
-        <h1 className="text-xl font-semibold">일정</h1>
-        <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+        <h1 className="header-title text-xl font-medium">일정</h1>
+        <button className="notification-button w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
           <span>🔔</span>
         </button>
       </div>
 
       {/* 날짜 선택 */}
-      <div className="flex justify-between items-center px-4 mb-4">
-        <h2 className="text-lg font-semibold">4월 22일</h2>
-        <div className="flex gap-2">
-          <button>&lt;</button>
-          <button>&gt;</button>
+      <div className="date-selector px-4 py-2 flex justify-between items-center">
+        <h2 className="date-title text-lg font-medium">4월 22일</h2>
+        <div className="date-navigation flex gap-2">
+          <button className="nav-button w-6 h-6 flex items-center justify-center">&lt;</button>
+          <button className="nav-button w-6 h-6 flex items-center justify-center">&gt;</button>
         </div>
       </div>
 
       {/* 요일 및 날짜 */}
-      <div className="flex justify-between px-4 mb-6">
+      <div className="week-view grid grid-cols-7 text-center bg-gray-50 p-4 rounded-lg mx-4">
         {weekDays.map((day, index) => (
-          <div className="flex flex-col items-center" key={index}>
-            <div className="text-sm text-gray-500 mb-2">{day}</div>
-            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm ${dates[index] === 22 ? 'bg-[#8ee3a9]' : ''}`}>
+          <div className="day-column" key={index}>
+            <div className="day-label text-sm text-gray-500 mb-2">{day}</div>
+            <div className={`date-circle w-10 h-10 mx-auto flex items-center justify-center rounded-full 
+              ${dates[index] === 22 ? 'bg-[#27C289] text-white' : ''} 
+              ${[21, 23].includes(dates[index]) ? 'bg-[#B3E9D5]' : 'bg-transparent'}`}>
               {dates[index]}
             </div>
           </div>
@@ -69,34 +73,36 @@ export default function SchedulePage() {
       </div>
 
       {/* 일정 목록 */}
-      <div className="px-4">
-        <h3 className="text-lg font-semibold mb-4">나의 일정</h3>
+      <div className="schedule-list px-4 mt-6">
+        <h3 className="list-title text-lg font-medium mb-4">나의 일정</h3>
         
-        {schedules.map(schedule => (
-          <div className="flex items-center mb-4 pb-2 border-b border-gray-100" key={schedule.id}>
-            <div className="w-[60px] h-[60px] rounded-lg overflow-hidden mr-3 relative">
-              <Image src={schedule.image} alt={schedule.title} width={60} height={60} className="object-cover" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center text-xs text-gray-500 mb-1">
-                <span className="mr-1">📅</span>
-                <span>{schedule.date}</span>
+        <div className="space-y-3">
+          {schedules.map(schedule => (
+            <div className="schedule-item flex items-center border-b border-gray-200 py-4" key={schedule.id}>
+              <div className="schedule-image w-12 h-12 rounded-lg overflow-hidden mr-3 flex-shrink-0">
+                <img src={schedule.image} alt={schedule.title} className="w-full h-full object-cover" />
               </div>
-              <div className="text-base font-medium mb-1">{schedule.title}</div>
-              <div className="flex items-center text-xs text-gray-500">
-                <span className="mr-1">📍</span>
-                <span>{schedule.location}</span>
+              <div className="schedule-details flex-1">
+                <div className="schedule-date text-xs text-gray-500 mb-1">
+                  <span className="calendar-icon mr-1">📅</span>
+                  <span>{schedule.date}</span>
+                </div>
+                <div className="schedule-title font-medium mb-1">{schedule.title}</div>
+                <div className="schedule-location text-xs text-gray-500">
+                  <span className="location-icon mr-1">📍</span>
+                  <span>{schedule.location}</span>
+                </div>
+              </div>
+              <div className="schedule-arrow text-gray-400 flex-shrink-0">
+                <span>&gt;</span>
               </div>
             </div>
-            <div className="text-gray-300">
-              <span>&gt;</span>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
-      {/* 네비게이션 바 */}
       <Navbar />
     </div>
   );
-}
+};
+
+export default Schedule;
