@@ -100,15 +100,17 @@ export default function TripDetailPage({ params }: TripDetailProps) {
         {/* <button className="bookmark-button">
           ☐
         </button> */}
-        <div className="rating-badge">
-          <span className="rating-star">★</span>
-          <span className="rating-text">{mockData.rating}</span>
-          {/* <span className="rating-count">({mockData.reviewCount})</span> */}
-        </div>
+        
       </div>
 
       <div className="content-container">
-        <h1 className="title">{mockData.name}</h1>
+        <div className='flex title-container'>
+          <h1 className="title">{mockData.name}</h1>
+          <div className="rating-badge">
+            <span className="rating-star">★</span>
+            <span className="rating-text">{mockData.rating}</span>
+          </div>
+        </div>
         <div className="location">
           <span className="location-icon">📍</span>
           <span>{mockData.location}</span>
