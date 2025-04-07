@@ -102,7 +102,7 @@ const Schedule = () => {
         <div className="schedule-scroll-container max-h-[580px] overflow-y-scroll scrollbar-hide">
           <div className="space-y-4">
             {schedules.map(schedule => (
-              <Link href="#" key={schedule.id}>
+              <Link href={`/detail/${schedule.id}`} key={schedule.id}>
                 <div className="schedule-item flex items-center bg-gray-50 p-3 rounded-xl">
                   <div className="schedule-image w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0">
                     <img src={schedule.image} alt={schedule.title} className="w-full h-full object-cover" />
