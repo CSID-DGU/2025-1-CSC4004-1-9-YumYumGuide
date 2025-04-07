@@ -1,10 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const [active, setActive] = useState("home");
+  const pathname = usePathname();
+  const [active, setActive] = useState("");
+
+  // 현재 경로에 따라 활성 탭 설정
+  useEffect(() => {
+    if (pathname === "/") {
+      setActive("home");
+    } else if (pathname === "/schedule") {
+      setActive("schedule");
+    } else if (pathname === "/map") {
+      setActive("map");
+    } else if (pathname === "/profile") {
+      setActive("profile");
+    }
+  }, [pathname]);
 
   const navItems = [
     { name: "home", label: "홈", icon: "/icons/home.png", href: "/" },
