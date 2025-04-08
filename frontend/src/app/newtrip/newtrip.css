@@ -1,0 +1,61 @@
+.date-selector {
+    border-radius: 16px;
+    background-color: #f9fafb;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .date-circle {
+    transition: all 0.2s ease;
+  }
+  
+  .active-date {
+    background-color: #7ED1AA;
+    color: white;
+  }
+  
+  .city-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+  
+  .city-container {
+    background-color: #f3f4f6;
+    border-radius: 16px;
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .city-container.selected {
+    background-color: #7ED1AA;
+  }
+  
+  .create-button {
+    background-color: #7ED1AA;
+    border-radius: 100px;
+    padding: 16px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 40px;
+  }
+  
+  /* 날짜 선택 시 커서 포인터 표시 */
+  .date-circle {
+    cursor: pointer;
+  }
+  
+  /* 날짜에 마우스 오버 시 효과 */
+  .date-circle:not(.active-date):hover {
+    background-color: #f0f0f0;
+  }
