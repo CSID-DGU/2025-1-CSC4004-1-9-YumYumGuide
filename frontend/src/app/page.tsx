@@ -1,23 +1,97 @@
-'use client'; // 이 줄을 추가하세요
-
+'use client';
 import Nav from './componets/nav';
-
+import { useState, useEffect } from 'react';
 export default function Home() {
-  function moveTrip() {
-    window.location.href = '/newtrip';
-  }
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState(null);
+
+  useEffect(() => {
+    console.log('ㅕㅇㄱ들어옴');
+    async function fetchMovies() {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/sample`);
+        console.log(response.json, 'response');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setMovies(data.data);
+        setPagination(data.pagination);
+      } catch (err) {
+        // setError(err.message);
+        console.error('영화 데이터 가져오기 오류:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchMovies();
+  }, [page]);
+
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(prevPage => prevPage - 1);
+    }
+  };
+
+  if (loading) return <div className="p-4">로딩 중...</div>;
+  if (error) return <div className="p-4 text-red-500">오류: {error}</div>;
   
   return (
-    <>
-      <div>
+    <div style={{ padding: '1rem' }}>
+      <div style={{ marginBottom: '1rem' }}>
         <button 
-          className="bg-blue-500 text-white px-4 py-2 rounded" 
-          onClick={() => moveTrip()}
+          style={{ 
+            backgroundColor: '#3b82f6', 
+            color: 'white', 
+            padding: '0.5rem 1rem', 
+            borderRadius: '0.25rem',
+            border: 'none',
+            marginRight: '0.5rem',
+            cursor: 'pointer'
+          }} 
+          // onClick={moveTrip}
         >
           Go to Trip Detail
         </button>
+        
+        <button 
+          style={{ 
+            backgroundColor: loading ? '#9ca3af' : '#22c55e', 
+            color: 'white', 
+            padding: '0.5rem 1rem', 
+            borderRadius: '0.25rem',
+            border: 'none',
+            cursor: loading ? 'not-allowed' : 'pointer'
+          }} 
+          // onClick={fetchSampleData}
+          disabled={loading}
+        >
+          {loading ? '로딩 중...' : '샘플 데이터 불러오기'}
+        </button>
       </div>
+      
+      {error && (
+        <div style={{ 
+          padding: '1rem', 
+          backgroundColor: '#fee2e2', 
+          color: '#b91c1c',
+          borderRadius: '0.25rem',
+          marginBottom: '1rem'
+        }}>
+          에러: {error}
+        </div>
+      )}
+      
+      
+      
       <Nav />
-    </>
+    </div>
   );
 }
