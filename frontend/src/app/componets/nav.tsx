@@ -28,7 +28,7 @@ const Navbar = () => {
     { name: "schedule", label: "일정", icon: "/icons/schedule.png", href: "/schedule" },
     { name: "search", label: "", icon: "/icons/search.png", href: "/search" },
     { name: "map", label: "지도", icon: "/icons/Location.png", href: "/map" },
-    { name: "profile", label: "프로필", icon: "/icons/profile.svg", href: "/profile" },
+    { name: "profile", label: "프로필", icon: "/icons/profile.png", href: "/profile" },
   ];
 
   return (
