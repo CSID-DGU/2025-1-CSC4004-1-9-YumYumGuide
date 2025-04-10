@@ -9,21 +9,21 @@ export default function Home() {
   const [pagination, setPagination] = useState(null);
 
   useEffect(() => {
-    console.log('ㅕㅇㄱ들어옴');
+    console.log('useEffect 실행됨');
     async function fetchMovies() {
       try {
         setLoading(true);
-        const response = await fetch(`/api/sample`);
-        console.log(response.json, 'response');
+        const response = await fetch('/api/sample');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data = await response.json();
-        setMovies(data.data);
-        setPagination(data.pagination);
+        const result = await response.json();
+        console.log('받은 데이터:', result); // 전체 응답 확인
+        setMovies(result.data);
+        setPagination(result.pagination);
       } catch (err) {
-        // setError(err.message);
+        setError(err.message);
         console.error('영화 데이터 가져오기 오류:', err);
       } finally {
         setLoading(false);
