@@ -153,23 +153,25 @@ async function main() {
       
       // CSV 파싱
       console.log('CSV 파일 파싱 중...');
-      const restaurants = await parseCSVFile(csvFilePath);
+      let restaurants = await parseCSVFile(csvFilePath);
       
       console.log(`${restaurants.length}개의 레스토랑 데이터가 파싱되었습니다.`);
       
       // 처음 몇 개 항목 출력하여 확인
+      restaurants = Restaurant.mapCSVToSchema(restaurants);
       console.log('파싱된 데이터 샘플:');
       console.log(JSON.stringify(restaurants.slice(0, 2), null, 2));
+    //   console.log(JSON.stringify(restaurants[0].seats, null, 2)); // 좌석수 확인용
       
       // MongoDB에 삽입
-      const result = await importRestaurants(restaurants);
+    //   const result = await importRestaurants(restaurants);
       
-      if (result.success) {
-        console.log('가져오기 완료!');
-      } else {
-        console.error('가져오기 실패:', result.error);
-        process.exit(1);
-      }
+    //   if (result.success) {
+    //     console.log('가져오기 완료!');
+    //   } else {
+    //     console.error('가져오기 실패:', result.error);
+    //     process.exit(1);
+    //   }
     } catch (error) {
       console.error('오류 발생:', error);
       process.exit(1);
