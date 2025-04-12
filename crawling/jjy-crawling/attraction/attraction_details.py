@@ -8,12 +8,15 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
 import time
+import random
 
 # 크롬 옵션 설정
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # 브라우저 창 숨김
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--no-sandbox")
+# 사용자 에이전트 추가 (일반 브라우저처럼 보이게)
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
 
 # 드라이버 실행
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
@@ -56,7 +59,7 @@ if tokyo_filter is None:
 
 driver.execute_script("arguments[0].click();", tokyo_filter)
 print(f"[INFO] 선택된 필터: {tokyo_filter.text}")
-time.sleep(2)  # 필터링 반영 대기
+time.sleep(1)  # 필터링 반영 대기
 
 # Step 3: 더보기 버튼 클릭하여 모든 데이터 로드
 max_clicks = 5  # 최대 클릭 횟수 (40개씩 5번 = 약 200개)
@@ -85,7 +88,7 @@ while current_clicks < max_clicks:
         wait.until(lambda driver: len(driver.find_elements(By.CLASS_NAME, "mod-search-card")) > current_count)
         
         # 로드 완료 대기
-        time.sleep(2)
+        time.sleep(1)
         
         # 새 카드 수 확인
         new_count = len(driver.find_elements(By.CLASS_NAME, "mod-search-card"))
@@ -99,28 +102,106 @@ while current_clicks < max_clicks:
 cards = driver.find_elements(By.CLASS_NAME, "mod-search-card")
 print(f"[INFO] 도쿄 관련 카드 총 수: {len(cards)}")
 
-card_data = []
-
+# 기본 정보만 먼저 수집
+base_card_data = []
 for card in cards:
     try:
         category = card.find_element(By.CLASS_NAME, "card-text-subtitle").text.strip()
         title = card.find_element(By.CLASS_NAME, "card-text-title").text.strip()
         description = card.find_element(By.CLASS_NAME, "card-text-description").text.strip()
         
+        # 링크 정보 가져오기
+        link_element = card.find_element(By.TAG_NAME, "a")
+        link = link_element.get_attribute("href")
         
-        card_data.append([category, title, description])
+        base_card_data.append({
+            "category": category,
+            "title": title,
+            "description": description,
+            "link": link,
+            "address": "정보 없음"  # 기본값
+        })
     except Exception as e:
-        print(f"[WARN] 카드 데이터 수집 실패: {e}")
+        print(f"[WARN] 카드 기본 데이터 수집 실패: {e}")
         continue
 
-# Step 5: CSV 저장
-csv_file = "tokyo_cards.csv"
+print(f"[INFO] 기본 정보 수집 완료: {len(base_card_data)}개")
+
+# 새로운 드라이버 생성 (상세 페이지 방문용) - 다른 사용자 에이전트 설정
+detail_options = Options()
+detail_options.add_argument("--headless")
+detail_options.add_argument("--disable-gpu")
+detail_options.add_argument("--no-sandbox")
+detail_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15")
+
+detail_driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=detail_options)
+detail_wait = WebDriverWait(detail_driver, 10)
+
+# 상세 주소 정보 수집 (진행 상황 표시 포함)
+total_cards = len(base_card_data)
+processed = 0
+
+# CSV 파일 준비 (진행 중에도 데이터 저장)
+csv_file = "tokyo_cards_with_address.csv"
 with open(csv_file, mode="w", newline="", encoding="utf-8") as file:
     writer = csv.writer(file)
-    writer.writerow(["카테고리", "명소", "설명"])
-    writer.writerows(card_data)
+    writer.writerow(["카테고리", "명소", "설명", "주소"])
 
-print(f"[✅] 총 {len(card_data)}개 카드가 '{csv_file}'에 저장되었습니다.")
+    # 각 카드의 상세 정보 수집
+    for card_data in base_card_data:
+        try:
+            # 딜레이 추가 (3~7초 랜덤)
+            delay = random.uniform(0.5, 0.7)
+            time.sleep(delay)
+            
+            # 상세 페이지 방문
+            detail_driver.get(card_data["link"])
+            
+            try:
+                # 주소 요소 찾기
+                address_element = detail_wait.until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "mod-keyvisual-detail__location-eng"))
+                )
+                card_data["address"] = address_element.text.strip()
+            except Exception as detail_e:
+                print(f"[WARN] 주소 정보를 가져오는데 실패했습니다 ({card_data['title']}): {detail_e}")
+            
+            # 진행 상황 업데이트 및 결과 저장
+            processed += 1
+            
+            # 바로 CSV에 기록 (실패해도 기본 정보는 저장)
+            writer.writerow([
+                card_data["category"],
+                card_data["title"],
+                card_data["description"],
+                card_data["address"],
+            ])
+            
+            # 로그 출력 (10개마다 또는 마지막)
+            if processed % 10 == 0 or processed == total_cards:
+                print(f"[INFO] 진행 상황: {processed}/{total_cards} ({int(processed/total_cards*100)}%)")
+                
+        except Exception as e:
+            print(f"[WARN] 상세 데이터 수집 실패 ({card_data['title']}): {e}")
+            
+            # 오류가 나도 기본 정보는 저장
+            writer.writerow([
+                card_data["category"],
+                card_data["title"],
+                card_data["description"],
+                "수집 실패",
+            ])
+            
+            # 진행 상황 카운트
+            processed += 1
+            
+            # 403 에러 발생 시 딜레이 더 늘리기
+            if "403" in str(e):
+                print("[WARN] 403 에러 발생. 딜레이 증가...")
+                time.sleep(5)  # 5초 추가 대기
 
-# 종료
+print(f"[✅] 총 {processed}개 카드가 '{csv_file}'에 저장되었습니다.")
+
+# 드라이버 종료
+detail_driver.quit()
 driver.quit()
