@@ -165,14 +165,14 @@ async function main() {
     //   console.log(JSON.stringify(restaurants[0].seats, null, 2)); // 좌석수 확인용
       
       // MongoDB에 삽입
-    //   const result = await importRestaurants(restaurants);
+      const result = await importRestaurants(restaurants);
       
-    //   if (result.success) {
-    //     console.log('가져오기 완료!');
-    //   } else {
-    //     console.error('가져오기 실패:', result.error);
-    //     process.exit(1);
-    //   }
+      if (result.success) {
+        console.log('가져오기 완료!');
+      } else {
+        console.error('가져오기 실패:', result.error);
+        process.exit(1);
+      }
     } catch (error) {
       console.error('오류 발생:', error);
       process.exit(1);
