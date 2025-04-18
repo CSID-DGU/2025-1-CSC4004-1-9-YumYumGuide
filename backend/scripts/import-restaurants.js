@@ -7,7 +7,8 @@ require('dotenv').config();
 
 /**
  * CSV 파일을 파싱하는 함수
- * 
+ * mongoDB에 저장하기 전에 CSV 파일을 파싱하여 데이터를 정리합니다.
+ * 그 후 mongoDB에 저장합니다.
  * @param {string} filePath - CSV 파일 경로
  * @returns {Promise<Array>} - 파싱된 데이터 배열
  */
