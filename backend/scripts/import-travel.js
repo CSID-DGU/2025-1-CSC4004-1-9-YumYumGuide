@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const Papa = require('papaparse');
 const mongoose = require('mongoose');
-const TouristSpot = require('./models/touristSpot');
+const TouristSpot = require('../models/touristSpot');
 require('dotenv').config();
 
 // MongoDB 연결 문자열 확인
