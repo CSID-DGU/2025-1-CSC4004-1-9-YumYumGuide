@@ -1,0 +1,143 @@
+/* ───────── 공통 ───────── */
+.div {
+  width: 100%;
+  position: relative;
+  background: #fff;
+  height: 965px;
+  overflow: hidden;
+  text-align: left;
+  font: 18px 'Kantumruy Pro', sans-serif;
+  color: #1b1e28;
+}
+
+/* ───────── 헤더 ───────── */
+.div1 {
+  position: absolute;
+  top: 67px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.backIcon,
+.saveIcon {
+  position: absolute;
+  top: 56px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.backIcon { left: 37px; }
+.saveIcon { left: 419px; }
+
+/* 저장 중 → 녹색 변화 (1 초와 동일 기간) */
+.saveIconActive {
+  filter: invert(57%) sepia(48%) saturate(706%)
+          hue-rotate(98deg) brightness(91%) contrast(92%);
+  transition: filter .25s;
+}
+
+/* ───────── 프로필 이미지 ───────── */
+.profileIcon {
+  position: absolute;
+  top: 129.33px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+}
+
+/* ───────── 닉네임 ───────── */
+.div2 {
+  position: absolute;
+  top: 254px;
+  left: 66px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  line-height: 24px;
+}
+
+.box1 {
+  position: absolute;
+  top: 290px;
+  left: 66px;
+  width: 368px;
+  height: 48px;
+  border: none;
+  border-radius: 16px;
+  background: #f7f7f9;
+  padding: 0 16px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* ───────── 이메일 ───────── */
+.div3 {
+  position: absolute;
+  top: 355px;
+  left: 66px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  line-height: 24px;
+}
+
+.box2 {
+  position: absolute;
+  top: 391px;
+  left: 66px;
+  width: 368px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  border-radius: 16px;
+  background: #f7f7f9;
+  font-size: 16px;
+}
+
+/* ───────── 연동 계정 박스 ───────── */
+.boxNaver,
+.boxKakao {
+  position: absolute;
+  top: 449px;
+  width: 178px;
+  height: 48px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 기본 상태 */
+.boxNaver {
+  left: 66px;
+  border: 2px solid #27c289;
+  background: transparent;
+}
+.boxKakao {
+  left: 256px;
+  border: 2px solid transparent;
+  background: #f7f7f9;
+}
+
+.selected {
+  background: #fff !important;
+  border: 2px solid #27c289 !important;
+}
+
+/* 아이콘(중앙) */
+.platformIcon {
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+}
+
+/* ───── 기존 불필요 클래스 숨김 ───── */
+.nickname,
+.email { display: none; }
