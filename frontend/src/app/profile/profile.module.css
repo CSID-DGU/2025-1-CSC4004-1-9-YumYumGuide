@@ -1,0 +1,203 @@
+.div1 {
+  position: absolute;
+  bottom: 876px;
+  left: 225px;
+  line-height: 22px;
+  font-weight: 700;
+  text-align: center;
+}
+.profileIcon {
+  position: absolute;
+  bottom: 753px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 94px;
+  height: 94px;
+}
+.lovetrip {
+  position: absolute;
+  bottom: 698px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: 500;
+}
+.lovetripgmailcom {
+  position: absolute;
+  bottom: 680px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: lowercase;
+  color: #7d848d;
+}
+.divisonLineIcon {
+  position: absolute;
+  bottom: 573.5px;
+  left: 58px;
+  max-height: 100%;
+  width: 384px;
+}
+.divisonLine2Icon {
+  position: absolute;
+  bottom: 509.5px;
+  left: 58px;
+  max-height: 100%;
+  width: 384px;
+}
+.logoutGroupChild {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  border-radius: 0px 0px 16px 16px;
+  background-color: #fff;
+  width: 382px;
+  height: 64px;
+}
+.div2 {
+  position: absolute;
+  bottom: 0px;
+  left: 38.2px;
+  letter-spacing: 0.5px;
+  line-height: 20px;
+  font-weight: 500;
+  display: inline-block;
+  width: 69.6px;
+}
+.logoutIcon {
+  position: absolute;
+  bottom: 0px;
+  left: -2px;
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+}
+.arrowIcon {
+  position: absolute;
+  bottom: -2px;
+  right: -10px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.logout {
+  position: absolute;
+  bottom: 20px;
+  left: 23.38px;
+  width: 329.8px;
+  height: 20px;
+}
+.logoutGroup {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 382px;
+  height: 64px;
+}
+.settingGroupChild {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background-color: #fff;
+  width: 382px;
+  height: 64px;
+}
+.div3 {
+  position: absolute;
+  bottom: 0px;
+  left: 37.63px;
+  letter-spacing: 0.5px;
+  line-height: 20px;
+  font-weight: 500;
+  display: inline-block;
+  width: 98.1px;
+}
+.profileIcon2 {
+  position: absolute;
+  bottom: -1px;
+  left: -6px;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+.setting {
+  position: absolute;
+  bottom: 22px;
+  left: 23.95px;
+  width: 329.3px;
+  height: 20px;
+}
+.settingGroup {
+  position: absolute;
+  bottom: 64px;
+  left: 0px;
+  width: 382px;
+  height: 64px;
+}
+.favorGroupChild {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  border-radius: 16px 16px 0px 0px;
+  background-color: #fff;
+  width: 382px;
+  height: 64px;
+}
+.div4 {
+  position: absolute;
+  bottom: 1.5px;
+  left: 41.62px;
+  letter-spacing: 0.5px;
+  line-height: 20px;
+  font-weight: 500;
+  display: inline-block;
+  width: 135.7px;
+}
+.favoriteIcon {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+.favor {
+  position: absolute;
+  bottom: 19.5px;
+  left: 19.96px;
+  width: 333.3px;
+  height: 21.5px;
+}
+.favorGroup {
+  position: absolute;
+  bottom: 128px;
+  left: 0px;
+  width: 382px;
+  height: 64px;
+}
+.menu {
+  position: absolute;
+  bottom: 447px;
+  left: 59px;
+  filter: drop-shadow(0px 6px 16px rgba(180, 188, 201, 0.12));
+  width: 382px;
+  height: 192px;
+  font-size: 16px;
+}
+.div {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  height: 965px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 18px;
+  color: #1b1e28;
+}
+.logoutGroup,
+.settingGroup,
+.favorGroup {
+	cursor: pointer;
+}
