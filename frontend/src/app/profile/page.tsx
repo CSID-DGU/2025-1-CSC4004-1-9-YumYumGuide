@@ -32,7 +32,8 @@ const Profile = () => {
   /* 네비게이션 함수 */
   const handleSettingClick   = () => router.push('/profile/edit');
   const handleFavorClick     = () => router.push('/profile/preferences');
-  const handleLogoutClick    = () => console.log('로그아웃 클릭됨');
+  /* const handleLogoutClick    = () => console.log('로그아웃 클릭됨'); */
+  const handleLogoutClick    = () => router.push('/login');
 
   /* UI */
   return (
