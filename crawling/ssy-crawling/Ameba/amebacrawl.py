@@ -53,7 +53,6 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 
 def find_one_from_ameba(find):
     global id
-    
     driver_path = r"D:\webdriver\chromedriver-win64\chromedriver-win64\chromedriver.exe"
     service = Service(driver_path)
     driver = webdriver.Chrome(options=chrome_options)
