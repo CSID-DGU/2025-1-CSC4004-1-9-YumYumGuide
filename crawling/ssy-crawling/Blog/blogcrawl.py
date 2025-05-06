@@ -21,7 +21,7 @@ def find_one_from_naverblog(find):
 
     time.sleep(3)
 
-    with open('ameba.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
+    with open('naverblog.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['id', '키워드', '제목', '내용', '링크'])
 
@@ -42,7 +42,6 @@ def find_one_from_naverblog(find):
                 for item in post:
                     # 요소 가져오기
                     title = ''
-                    theme = ''
                     content = ''
                     link = None
                     try:
@@ -60,7 +59,6 @@ def find_one_from_naverblog(find):
                     except NoSuchElementException:
                         print("NoSuchElementException: Link")
                         link = ''
-                        theme = ""
                         content = ''
 
                     # 새 탭을 열어 링크로 들어감
@@ -74,8 +72,7 @@ def find_one_from_naverblog(find):
                             # 전체 내용 가져오기 시도
                             content = driver.find_element(By.XPATH, '//*[@id="post-view223842009530"]/div/div[3]').text.strip()
                         except NoSuchElementException:
-                            print("NoSuchElementException: Theme & Content")
-                            theme = ''
+                            print("NoSuchElementException: Content")
                             content = ''
 
                         id += 1
@@ -88,18 +85,17 @@ def find_one_from_naverblog(find):
 
                     print(f"id: {id}")
                     print(f"제목: {title}")
-                    print("테마 : ", len(theme))
                     print("내용: ", content)
                     time.sleep(3)
                 
         except NoSuchElementException:
-            print("PcEntryList_List 컨테이너를 찾을 수 없습니다.")
+            print("NoSuchElementException: Container")
 
 
     driver.close()
 
 
-queries = ["도쿄", "도쿄 맛집", "도쿄 데이트", "도쿄 식당", "도쿄 가볼만한"]
+queries = ["도쿄", "도쿄 맛집", "도쿄 데이트", "도쿄 식당", "도쿄 가볼만한", "도쿄 여행"]
 
 for query in queries:
     find_one_from_naverblog(query)
