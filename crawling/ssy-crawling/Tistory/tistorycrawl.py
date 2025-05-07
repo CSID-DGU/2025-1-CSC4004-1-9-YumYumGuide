@@ -21,7 +21,7 @@ def find_one_from_tistory(find):
 
     time.sleep(3)
 
-    with open('tistory.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
+    with open('crawling\ssy-crawling\Tistory\tistory.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['id', '키워드', '제목', '내용', '링크'])
 
@@ -77,7 +77,7 @@ def find_one_from_tistory(find):
                         content = ''
 
                     id += 1
-                    with open('tistory.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
+                    with open('crawling/ssy-crawling/Tistory/tistory.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
                         csv_writer = csv.writer(csv_file)
                         csv_writer.writerow([id, find, title, content, link])
                 

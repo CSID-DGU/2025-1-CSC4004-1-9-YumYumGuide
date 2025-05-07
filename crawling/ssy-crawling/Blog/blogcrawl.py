@@ -21,7 +21,7 @@ def find_one_from_naverblog(find):
 
     time.sleep(3)
 
-    with open('naverblog.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
+    with open('crawling/ssy-crawling/Blog/naverblog.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['id', '키워드', '제목', '내용', '링크'])
 
@@ -76,7 +76,7 @@ def find_one_from_naverblog(find):
                             content = ''
 
                         id += 1
-                        with open('naverblog.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
+                        with open('crawling/ssy-crawling/Blog/naverblog.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
                             csv_writer = csv.writer(csv_file)
                             csv_writer.writerow([id, find, title, content, link])
                     

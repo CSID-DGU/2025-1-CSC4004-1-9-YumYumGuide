@@ -58,7 +58,7 @@ def find_one_from_ameba(find):
     driver = webdriver.Chrome(options=chrome_options)
     time.sleep(3)
 
-    with open('ameba.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
+    with open('crawling/ssy-crawling/Ameba/ameba.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['id', '키워드', '제목', '내용', '링크'])
 
@@ -120,7 +120,7 @@ def find_one_from_ameba(find):
                         title = translate_text(title)
                         id += 1
 
-                        with open('ameba.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
+                        with open('crawling/ssy-crawling/Ameba/ameba.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
                             csv_writer = csv.writer(csv_file)
                             csv_writer.writerow([id, find, title, content, link])
                     
