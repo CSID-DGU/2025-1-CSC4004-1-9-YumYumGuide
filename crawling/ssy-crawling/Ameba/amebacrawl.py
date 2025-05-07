@@ -11,41 +11,47 @@ import requests
 id = 0
 def translate_text(text, retries=3):
     """안정적인 번역 API를 사용하여 일본어를 한국어로 번역"""
+    translated_text = ""
     if not text or text == "null":
         return text
+    text_epoches = len(text)//2000
+    print(f"text_epoches: {text_epoches}")
 
-    
-    # LibreTranslate API 사용 (무료 API)
-    for i in range(retries):
-        try:
-            # 무료 번역 API 서비스 URL (예시)
+    try:
+        for epoch in range(0, text_epoches + 1):
+            partial_text = text[epoch*2000:(epoch+1)*2000]
+        
+            # 무료 번역 API 서비스 URL
             url = "https://translate.googleapis.com/translate_a/single"
             params = {
                 "client": "gtx",
                 "sl": "ja",
                 "tl": "ko",
                 "dt": "t",
-                "q": text
+                "q": partial_text
             }
-            
             response = requests.get(url, params=params)
-            
-            if response.status_code == 200:
-                # Google Translate API 응답 파싱
-                result = response.json()
-                translated_text = ''.join([sentence[0] for sentence in result[0]])
+
+            try:
+                if response.status_code == 200:
+                    # Google Translate API 응답 파싱
+                    result = response.json()
+                    if (translated_text != ''.join([sentence[0] for sentence in result[0]])):
+                        translated_text += ''.join([sentence[0] for sentence in result[0]])
+                    
+                time.sleep(0.5)  # 재시도 전 짧은 대기
                 
-                return translated_text
-                
-            time.sleep(0.5)  # 재시도 전 짧은 대기
-            
-        except Exception as e:
-            print(f"번역 시도 {i+1}/{retries} 실패: {str(e)}")
-            time.sleep(1)  # 오류 후 대기
+            except Exception as e:
+                print(f"번역 실패: {str(e)}")
+                time.sleep(1)  # 오류 후 대기
+                return text
+
+        return translated_text
     
-    # 모든 시도 실패 시 원본 반환
-    print(f"번역 실패, 원본 텍스트 반환: {text[:20]}...")
-    return text
+    except:
+        # 모든 시도 실패 시 원본 반환
+        print(f"번역 실패, 원본 텍스트 반환: {text[:20]}...")
+        return text
 
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
