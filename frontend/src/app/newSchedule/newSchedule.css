@@ -375,4 +375,49 @@
 .budget-reset-ui:active, .budget-reset-ui:hover {
   background: #fbeaea;
   color: #e74c3c;
+}
+
+.popup-overlay {
+  position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.18); z-index: 1000;
+}
+.place-popup {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 340px; max-width: 95vw; height: 90vh; background: #fff;
+  border-radius: 22px; box-shadow: 0 0 0 2px #f2f4f8, 0 4px 16px rgba(0,0,0,0.08);
+  z-index: 1001; padding: 24px 12px 18px 12px; overflow-y: auto;
+  display: flex; flex-direction: column; align-items: stretch;
+}
+.popup-close-btn {
+  background: none; border: none; font-size: 1.5rem; margin-bottom: 10px; cursor: pointer;
+  align-self: flex-start;
+}
+.popup-search {
+  width: 100%; border-radius: 16px; border: none; background: #f7f8fa;
+  padding: 12px 16px; font-size: 1.05rem; margin-bottom: 18px;
+}
+.popup-place-list { display: flex; flex-direction: column; gap: 14px; }
+.popup-place-card {
+  background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 16px 18px 12px 18px; position: relative; display: flex; flex-direction: column;
+  margin-bottom: 2px;
+}
+.popup-place-card.selected {
+  background: #19c37d; color: #fff;
+}
+.popup-place-title { font-size: 1.08rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; }
+.popup-place-badge { background: #fff; color: #19c37d; border-radius: 8px; font-size: 0.85rem; padding: 2px 8px; margin-left: 6px; font-weight: 600; }
+.popup-place-card.selected .popup-place-badge { background: #fff; color: #19c37d; }
+.popup-place-meta { font-size: 0.97rem; opacity: 0.8; margin-bottom: 8px; }
+.popup-place-add-btn {
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  background: #f7f8fa; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.popup-place-card.selected .popup-place-add-btn {
+  background: #fff; color: #19c37d;
+}
+.popup-place-detail {
+  font-size: 0.97rem; color: #222; margin-top: 8px; cursor: pointer; font-weight: 500;
+  text-align: left;
 } 
