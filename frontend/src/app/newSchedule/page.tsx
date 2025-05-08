@@ -87,23 +87,23 @@ const NewSchedule = () => {
           <div className="place-title">꼭 가고 싶은 명소</div>
           <div className="place-list">
             <div className="place-item place-selected">
-              <img src="/sample-place.jpg" alt="명소" className="place-img" />
               <span className="place-name">규카츠 모토무라 시부야점</span>
+              <img src="/icons/BackArrow.png" alt="place" />
             </div>
             <div className="place-item place-add">+</div>
             <div className="place-item place-add">+</div>
           </div>
         </div>
         {/* 여행 예산 */}
-        <div className="budget-section">
-          <div className="budget-title">여행 예산</div>
-          <div className="budget-value">{budget.toLocaleString()}원</div>
-          <div className="budget-buttons">
-            <button onClick={() => setBudget(budget + 1000000)}>+ 1,000,000</button>
-            <button onClick={() => setBudget(budget + 500000)}>+ 500,000</button>
-            <button onClick={() => setBudget(budget + 100000)}>+ 100,000</button>
-            <button onClick={() => setBudget(0)} className="budget-reset">초기화</button>
+        <div className="budget-section-ui">
+          <div className="budget-title-ui">$ 여행 예산</div>
+          <div className="budget-value-ui">{budget.toLocaleString()}원</div>
+          <div className="budget-btns-ui">
+            <button onClick={() => setBudget(budget + 1000000)} className="budget-btn-ui">+ 1,000,000</button>
+            <button onClick={() => setBudget(budget + 500000)} className="budget-btn-ui">+ 500,000</button>
+            <button onClick={() => setBudget(budget + 100000)} className="budget-btn-ui">+ 100,000</button>
           </div>
+          <button onClick={() => setBudget(0)} className="budget-reset-ui">초기화</button>
         </div>
         {/* 일정 생성하기 버튼 */}
         <button className="create-schedule-btn">일정 생성하기</button>
