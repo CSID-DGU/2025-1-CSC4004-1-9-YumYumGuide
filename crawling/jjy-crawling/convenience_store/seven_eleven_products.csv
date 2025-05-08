@@ -1,82 +1,257 @@
-﻿상품명,번역된 상품명,가격,이미지 URL
-枝豆おこわおむすび,에다메 쌀 공,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046811/76798CF19158E567C9554E4655050D83.jpg
-醤油むすび　紫峰使用,간장 Musubi Shimo가 사용되었습니다,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046810/4BF3E8E758D8F357AA1CBB525D42ADAA.jpg
-国産アスパラとベーコンのおむすび,국내 아스파라거스와 베이컨 쌀 공,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046806/48E64ECD75BBC5906E5F4D603511E59E.jpg
-一膳御飯おむすび　焼肉のタレまぶし,원형 쌀 공 - 야키니쿠 소스 고등어,188円（税込203.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046775/00DCAD117C71E83C1579A1A92B25E61E.jpg
-どか盛り　タルタルチキン南蛮＆ナポリタン,Doka-Pation Chicken Tartare Nanban & Neapolitan,698円（税込753.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046821/49576E27B92EC88A78C9F983C2DE4EEA.jpg
-紅鮭明太子ごはん,Sockeye Salmon Mentaiko Rice,390円（税込421.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046809/8965C49D4328B9D8FC5ADEB827C700B3.jpg
-高菜チャーシューごはん,타카 나 숯 시우 라이스,320円（税込345.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/042608/35E5402C9A00459CD72918F1CAFF573C.jpg
-おにぎりランチ,라이스 볼 점심,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046812/EEABE3D09A8CD6727168708EF0566F26.jpg
-ふんわり玉子のオムライス,푹신한 계란 오믈렛 쌀,520円（税込561.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046815/D32DAA9DB6FD5D7A52A66B2CF4B31D56.jpg
-照焼チキンとたまごサンド,테루야키 치킨과 계란 샌드위치,320円（税込345.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052979/CAA9CC6BA06696789AC119FF3D2BBD72.jpg
-照焼チキンとたまごサンド,테루야키 치킨과 계란 샌드위치,320円（税込345.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052978/7EB0596F7182374BE3D1D23599584A5E.jpg
-２種のフルーツサンド,과일 샌드위치의 두 가지 유형,418円（税込451.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052988/367253D3D26F562335A3C92357631B03.jpg
-冷し煮干し醤油ラーメン,차가운 말린 정어리 간장라면,540円（税込583.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095631/2BCA379C85FE632C27B3770B1C36C48E.jpg
-ニンニクたっぷり　　　マヨネーズまぜそば,"많은 마늘, 마요네즈 믹스 소바",580円（税込626.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095630/49C6EA154F030D877A229D494F302079.jpg
-麻婆豆腐焼そば,마포 두부 튀김 국수,530円（税込572.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095633/168B4943F39D8EE159D73B62F918480C.jpg
-ＺＥＮＢヌードル使用　デミソース仕立てのボロネーゼ,"젠브 국수로 만든 볼로냐, 데미 소스로 만든",598円（税込645.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095640/26A391214FD00F0CDECDC94723882E14.jpg
-ベーコンとチーズのカルボナーラ,베이컨과 치즈 카르 보 나라,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095636/1F666D6817B8F249D071950349866BCD.jpg
-ベーコンとチーズのカルボナーラ,베이컨과 치즈 카르 보 나라,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095635/D6F1E8AA6EFBF94E51CA9B1CF8EA5746.jpg
-彩り野菜とピリ辛トマトパスタ,다채로운 야채와 매운 토마토 파스타,480円（税込518.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095196/CE1D8A2053C7BB30AEE22441B571DDCE.jpg
-アンチョビガーリックポテト,멸치 마늘 감자,258円（税込278.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107389/630C4F03401805D3322393A83AB10026.jpg
-彩り野菜のサラダボウル,다채로운 야채 샐러드 그릇,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107414/F769CC6085CFCA1F8BB9D22AEAC6A3B7.jpg
-わかめとおかかの白子町新玉ねぎサラダ,Wakame과 Bonito와 Shirokomachi의 새로운 양파 샐러드,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107379/E51704C4820F47E9ADCADDD4365746ED.jpg
-緑黄色野菜がとれるブロッコリーときのこの胡麻和え,녹색과 노란색 야채를 얻을 수있는 브로콜리와 참깨,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107415/E727466BD2D50EB1BB0F084614FBD5AB.jpg
-冷たいまま食べる　　　ねぎ盛り油淋鶏,차가워진 오일 쌀 치킨을 먹으십시오,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107362/F846E400F0E4D8A6956203DEF5601704.jpg
-ソフトサラミとたまごの彩りサラダ,부드러운 살라미와 계란을 곁들인 다채로운 샐러드,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107384/DC84E9555E7C20B19506866B2E9A5606.jpg
-７Ｐ　ハムチーズ４個入,7p 4 햄 치즈,188円（税込203.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290560/6B34C0B0129AB24E9CEE2C6DF5C0196A.jpg
-７プレミアム　抹茶蒸しパン４個入,7 프리미엄 말차 찐 빵 4 조각,168円（税込181.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290333/76E2A74FF1EF5C527FA9B6463600F05A.jpg
-ちょこのぱん,초콘의 팬,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290563/74A5E5FB2F1AA41BCF9E8C60C3280FA0.jpg
-アップルカスタード,사과 커스터드,160円（税込172.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303178/8E051C2C591C3C4BE589ACD9F2B76F26.jpg
-タルタルソースのフィッシュバーガー,타르타르 소스를 곁들인 생선 버거,248円（税込267.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303175/C17676772232710DAEBE277951336B4D.jpg
-ジューシービーフメンチカツバーガー,육즙이 많은 쇠고기 멘치 커틀 버거,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303177/B5B841B7A492829FD6624D6B1127FC83.jpg
-いちごのチョコケーキドーナツ,딸기 초콜릿 케이크 도넛,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303169/C34EF965F49C77821032AD5A29D116A7.jpg
-りんごのしっとりケーキ,축축한 사과 케이크,160円（税込172.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/301321/BE7F47450EB81825435654B1F82CCDAA.jpg
-サックリ食感ベイクドリングチーズケーキ,바삭 바삭한 질감으로 베이커리 치즈 케이크,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302926/AADB03F6AECD86410171F4B07164E24B.jpg
-もっちりお濃茶プリン　宇治抹茶,"질긴, 두꺼운 차 푸딩, 우지 말차",300円（税込324円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112236/D3AF35AFC885C0D5858A8F7407B06362.jpg
-とろ生チーズケーキ　　宇治抹茶,Toro -Fresh Cheesecake -Uji Matcha,240円（税込259.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/114186/336F54AF328939642667A37BA073C5F4.jpg
-７プレミアム　大きなふわふわシフォンケーキ　いちご,7 프리미엄 큰 푹신한 쉬폰 케이크 딸기,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112125/7BE4F3FC1EEB7B90177E984C4938A2B4.jpg
-とろもちわらび　宇治抹茶,Toromochi Warabi Uji Matcha,150円（税込162円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/113460/7EC4A87F52636757B40A202CC7905922.jpg
-ふわもち生どら焼　　　濃い宇治抹茶クリーム,FLUFFY MOCHI RAW DORAYAKI- 풍부한 UJI Matcha 크림,220円（税込237.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112225/02282B983B12DD0AB9A35A8D93249DF9.jpg
-宇治抹茶の和パフェ,우지 말차 일본 파르페,300円（税込324円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/113270/75564C94BB949435FD53A0FA0B361F68.jpg
-明治　エッセルトロピカルミックス,Meiji Essel 열대 믹스,170円（税込183.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450422/2FE4090F42C2AAC98ED96E8DBAF863CA.jpg
-ロッテ　爽　　　　　　バニラ,롯데 수토 바닐라,170円（税込183.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450010/E5D6CE74AB5BD6FF81F88373D99CA8A0.jpg
-井村屋　北海道あずきバー,Imuraya Hokkaido Azuki Bar,150円（税込162円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450393/AEB43E25395C6B081DDFBE49F2CBDF07.jpg
-森永製菓　アイスボックス　グレープフルーツ,모리나가 제과 얼음 상자 자몽,130円（税込140.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450461/20EFE4DC897CA1A73902F4AE48CA16E7.jpg
-７プレミアム　プリンアイス,7 프리미엄 푸딩 얼음,288円（税込311.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450433/458B5D57411E2A8DAF5373D96D1184A6.jpg
-７プレミアム　きなこわらび餅　大好きな白くま,7 프리미엄 키나코 Warabi Mochi- 내가 가장 좋아하는 화이트 곰,368円（税込397.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450612/628586AA69096E115EEFD22AB026C472.jpg
-７プレミアム　４種のフルーツバーマルチ,7 프리미엄 4 유형의 과일 바 멀티,338円（税込365.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450508/71FEDD3E43ACEC1C71D37C2F90CE83D3.jpg
-７プレミアム　のむ抹茶オレ黒みつゼリー　２４０ｍｌ,7 프리미엄 Nomu matcha Ole Kuromitsu Jelly 240ml,188円（税込203.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/210714/1F553A5887EAB1B09585D8C39D48EB7F.jpg
-７プレミアム　抹茶ティーラテ　２４０ｍｌ,7 프리미엄 matcha 티 라떼 240ml,185円（税込199.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/210713/61133741E1EF16A63EF01FF72160D162.jpg
-スジャータ　地中海ざくろティー　２２０ｍｌ,수자타 지중해 석류 차 220ml,153円（税込165.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/210711/CEE3EDE191352C7CC1351DC428EA7B0F.jpg
-世界のキッチンからソルティライチ５００ｍｌ,전 세계 부엌에서 500ml의 짠 리치,163円（税込176.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/460025/66EE3C2825DE5E646BFF25E11AFCE142.jpg
-７プレミアム　濃いメロンサイダー　５００ｍｌ,7 프리미엄 다크 멜론 사이다 500ml,118円（税込127.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/460071/98452861DB51999697186DF9F60F7AC3.jpg
-伊藤園　抹茶ラテ黒糖＆コーヒー　３３０,Itoen Matcha Latte Brown Sugar & Coffee 330,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/210072/7A8A9E249D63FD6CC2F84D370BFCCD7C.jpg
-ＵＣＣＣｏｌｄＢｒｅｗＢＬＡＣＫ　５００ｍｌ,UCCCOLDBREWBLACK 500ml,149円（税込160.92円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/460202/4A57020AE40230590FF3803CA3A29658.jpg
-ＵＣＣＣｏｌｄＢｒｅｗＬＡＴＴＥ　５００ｍｌ,ucccoldbrewlatte 500ml,159円（税込171.72円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/460140/EBF616739D710C125599E2F8E9CD9DA7.jpg
-キリン　晴れ風　３５０ｍｌ,기린 맑은 바람 350ml,216円（税込237.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/010641/D8A137802828A7EA23F5E06D6D041F68.jpg
-キリン　晴れ風　５００ｍｌ,기린 맑은 바람 500ml,283円（税込311.30円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/010642/63949C6AF468FAC03F5E0ECE77192BBC.jpg
-－１９６無糖　　　　　桃スパークリング３５０,-196 무가당한 복숭아 반짝이는 350,161円（税込177.10円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/031696/BB74504B282554990491D206296C21BF.jpg
-－１９６無糖　　　　　桃スパークリング５００,-196 무가당한 복숭아 반짝이는 500,218円（税込239.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/030120/A6540F6F3F40CC6718ECFA22C407B56B.jpg
-アーモンドドラジェ＆クランベリー,아몬드 드레지 및 크랜베리,175円（税込189円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/310208/623938B1A40EDC2BB864D19B372C1BEA.jpg
-森永　ハイチュウ　南国ミックス,Morinaga Hi-Chew Tropical Mix,127円（税込137.16円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/320809/BE1EC87EFF091298BB797A0A0F58F45E.jpg
-丸川製菓　すっぱいうめバーガム,마루 카와 세이카 사워 버그,30円（税込32.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/321288/2F043C28BD5856C82314311CD09A4340.jpg
-丸川製菓　すっぱいレモンバーガム,마루 카와 세이카 사워 레몬 버그,30円（税込32.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/320965/8BF69C9475EBD79494C82A5AB7884ACA.jpg
-オリオン　ミニサワー,오리온 미니 사워,31円（税込33.48円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/321801/886EAFEBFDC3A8CE7DB83E2AA62C9B11.jpg
-オリオン　ミニコーラ,오리온 미니 콜라,31円（税込33.48円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/321386/D1E549A2B333888864088BB1A6CBF9DD.jpg
-味覚糖　特濃ミルク８．２　塩ミルク,Ajikakuto Special Rich Milk 8.2 소금에 절인 우유,220円（税込237.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/320854/785CC0147387974F09A03B057964E829.jpg
-平塚製菓　塩キャラメルクランチチョコ,Hiratsuka Seika 소금에 절인 카라멜 크런치 초콜릿,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/321022/DD29116988432AF1C7A1E046967167FD.jpg
-明治　きのこの山いちご＆ショコラ,Meiji Mushroom Mountain Strawberry & Chocolat,263円（税込284.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/321096/9A29BC92EFBA8932ADE4F90079C7ADEF.jpg
-明治　プッカ塩ミルク,Meiji Puka 소금 우유,161円（税込173.88円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/320916/5A0BBE5FE087A7802CB76185C5B2C5DF.jpg
-明治　たけのこの里いちご＆ショコラ,Meiji Takeokonoko 마을 딸기 & 초콜릿,263円（税込284.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/320359/291961062693A53859F2AD4D4CF688FE.jpg
-明治　ヘーゼルナッツチョコレートミルク,Meiji 헤이즐넛 초콜릿 우유,293円（税込316.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/321403/8773B02A85BA362FE51425A752B998C3.jpg
-カルビーポテトチップス　フレンチサラダ,칼비 감자 칩 프랑스 샐러드,157円（税込169.56円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/330194/76269689B9B28A3FE2854196EF2FFAC0.jpg
-カルビー　宵の堅あげポテト　だし醤油味,"칼비, 굴 감자, 대두 소스 맛",276円（税込298.08円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/330120/4C11344C4D8165088ED7A3C5E65B3058.jpg
-カルビーかっぱえびせん　フレンチサラダ味,Calbee Kappa Ebisen 프랑스 샐러드 맛,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/330244/4FDD8C0D669B759FE36F3614B004E27B.jpg
-奈つやの中華そば　芳醇煮干し醤油,Natsuya 's Chinese Soba- 향기로운 말린 간장,333円（税込359.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/340843/A89FD96EB42D9488B34F62078591B635.jpg
-７Ｐ　おくらとめかぶ　鰹と昆布だしのうどん,Bonito 및 Kelp Stock과 함께 7p Okura 및 Mekabu Udon,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/341244/847424DA54531ECD5445FC22815B43CF.jpg
-エース　スープはるさめ　香る梅わさび味,에이스 수프 하 루즈 향기로운 매실 와사비 맛,182円（税込196.56円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/341247/CDE65A5475973022E805DEEF1588FFA6.jpg
-グリコ　生チーズのチーザカマンベール仕立て,생 치즈로 만든 글리코 치즈 카망베르,234円（税込252.72円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/380642/5ED02D4037F59D6A4A4B84BE811FC09D.jpg
-７プレミアム　炭火焼やげん軟骨,7 프리미엄 숯 구이 야겐 연골,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410176/BB746CEF97648B24E47159B7F5F8C33D.jpg
-完熟マンゴー,잘 익은 망고,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410461/2030E1CCB6A40A4419D1456FBF6C14DA.jpg
-７プレミアム　　　　　柑橘ミックス,7 프리미엄 감귤 믹스,248円（税込267.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410458/ADF2CD37FA19B70362E6B0470FEC4EA9.jpg
+﻿category_id,category_name,name_ja,name_ko,price,img_url
+onigiri,おにぎり,手巻おにぎり　紀州南高梅,손으로 포장 된 쌀 공 -Kishu Nanko Plum,165円（税込178.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046614/1F6DD9DC817203BFF939C2D4B58AC2E2.jpg
+onigiri,おにぎり,手巻おにぎり　具たっぷり辛子明太子,수작업 쌀 공 - 많은 재료를 가진 매운 멘토 이코,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046602/F8AE38C2B5228D6048DBCF91C2083749.jpg
+onigiri,おにぎり,手巻おにぎり　北海道産昆布,손으로 포장 된 라이스 볼 -Hokkaido Kelp,165円（税込178.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046599/29427AB1EDF491B078F6D2618ECA69ED.jpg
+onigiri,おにぎり,手巻おにぎり　炭火焼紅しゃけ,수작업 쌀 공-숯불 구운 빨간색 술,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046598/BC05F02709EECD56D5F6962CB049525E.jpg
+onigiri,おにぎり,手巻おにぎり群馬県産梅,Gunma 현으로 만든 손으로 포장 된 쌀 공,165円（税込178.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046578/878013E036166DDAE1F1CD559FF11138.jpg
+onigiri,おにぎり,味付海苔おにぎりおかか,노련한 해초 쌀 공,168円（税込181.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046580/1EC369EDD6E4CB8E02DB74D3A4CD5B41.jpg
+onigiri,おにぎり,枝豆おこわおむすび,에다메 쌀 공,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046811/76798CF19158E567C9554E4655050D83.jpg
+onigiri,おにぎり,直巻おむすび　紅しゃけとすじこ,Direct Roll Rice Balls -Red Sake와 Sujiko,190円（税込205.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046715/B134B4CF3BC3B40CCE01DEA71600AAB5.jpg
+onigiri,おにぎり,具だくさんおむすび　かつ丼,"많은 재료를 가진 쌀 쌀 공, Katsudon",298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046714/E919856B9F4B86BA478E5D042AE79C48.jpg
+onigiri,おにぎり,直巻おむすび　海老マヨネーズ,"직선 쌀 공, 새우 마요네즈",178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046637/D16A24D1764AE53AA920B1826F6BB296.jpg
+onigiri,おにぎり,直巻おむすび　おかかとねぎの混ぜめし,Direct Roll Rice Balls- 발 뒤꿈치와 녹색 양파와 혼합,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046635/854D4903FE497F214BE0E9EF34CABF84.jpg
+onigiri,おにぎり,具だくさんおむすび　ポーク玉子＆ツナマヨネーズ,재료가 많은 풍부한 쌀 공 : 돼지 달걀과 참치 마요네즈,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046634/99698B99C3C53B9A13F17748C3AEB364.jpg
+onigiri,おにぎり,醤油むすび　紫峰使用,간장 Musubi Shimo가 사용되었습니다,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046810/4BF3E8E758D8F357AA1CBB525D42ADAA.jpg
+onigiri,おにぎり,国産アスパラとベーコンのおむすび,국내 아스파라거스와 베이컨 쌀 공,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046806/48E64ECD75BBC5906E5F4D603511E59E.jpg
+onigiri,おにぎり,一膳御飯おむすび　焼肉のタレまぶし,원형 쌀 공 - 야키니쿠 소스 고등어,188円（税込203.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046775/00DCAD117C71E83C1579A1A92B25E61E.jpg
+onigiri,おにぎり,せいろ蒸し　赤飯おこわおむすび,찐 찐 붉은 쌀 공,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046746/EC7FBFAC5D2F4A5E76F8F11823E3781C.jpg
+onigiri,おにぎり,香ばし醤油焼おにぎり,향기로운 간장 구운 쌀 공,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046141/B915524A8E14B795027D3A7BB07B3929.jpg
+onigiri,おにぎり,わかめ御飯おむすび（三陸産わかめ使用）,Wakame Rice Rice Balls (Sanriku Wakame 사용),130円（税込140.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046070/9DE43313C3D8EEF0ACAE5045F5821591.jpg
+sushi,お寿司,手巻寿司　納豆巻,손으로 롤링 된 스시 -Natto 롤,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046386/FED25C614475C8D8F0D665BB3B69CD31.jpg
+sushi,お寿司,香り箱の寿司,아로마 박스의 초밥,208円（税込224.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046742/25349A0CF8077EC0B5D2C5939F73B786.jpg
+sushi,お寿司,手巻寿司まぐろたたき巻,손으로 롤링 된 스시 참치 타타키 롤,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/043083/EE3D445F0D5183C885B3BC317C4A6FEE.jpg
+sushi,お寿司,手巻寿司　紀州南高梅納豆巻,손으로 롤링 된 스시 - Kishu Nanko Plum Natto 롤,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/041111/70724F3452D9BF65FF6C1D4D830D26C3.jpg
+sushi,お寿司,手巻寿司　サーモンオニオンマヨネーズ巻,손으로 롤링 된 스시 - 연어 양파 마요네즈 롤,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046531/104725CCE62FB1E1A8806B419B15B39A.jpg
+sushi,お寿司,手巻寿司　まぐろたたきわさび醤油巻,손으로 롤링 된 스시 - 참치 타타키 와사비 콩 소스 롤,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046530/85C11030256778F3299FDD53A1ED3982.jpg
+sushi,お寿司,ふっくらお揚げのいなり　３個入り,"통통한 튀김 이나리, 3으로 가득",298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046389/5F460F8B113943A6FB5F8D60CB67770F.jpg
+sushi,お寿司,五目いなり　たけのこ入り,대나무 싹이있는 고모 쿠 이나리,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046719/141F232B4E575F5206FDAC4BD3A772D3.jpg
+sushi,お寿司,鶏唐揚げマヨネーズ巻５巻,프라이드 치킨 마요네즈 롤 5,460円（税込496.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/042491/99C873B66464B1271E1D11F66DE694D5.jpg
+sushi,お寿司,助六寿司,Sukeroku Sushi,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046724/38E54551B01F2805AE89BDD0593315DF.jpg
+sushi,お寿司,サラダ巻（のり巻３巻・ごま巻２巻）,샐러드 볼륨 (3 권의 슬라이딩 및 2 권의 참깨),428円（税込462.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046722/0011909BE87B131B4751EDD3C310832E.jpg
+sushi,お寿司,ひきわり納豆巻９巻,Hikiwari Natto 롤 9,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046721/46D6560C57E23864A705CAA1CF567343.jpg
+bento,お弁当,どか盛り　タルタルチキン南蛮＆ナポリタン,Doka-Pation Chicken Tartare Nanban & Neapolitan,698円（税込753.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046821/49576E27B92EC88A78C9F983C2DE4EEA.jpg
+bento,お弁当,紅鮭明太子ごはん,Sockeye Salmon Mentaiko Rice,390円（税込421.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046809/8965C49D4328B9D8FC5ADEB827C700B3.jpg
+bento,お弁当,高菜チャーシューごはん,타카 나 숯 시우 라이스,320円（税込345.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/042608/35E5402C9A00459CD72918F1CAFF573C.jpg
+bento,お弁当,おにぎりランチ,라이스 볼 점심,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046812/EEABE3D09A8CD6727168708EF0566F26.jpg
+bento,お弁当,熟成だれの牛カルビ＆ねぎ塩豚カルビ弁当,노화 된 쇠고기 갈비와 녹색 양파 소금에 절인 돼지 고기 갈비 벤토,598円（税込645.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046234/509D5D7A947AEC288953C16490A21E7D.jpg
+bento,お弁当,幕の内弁当,Makunouchi Bento,428円（税込462.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046121/F20C214FDD780752F26F10C5B977FD13.jpg
+bento,お弁当,ふんわり玉子のオムライス,푹신한 계란 오믈렛 쌀,520円（税込561.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046815/D32DAA9DB6FD5D7A52A66B2CF4B31D56.jpg
+bento,お弁当,麻婆丼,마포 보울,370円（税込399.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046286/B5D9C5A9FB23C26850CE98D99F28349E.jpg
+bento,お弁当,味しみロースかつ丼,맛있는 허리 커틀 그릇,598円（税込645.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046284/9C6D389721C13EB4C5A4D1A04077A27C.jpg
+bento,お弁当,親子丼,오야 코돈,480円（税込518.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/046282/D04638B757F7704D354CFE8CE86E2826.jpg
+bento,お弁当,牛めし,쇠고기 쌀,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/044905/7593A1972B0FB1D90E06A6829A796354.jpg
+bento,お弁当,ポークカレー,돼지 고기 카레,550円（税込594円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/041450/5C28A67112CF086CA2A856C36186755B.jpg
+sandwich,サンドイッチ・ロールパン,照焼チキンとたまごサンド,테루야키 치킨과 계란 샌드위치,320円（税込345.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052979/CAA9CC6BA06696789AC119FF3D2BBD72.jpg
+sandwich,サンドイッチ・ロールパン,照焼チキンとたまごサンド,테루야키 치킨과 계란 샌드위치,320円（税込345.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052978/7EB0596F7182374BE3D1D23599584A5E.jpg
+sandwich,サンドイッチ・ロールパン,２種のフルーツサンド,과일 샌드위치의 두 가지 유형,418円（税込451.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052988/367253D3D26F562335A3C92357631B03.jpg
+sandwich,サンドイッチ・ロールパン,ジューシーハムサンド,육즙 햄 샌드위치,290円（税込313.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052883/083E938118527A970DA02D3B02462E12.jpg
+sandwich,サンドイッチ・ロールパン,ジューシーハムサンド,육즙 햄 샌드위치,290円（税込313.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052844/0085410A9FFF7077A2CB1E6C41808EBC.jpg
+sandwich,サンドイッチ・ロールパン,たまごサンド,계란 샌드위치,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052884/97F0BF6FAD9FA6202D32CF74789E8A73.jpg
+sandwich,サンドイッチ・ロールパン,たまごサンド,계란 샌드위치,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052879/13F40F883A7EF918C3B2F126CE81F42A.jpg
+sandwich,サンドイッチ・ロールパン,たまご＆ツナサンド,계란과 참치 샌드위치,250円（税込270円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052874/9E19ED4987AC69E0D0AFCBB230FC1559.jpg
+sandwich,サンドイッチ・ロールパン,あしかが美人トマト使用　野菜ミックスサンド,Ashikaga 뷰티 토마토와 함께 만든 야채 믹스 샌드위치,350円（税込378円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052927/650D66D2326440D2F0B91D1A7C7ACF7A.jpg
+sandwich,サンドイッチ・ロールパン,シャキシャキレタスサンド,바삭한 상추 샌드위치,310円（税込334.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052885/4B1DBD7DF4FAB01E11B9024C70E7765F.jpg
+sandwich,サンドイッチ・ロールパン,ミックスサンド,혼합 모래,250円（税込270円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052890/9CBA90825B0D286F9B8E0AD1699582ED.jpg
+sandwich,サンドイッチ・ロールパン,ミックスサンド,혼합 모래,250円（税込270円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052875/E7C3ECFBA65E55582990D5EC61D0A1C9.jpg
+sandwich,サンドイッチ・ロールパン,たんぱく質が摂れるチキンコブサンド,단백질 주입 치킨 코브 샌드위치,370円（税込399.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052971/3BE7172D303D23810FA0E39B03A69EAB.jpg
+sandwich,サンドイッチ・ロールパン,タルタル海老カツサンド,타르타르 새우 커틀릿 샌드위치,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052925/8E15C3B346A3B7AA840E404206D7B44D.jpg
+sandwich,サンドイッチ・ロールパン,２種のハムカツサンド,두 가지 유형의 햄 커틀릿 샌드위치,258円（税込278.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/052892/F31A246BD7D224102BBAEE9829CD2951.jpg
+bread,パン,７プレミアムゴールド　金の食パン　４枚入,7 프리미엄 골드 골드 빵 4 조각,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290314/5407127E00F58488D77D970F1A721337.jpg
+bread,パン,７プレミアムゴールド　金の食パン　２枚入,7 프리미엄 골드 골드 빵 2 조각,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290203/C8FE36C5348D73B2913D6D3DAE190EF9.jpg
+bread,パン,７Ｐ　うるもち食パン　６枚入,"7p Urumochi 빵, 6 조각",158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290237/FF2EBECDCE200E1341B6B5B21891A2A7.jpg
+bread,パン,パスコ　超熟　６枚スライス,파스코 슈퍼 익은 6 조각,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290067/669BEA6EF85014245DAB50D75E2AD434.jpg
+bread,パン,７プレミアムデニッシュブレッド３枚,7 프리미엄 덴마크 빵 3,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290559/6FBA48F78C2B0367C0566AFB189598B0.jpg
+bread,パン,７Ｐ　うるもち食パン　３斤,7p Urumochi 빵 3 덩어리,478円（税込516.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290189/1963C1A83A00C06D47F6974568BB9145.jpg
+bread,パン,７Ｐ　ハムチーズ４個入,7p 4 햄 치즈,188円（税込203.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290560/6B34C0B0129AB24E9CEE2C6DF5C0196A.jpg
+bread,パン,７プレミアム　抹茶蒸しパン４個入,7 프리미엄 말차 찐 빵 4 조각,168円（税込181.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290333/76E2A74FF1EF5C527FA9B6463600F05A.jpg
+bread,パン,ちょこのぱん,초콘의 팬,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290563/74A5E5FB2F1AA41BCF9E8C60C3280FA0.jpg
+bread,パン,７Ｐ　スティックメロンパン　６本入,"7p 막대기 멜론 빵, 6 조각",138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290460/8AFECB9EE2430FC4438ABC2CDA89E7A0.jpg
+bread,パン,７Ｐマーガリン入り　　バターロール４個入,"7p 마가린 포함, 4 개의 버터 롤",138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290557/632595672A55E4F7795710EB2DE510B4.jpg
+bread,パン,７Ｐ　マーガリン入り　レーズンバターロール,마가린을 곁들인 7p 건포도 버터 롤,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/290163/32357954FC9DE8C2043A04C08BE899DD.jpg
+bread,パン,アップルカスタード,사과 커스터드,160円（税込172.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303178/8E051C2C591C3C4BE589ACD9F2B76F26.jpg
+bread,パン,ランチパック　　深煎りピーナッツ,점심 팩 : 깊은 구운 땅콩,159円（税込171.72円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302970/9632E471DEA28FE2BB5FE60E098498F9.jpg
+bread,パン,ふんわりしっとりつぶあんマーガリン,푹신하고 촉촉하며 바삭 바삭한 콩 페이스트 마가린,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303132/B5615F05B92243E13853D667C014EEEE.jpg
+bread,パン,ふんわりしっとり　いちごジャム＆マーガリン,푹신하고 촉촉한 딸기 잼과 마가린,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303131/B64D9FD0C0BAEC508A4250E4BE8B2344.jpg
+bread,パン,ゆめかおり使用つぶあん＆マーガリン,Yumekaori를 사용하여 금이 간 콩 페이스트와 마가린,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303127/92D9B3FB6B50DB9468A520F7729C728F.jpg
+bread,パン,ゆめかおり使用いちごジャム＆マーガリン,Yume Kaori가 사용하는 딸기 잼과 마가린,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/300762/AF1D7629442A1B52910EDA2156EFF4EF.jpg
+bread,パン,タルタルソースのフィッシュバーガー,타르타르 소스를 곁들인 생선 버거,248円（税込267.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303175/C17676772232710DAEBE277951336B4D.jpg
+bread,パン,ジューシービーフメンチカツバーガー,육즙이 많은 쇠고기 멘치 커틀 버거,230円（税込248.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303177/B5B841B7A492829FD6624D6B1127FC83.jpg
+bread,パン,北海道産じゃがいものコロッケパン,Hokkaido의 감자 크로켓 빵,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303089/2C6FD8E9C921CC702D5592ACD65D5DF0.jpg
+bread,パン,粗挽ポークソーセージマスタードマヨ使用,굵은 돼지 고기 소시지 겨자 겨자 마요네즈로 만들어졌습니다,188円（税込203.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302219/3D538A17B79508061FC1B365C051298B.jpg
+bread,パン,欧風カレーパン,유럽 ​​카레 빵,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302191/3E371FB527977D96D87E65BA964C5175.jpg
+bread,パン,つぶつぶコーンマヨネーズ,버섯 옥수수 마요네즈,170円（税込183.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303118/FE22513E241CD506F615EA57B0ED47CA.jpg
+donut,ドーナツ,いちごのチョコケーキドーナツ,딸기 초콜릿 케이크 도넛,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/303169/C34EF965F49C77821032AD5A29D116A7.jpg
+donut,ドーナツ,りんごのしっとりケーキ,축축한 사과 케이크,160円（税込172.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/301321/BE7F47450EB81825435654B1F82CCDAA.jpg
+donut,ドーナツ,サックリ食感ベイクドリングチーズケーキ,바삭 바삭한 질감으로 베이커리 치즈 케이크,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302926/AADB03F6AECD86410171F4B07164E24B.jpg
+donut,ドーナツ,チョコオールドファッション,초콜릿 구식,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302300/B1CD0EC7989064C402F41A74962A0E0E.jpg
+donut,ドーナツ,もちもち食感リングドーナツチョコ,질긴 질감 링 도넛 초콜릿,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302989/201BF905040A044FA541899BBFF07DB7.jpg
+donut,ドーナツ,もちもち食感リングドーナツいちご,질긴 질감 링 도넛 딸기,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302287/CD909AA0500D613A52EC4C20F0604C88.jpg
+donut,ドーナツ,こしあんドーナツ,코시 콩 도넛,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302916/778D6E8DE02C6A0E9BA255D28D857180.jpg
+donut,ドーナツ,ふわふわ食感シフォンケーキ,푹신한 시폰 케이크,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302624/C5BD27F0F8DA065D4FE8CA929012540B.jpg
+donut,ドーナツ,もちもちリング　シュガー,질긴 반지 설탕,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/302303/BF53E51F8870E52AD3A4FAFF567BC99E.jpg
+men,そば・うどん・中華麺,濃厚だし割りとろろの冷しぶっかけそば,풍부하고 약간 강판 된 차가운 Bukkake Soba,480円（税込518.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095507/A2C8CB50F1C01374AAE65AD7859D0D24.jpg
+men,そば・うどん・中華麺,ざるそば,자루 소바,380円（税込410.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095452/6F6D8B188015389FBAD2D6437C8793DF.jpg
+men,そば・うどん・中華麺,ざるそば,자루 소바,380円（税込410.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095451/44F8BC0059716296AC5A180884E0A909.jpg
+men,そば・うどん・中華麺,ざるそば,자루 소바,380円（税込410.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095450/7DFB2DC9E8455E5BF594ADAC3295EE47.jpg
+men,そば・うどん・中華麺,冷しとり天おろしそば,차갑고 강판 된 튀김 소바,580円（税込626.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095535/40152D93427002AF9D9D881CEB305AE4.jpg
+men,そば・うどん・中華麺,さつまいもとかぼちゃの冷しバラ天そば,고구마와 호박 차가운 장미 튀김 소바,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095526/B5B9EDCC9A0CCE002705DD34F6C0F81C.jpg
+men,そば・うどん・中華麺,冷しぶっかけうどん,Cold Bukkake Udon,340円（税込367.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/090698/AF2724A79E3A00A7FBF4E74F52766CB3.jpg
+men,そば・うどん・中華麺,明太クリームうどん,Mentai Cream Udon,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095602/99389FE91CDF33788EE2BC53F6892F79.jpg
+men,そば・うどん・中華麺,ごま汁うどん,참깨 수프 우동,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095557/CEAE4B576255436AC7FE74E0DF747EFF.jpg
+men,そば・うどん・中華麺,冷しちく玉天うどん,차가운 참치 우동,548円（税込591.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095510/B40AE7484AFE89E0708C19DF8CAA5AA5.jpg
+men,そば・うどん・中華麺,麺たっぷり自家製揚げ玉の冷したぬきうどん,많은 국수를 가진 수제 프라이드 치킨 우동 국수,500円（税込540円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095455/861A0C71A7D19FD679A4D61179AD605D.jpg
+men,そば・うどん・中華麺,カレーうどん,카레 우동,480円（税込518.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095106/62473A6CD063E3CC3F6CBD2A4170DA98.jpg
+men,そば・うどん・中華麺,冷し煮干し醤油ラーメン,차가운 말린 정어리 간장라면,540円（税込583.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095631/2BCA379C85FE632C27B3770B1C36C48E.jpg
+men,そば・うどん・中華麺,ニンニクたっぷり　　　マヨネーズまぜそば,"많은 마늘, 마요네즈 믹스 소바",580円（税込626.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095630/49C6EA154F030D877A229D494F302079.jpg
+men,そば・うどん・中華麺,冷し中華,추운 중국어,530円（税込572.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095574/60C9A2F8DEC69B921FF5289278E82B59.jpg
+men,そば・うどん・中華麺,ミニ冷し中華,미니 차가운 중국어,400円（税込432円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095563/D116DF0014212B96070767C804F95725.jpg
+men,そば・うどん・中華麺,冷しまぜそば　魚介醤油味,차가운 소바 해산물 수프 맛,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095605/DB75A4CEB92FD4EC728E692B7B57A538.jpg
+men,そば・うどん・中華麺,辛味噌を溶いて食べる　ざる中華,용해 된 매운 된장을 먹고 Zaru Chinese를 먹습니다,370円（税込399.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095587/2F196BACEADB88979EACAC057DFC8CEB.jpg
+men,そば・うどん・中華麺,麻婆豆腐焼そば,마포 두부 튀김 국수,530円（税込572.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095633/168B4943F39D8EE159D73B62F918480C.jpg
+men,そば・うどん・中華麺,５種の重ねだし　手延べそうめん,"5 가지 종류의 층이있는 Dashi, 손이 닿는 소셜",380円（税込410.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095616/F9DF968516AB08D2228D650B2CAF997C.jpg
+men,そば・うどん・中華麺,蒸し鶏の冷製フォー,찐 치킨 콜드 포,590円（税込637.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095595/9D534EC4954731633484AC8905B9A39C.jpg
+men,そば・うどん・中華麺,香ばし麺の五目あんかけ焼そば,Gomoku-anankake Yakisoba와 향기로운 국수,580円（税込626.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095147/9A805B4F4151361131CBF430EBF66582.jpg
+men,そば・うどん・中華麺,ソース焼そば,야키소바 소스,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/094927/DD5FC832899DE8ED5387FB3C187528AC.jpg
+men,そば・うどん・中華麺,だしの旨みと醤油香る焼うどん,맛있는 대시 맛과 간장 맛을 가진 야키 우동,460円（税込496.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095166/4EAA00EDC29EC560C1083BCA729A7EFA.jpg
+pasta,スパゲティ・パスタ,ＺＥＮＢヌードル使用　デミソース仕立てのボロネーゼ,"젠브 국수로 만든 볼로냐, 데미 소스로 만든",598円（税込645.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095640/26A391214FD00F0CDECDC94723882E14.jpg
+pasta,スパゲティ・パスタ,ベーコンとチーズのカルボナーラ,베이컨과 치즈 카르 보 나라,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095636/1F666D6817B8F249D071950349866BCD.jpg
+pasta,スパゲティ・パスタ,ベーコンとチーズのカルボナーラ,베이컨과 치즈 카르 보 나라,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095635/D6F1E8AA6EFBF94E51CA9B1CF8EA5746.jpg
+pasta,スパゲティ・パスタ,彩り野菜とピリ辛トマトパスタ,다채로운 야채와 매운 토마토 파스타,480円（税込518.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095196/CE1D8A2053C7BB30AEE22441B571DDCE.jpg
+pasta,スパゲティ・パスタ,冷製パスタ海老のトマトクリーム,차가운 파스타 새우 토마토 크림,520円（税込561.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095441/FD5E0C3BE7D7307BE82ECB9DBFBFD1E3.jpg
+pasta,スパゲティ・パスタ,太麺の大盛ナポリタン,두꺼운 국수 나폴리탄의 큰 부분,460円（税込496.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095012/0955504A57C9D8CE365445ADA5C99975.jpg
+pasta,スパゲティ・パスタ,昔なつかしナポリタン,구식 나폴리,390円（税込421.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/094449/64E64A254C3B5187AED01464C556DC67.jpg
+pasta,スパゲティ・パスタ,コクと旨味が広がる　ボンゴレスープパスタ,풍부함과 풍미가있는 Vongole 수프 파스타,460円（税込496.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/094856/77451CBC4F400240D5013BD69DC1E1E6.jpg
+pasta,スパゲティ・パスタ,ソーセージとベーコンの大盛ペペロンチーノ,소시지와 베이컨 페페 론 시노의 큰 서빙,598円（税込645.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095016/146F4147927D2CE7E90AE6711384558E.jpg
+pasta,スパゲティ・パスタ,明太マヨパスタ　かねふく明太子使用,Kanefuku Mentaiko와 함께 Mentai Mayo 파스타,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/093173/7EB4367E87C1D7F2A27F54E330E2CA96.jpg
+pasta,スパゲティ・パスタ,冷製パスタ　大葉香る和風明太子,Roe 잎의 향기가있는 차가운 파스타 일본식 멘토 이코,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095596/10EB79FF0BDF978FDAAC34BD3996DC89.jpg
+pasta,スパゲティ・パスタ,ツナと大根おろしの和風パスタ,참치와 강판 무기가있는 일본식 파스타,430円（税込464.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095564/DCA683D25E75103B2589F1682C664D56.jpg
+pasta,スパゲティ・パスタ,冷製パスタ　海老のトマトクリーム,차가운 파스타 새우 토마토 크림,490円（税込529.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095546/818BC46A9EDFA9680CBBD87E83B3B574.jpg
+pasta,スパゲティ・パスタ,冷製パスタ　イカと海老の明太クリーム,오징어와 새우 멘토 크림이있는 차가운 파스타,490円（税込529.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095545/2B6107A5A954851CEBAC495C71D2DBC6.jpg
+pasta,スパゲティ・パスタ,とちぎ霧降高原牛使用　牛肉のパスタ,Tochigi Kirifuri Kogen 쇠고기로 만든 쇠고기 파스타,580円（税込626.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095504/293BFF1F05212C27575FE24CB691EB1D.jpg
+gratin,グラタン・ドリア,濃厚なめらかソースの　海老グラタン,풍부하고 부드러운 소스를 곁들인 새우 gratin,460円（税込496.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095045/0865C797E1D4D90A24136851FA19FF05.jpg
+gratin,グラタン・ドリア,３種チーズのミートソースドリア,치즈 고기 소스 도리아의 세 종류,350円（税込378円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095295/919C11804BE002EEA44EC23C8C12C11C.jpg
+gratin,グラタン・ドリア,チーズ香る　濃厚ソースの海老ドリア,치즈 맛이 풍부한 풍부한 소스를 곁들인 도리아,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095289/A6AA21BFB94C48839199066AEE53AC79.jpg
+gratin,グラタン・ドリア,チキングラタン,chicking rattan,430円（税込464.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095603/5D16C11399BCD9B6521137233DD91940.jpg
+gratin,グラタン・ドリア,３種チーズのマカロニグラタン,세 가지 유형의 치즈를 곁들인 마카로니 그라틴,323円（税込348.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/094996/247EEBD8839B7CC3824472DB5F568D1C.jpg
+gratin,グラタン・ドリア,とろーりチーズのハンバーグ焼きカレードリア,우유 치즈 구이 햄버거 카레 도리아,550円（税込594円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095565/3A39B16CCD3A1BF03616CDBBC7D52B1F.jpg
+gratin,グラタン・ドリア,トマトソースのオムライスドリア,토마토 소스를 곁들인 오믈렛 라이스 도리아,498円（税込537.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/095443/B88D4B9AA6DE0697290D76E863555384.jpg
+dailydish,惣菜,アンチョビガーリックポテト,멸치 마늘 감자,258円（税込278.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107389/630C4F03401805D3322393A83AB10026.jpg
+dailydish,惣菜,豚肉ときくらげのふんわり中華玉子炒め,푹신한 볶은 돼지 고기와 중국 계란을 곁들인 해파리,358円（税込386.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/101025/97A9BC8F7F854DD11D54A94C644B8A74.jpg
+dailydish,惣菜,国産小麦使用ジューシー焼き餃子　５個入り,5로 가득한 국내 밀로 만든 육즙 튀긴 만두,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107187/879C95EEA2A67A5DB56CC90EF1EC094A.jpg
+dailydish,惣菜,焼き餃子　６個入り,"구운 만두, 6 조각",298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107186/C73C2E673A1CAB07D5BC155F833F8DC0.jpg
+dailydish,惣菜,国産大豆使用　冷奴セット,국내 콩으로 만든 차가운 두부 세트,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107355/3B7ABD34F0037EBF281B7516330E7E19.jpg
+dailydish,惣菜,枝豆　沖縄の塩シママース使用,오키나와의 소금에 절인 시마마르에 사용되는 에다 메 마메,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107353/093C7495162BFA8B02D8FA72F57F06C0.jpg
+dailydish,惣菜,豚汁,돼지 고기 수프,328円（税込354.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/104980/705CAFE8E82269EC706946AD9454B92E.jpg
+dailydish,惣菜,クラムチャウダー,조개 차우더,328円（税込354.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/104851/0744A1809644781B335CB9455B59E865.jpg
+dailydish,惣菜,豚汁,돼지 고기 수프,328円（税込354.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/104772/1F329D5DC1412CCEC2BF30001CD8125B.jpg
+dailydish,惣菜,１食分の野菜　黄金生姜スープ,야채 1 서빙 : 황금 생강 수프,328円（税込354.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/104716/C8367CB1861A449FDF4662665CC58B43.jpg
+dailydish,惣菜,ゴーヤーチャンプルー,GOYA Champuru,358円（税込386.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/102686/09ACB80D0B540250CAD7D6473FA68EB6.jpg
+dailydish,惣菜,辣子鶏　四川風鶏唐揚げと旨辛野菜炒め,매운 닭고기 - 사천 스타일 프라이드 치킨과 맛있는 매운 야채,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/101020/643218AA744C6F4EE259DC7E91536CB4.jpg
+dailydish,惣菜,１／２日分の野菜　　ピリ辛水餃子,1/2 일의 야채 - 매운 물 만두,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107265/74CDE9A76C8DBB943BA4CCDA3E48DF89.jpg
+dailydish,惣菜,ケイジャンチキン,케이준 치킨,368円（税込397.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107196/995D69114D6EA5FF7B57BBD81EE89752.jpg
+dailydish,惣菜,和風玉葱ソースのハンバーグ,일본식 양파 소스를 곁들인 햄버거,398円（税込429.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/106037/F4D2D3B4F4D34C683C09C18C9F42EEF6.jpg
+salad,サラダ,彩り野菜のサラダボウル,다채로운 야채 샐러드 그릇,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107414/F769CC6085CFCA1F8BB9D22AEAC6A3B7.jpg
+salad,サラダ,わかめとおかかの白子町新玉ねぎサラダ,Wakame과 Bonito와 Shirokomachi의 새로운 양파 샐러드,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107379/E51704C4820F47E9ADCADDD4365746ED.jpg
+salad,サラダ,緑黄色野菜がとれるブロッコリーときのこの胡麻和え,녹색과 노란색 야채를 얻을 수있는 브로콜리와 참깨,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107415/E727466BD2D50EB1BB0F084614FBD5AB.jpg
+salad,サラダ,冷たいまま食べる　　　ねぎ盛り油淋鶏,차가워진 오일 쌀 치킨을 먹으십시오,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107362/F846E400F0E4D8A6956203DEF5601704.jpg
+salad,サラダ,１０種具材のミックスサラダ,10 종류의 성분과 혼합 샐러드,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/103091/D9F2C1660D43BA678D80C2665801C0C5.jpg
+salad,サラダ,味噌マヨネーズの野菜スティック,된장 마요네즈 야채 막대기,250円（税込270円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/102517/BB7402BAD1942D4258177DF1E95E3414.jpg
+salad,サラダ,ソフトサラミとたまごの彩りサラダ,부드러운 살라미와 계란을 곁들인 다채로운 샐러드,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107384/DC84E9555E7C20B19506866B2E9A5606.jpg
+salad,サラダ,たんぱく質が摂れる鶏むね肉サラダ,단백질 주입 닭 가슴살 샐러드,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/106604/4CC502035BD9058701FB721790FA5309.jpg
+salad,サラダ,たんぱく質が摂れる鶏むね肉サラダ,단백질 주입 닭 가슴살 샐러드,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/103037/436D6160452874EE90FC55AAEB1B8B6D.jpg
+salad,サラダ,甘辛鶏唐揚げのパスタサラダ,달콤하고 매운 프라이드 치킨 파스타 샐러드,338円（税込365.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107313/FA8E16EB831EB95D096E2AFFD4840AFA.jpg
+salad,サラダ,豚しゃぶパスタサラダ,돼지 고기 안식일 파스타 샐러드,368円（税込397.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107307/F4B6B7455EB29599B48C5133112048D6.jpg
+salad,サラダ,グリルチキンのコブサラダ,구운 치킨 콥 샐러드,438円（税込473.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/101742/CA13A791F3D481C44D34F90F226415C5.jpg
+salad,サラダ,７プレミアム　ポテトサラダ,7 프리미엄 감자 샐러드,138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/101978/B88959EB7B6B4AA05C0B15A21F35054C.jpg
+salad,サラダ,７プレミアム　明太ポテトサラダ,7 프리미엄 멘토 감자 샐러드,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/102444/7B233CFA64B446082571C49373530A2C.jpg
+salad,サラダ,７プレミアム　ベーコンポテトサラダ,7 프리미엄 베이컨 감자 샐러드,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/102428/A6DF172047DED2808B2356E781BEF16C.jpg
+salad,サラダ,７プレミアム　マカロニサラダ,7 프리미엄 마카로니 샐러드,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/102438/BB19CDA3FA7BD48454BD9AEFB100DCD4.jpg
+salad,サラダ,７プレミアム　ごぼうサラダ,7 프리미엄 Burdock 샐러드,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/102421/ED3862267545EC7E0A0F4A8BC1BFC8B2.jpg
+salad,サラダ,７プレミアム　かぼちゃサラダ,7 프리미엄 호박 샐러드,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/107270/9D82C51EEEEA304A2C0107D3A3647308.jpg
+salad,サラダ,７プレミアム　大根サラダ,7 프리미엄 무선 샐러드,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/250044/91240A32F511A65AC344A307C6842EEC.jpg
+salad,サラダ,７プレミアム　レタスサラダ,7 프리미엄 양상추 샐러드,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/251185/424C4035BCAFA5BBFCC93BE5BA0FB408.jpg
+salad,サラダ,７プレミアム　千切りキャベツ,번역 실패,118円（税込127.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/250117/5A079765E80F867BA4578CF130F359BE.jpg
+salad,サラダ,７プレミアムコールスロー,7 프리미엄 칼리지 느린,128円（税込138.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/250289/FEA9B9935001AF4832B2FA13B87CDCC5.jpg
+salad,サラダ,７プレミアムパイナップル,번역 실패,208円（税込224.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/250836/40914546629A53EBEE7841D00CA49323.jpg
+salad,サラダ,７プレミアム皮むきりんご,7 프리미엄 껍질을 벗긴 사과,178円（税込192.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/250328/088981CE2FF1E9AD88C3776A99A2D34E.jpg
+sweets,スイーツ,もっちりお濃茶プリン　宇治抹茶,"질긴, 두꺼운 차 푸딩, 우지 말차",300円（税込324円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112236/D3AF35AFC885C0D5858A8F7407B06362.jpg
+sweets,スイーツ,とろ生チーズケーキ　　宇治抹茶,Toro -Fresh Cheesecake -Uji Matcha,240円（税込259.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/114186/336F54AF328939642667A37BA073C5F4.jpg
+sweets,スイーツ,７プレミアム　大きなふわふわシフォンケーキ　いちご,7 프리미엄 큰 푹신한 쉬폰 케이크 딸기,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112125/7BE4F3FC1EEB7B90177E984C4938A2B4.jpg
+sweets,スイーツ,とろける杏仁豆腐,녹는 아몬드 두부,190円（税込205.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112927/2B4B8991D873904B58E38320492DCA0B.jpg
+sweets,スイーツ,窯焼きカスタードプリン,가마 구운 커스터드 푸딩,200円（税込216円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/113595/688FEAA0904BB3DE77022C0351C43B4B.jpg
+sweets,スイーツ,もちもち食感クレープ　チョコバナナ,번역 실패,240円（税込259.20円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/114126/68BF8B2B33EA5E825B1E3CFF8D0B0395.jpg
+sweets,スイーツ,とろもちわらび　宇治抹茶,Toromochi Warabi Uji Matcha,150円（税込162円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/113460/7EC4A87F52636757B40A202CC7905922.jpg
+sweets,スイーツ,ふわもち生どら焼　　　濃い宇治抹茶クリーム,FLUFFY MOCHI RAW DORAYAKI- 풍부한 UJI Matcha 크림,220円（税込237.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112225/02282B983B12DD0AB9A35A8D93249DF9.jpg
+sweets,スイーツ,宇治抹茶の和パフェ,우지 말차 일본 파르페,300円（税込324円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/113270/75564C94BB949435FD53A0FA0B361F68.jpg
+sweets,スイーツ,ごろごろ豆の豆大福,Gorogoro Bean Daifuku,160円（税込172.80円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/114097/F193FDAB5BBE26C9D5D8BEBE653453E7.jpg
+sweets,スイーツ,よもぎ香る草もち,Mugwort 향기 잔디,168円（税込181.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/112846/B369AA4D5BE85B7D9EE3D01623D85AC6.jpg
+sweets,スイーツ,北海道産牛乳使用　ミルク味わう牛乳寒天,"hokkaido 우유로 만든 우유, 우유 맛은 아킨입니다",220円（税込237.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/114178/7641B475D8C94A730D3DE7B9C1CFF199.jpg
+ice_cream,アイス,明治　エッセルトロピカルミックス,Meiji Essel 열대 믹스,170円（税込183.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450422/2FE4090F42C2AAC98ED96E8DBAF863CA.jpg
+ice_cream,アイス,ロッテ　爽　　　　　　バニラ,롯데 수토 바닐라,170円（税込183.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450010/E5D6CE74AB5BD6FF81F88373D99CA8A0.jpg
+ice_cream,アイス,井村屋　北海道あずきバー,Imuraya Hokkaido Azuki Bar,150円（税込162円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450393/AEB43E25395C6B081DDFBE49F2CBDF07.jpg
+ice_cream,アイス,森永製菓　アイスボックス　グレープフルーツ,모리나가 제과 얼음 상자 자몽,130円（税込140.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450461/20EFE4DC897CA1A73902F4AE48CA16E7.jpg
+ice_cream,アイス,７プレミアム　プリンアイス,7 프리미엄 푸딩 얼음,288円（税込311.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450433/458B5D57411E2A8DAF5373D96D1184A6.jpg
+ice_cream,アイス,７プレミアム　きなこわらび餅　大好きな白くま,7 프리미엄 키나코 Warabi Mochi- 내가 가장 좋아하는 화이트 곰,368円（税込397.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450612/628586AA69096E115EEFD22AB026C472.jpg
+ice_cream,アイス,７プレミアム　４種のフルーツバーマルチ,7 프리미엄 4 유형의 과일 바 멀티,338円（税込365.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450508/71FEDD3E43ACEC1C71D37C2F90CE83D3.jpg
+ice_cream,アイス,７プレミアム　　　　　北海道バニラバーマルチ,7 프리미엄 홋카이도 바닐라 바 멀티,218円（税込235.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450657/177F8466F81277CD0E9AE83DF4845BF4.jpg
+ice_cream,アイス,７プレミアム　シュガーコーンマルチ,7 프리미엄 설탕 옥수수 멀티,368円（税込397.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450552/237EFC51D8F45F16A37C33A99DE1F5B0.jpg
+ice_cream,アイス,ハーゲンダッツ　アソートボックス　世界のデザートセレクション,Haagen-Dazs는 모듬 박스 월드 디저트 선택,925円（税込999円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450573/DE3FA178C434C13473F5C9F7DC8C4CC9.jpg
+ice_cream,アイス,ハーゲンダッツ　アソートボックスラバーズアソート,Haagen-Dazs는 다양한 상자 애호가를 모르았다,925円（税込999円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450294/E7B8B39EDA41A8140EED476C797D15E8.jpg
+ice_cream,アイス,井村屋　いちごボールマルチ３個,Imuraya 딸기 공 멀티,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450159/25DFA5D6882482295378EAF1B07717BE.jpg
+hotsnack,揚げ物・フランク・焼き鳥,【盛盛】若鶏のからあげ（むね）２０個,[Massive] 20 어린 닭 프라이드 치킨,"1,120円（税込1,209.60円）",https://img-afd.7api-01.dp1.sej.co.jp/item-image/150524/AB9AB464820837977EACC70A2A467F6E.jpg
+hotsnack,揚げ物・フランク・焼き鳥,【盛盛】若鶏のからあげ（もも）２０個,[Massive] 20 젊은 치킨 프라이드 치킨 (허벅지),"1,120円（税込1,209.60円）",https://img-afd.7api-01.dp1.sej.co.jp/item-image/150523/DBF048BCBB026D42D09C21EF09B2ED3C.jpg
+hotsnack,揚げ物・フランク・焼き鳥,若鶏のからあげ（もも）５個入り,어린 닭의 복숭아,280円（税込302.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150522/F260E65A1AC7DD4613C851D2EB5C53C0.jpg
+hotsnack,揚げ物・フランク・焼き鳥,若鶏のからあげ（むね）５個入り,어린 닭고기 프라이드 치킨 5 개,280円（税込302.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150520/D2CD9B47C7F7722451353EF448C8D929.jpg
+hotsnack,揚げ物・フランク・焼き鳥,揚げ鶏,닭 튀김,223円（税込240.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150089/7547AC716779F0175DBBFBD1787863E4.jpg
+hotsnack,揚げ物・フランク・焼き鳥,ななチキ,나나 치키,223円（税込240.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150398/29CC9A1A223BAD51290EC23434636138.jpg
+hotsnack,揚げ物・フランク・焼き鳥,ＢＩＧポークフランク,큰 돼지 고기 프랭크,184円（税込198.72円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150471/C8876B76F71EE2DAAD75661ADBC1CA9D.jpg
+hotsnack,揚げ物・フランク・焼き鳥,ジューシー粗挽きソーセージ,육즙이 많은 굵은 지상 소시지,139円（税込150.12円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150111/5ADBC523C30BFB4ED4A213DC667A1330.jpg
+hotsnack,揚げ物・フランク・焼き鳥,炭火焼き鳥（塩）,숯 구이 닭고기 (소금),176円（税込190.08円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150403/515EFDF05FFFBE1F2649DFD3E55F832D.jpg
+hotsnack,揚げ物・フランク・焼き鳥,炭火焼き鳥（タレ）,숯 구이 닭고기 (소스),176円（税込190.08円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150399/7F4271A5F47EA0762492D33D9C629247.jpg
+hotsnack,揚げ物・フランク・焼き鳥,スパイスチキン,향신료 치킨,223円（税込240.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150071/38903E1189C8A4DBA44C2FC1D1A6F84A.jpg
+hotsnack,揚げ物・フランク・焼き鳥,スパイスチキンレッド,스파이스 치킨 레드,232円（税込250.56円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150370/656DBCC09BD07FBBDC68BBAEDCB31FE6.jpg
+oden,おでん,おでん　味しみたまご,"오덴, 맛있는 계란",130円（税込140.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120069/2A340A6D04A4A7AB24BD9A21848F8554.jpg
+oden,おでん,おでん　味しみ大根,"오덴, 향이 다이콘",112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120037/2380AF8B996B7849A6C96C60C653D483.jpg
+oden,おでん,おでん　味しみ大根,"오덴, 향이 다이콘",112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120021/94BA35C963510B213D121723E9D9B332.jpg
+oden,おでん,おでん　味しみこんにゃく,오덴 : 맛있는 코니 카쿠,112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120070/00E639D4272FB5648A539A2CD0BAB2ED.jpg
+oden,おでん,おでん　味しみ白滝,오덴 맛있는 시라 타키,112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120056/ECA8BA1D440DA1B98705D568EB7A4EDC.jpg
+oden,おでん,おでん　味しみ絹厚揚げ,오덴 - 두꺼운 튀긴 실크,112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120113/DA0AD0D499BB6AE2C21C5BA696ED9D40.jpg
+oden,おでん,おでん　こだわり焼きちくわ,오덴 - 조심스럽게 구운 치쿠와,112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120035/14B48D6967F00263315F9F531348F857.jpg
+oden,おでん,おでん　ウインナー巻,Oden Wiener 롤,121円（税込130.68円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120032/6D76889024181A79A954352B2CF01111.jpg
+oden,おでん,おでん　牛もつ串,오덴 쇠고기 꼬치,167円（税込180.36円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120058/0E69ECC434FCB0101F06D95EB606E009.jpg
+oden,おでん,おでん　味しみ根菜がんも,"오덴, 맛 및 뿌리 채소 암",112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120038/E6B413AB758093622A7D83162097B287.jpg
+oden,おでん,おでん　もっちりたこ天串,오덴 - 질긴 문어 꼬치,181円（税込195.48円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120059/2D350C6B881FC7D5D17C3DC70D059049.jpg
+oden,おでん,おでん　牛すじ天串,오덴 쇠고기 튀김 꼬치,181円（税込195.48円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120057/9426807312F2EDE105519C4070F4D692.jpg
+oden,おでん,おでん　ふんわりはんぺん,오덴 솜털 한펜,121円（税込130.68円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120150/EDDABB89FC69AD46087897F553DDE6C7.jpg
+oden,おでん,おでん　もっちりちくわぶ,오덴,121円（税込130.68円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/120023/95B9DB6838C50141BFC0B6145503EB2D.jpg
+chukaman,中華まん,ふんわり×ごろっと　　肉まん,푹신한 x 화려한 고기 빵,149円（税込160.92円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150417/04041547D24BE7EB84D255FE11A8E181.jpg
+chukaman,中華まん,もちもち×ずっしり　　大入り豚まん,질긴 돼지 - 큰 돼지 고기 빵,223円（税込240.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150423/1B503EE8D1BDE3A4E8E5FCEBFF79C75B.jpg
+chukaman,中華まん,ふわふわ×とろっと濃厚ごまあんまん,푹신한 x 두껍고 풍부한 참깨 페이스트,139円（税込150.12円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150419/C765C37B053FABF6FC59FA6A77404176.jpg
+chukaman,中華まん,もちふわ×とろ～り　　ピザまん,푹신한 x 멜티 피자 롤빵,149円（税込160.92円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/150418/7A2069DF56954355B737BD028D373DD0.jpg
+frozen_foods,冷凍食品,７プレミアム　炭火焼やげん軟骨,7 프리미엄 숯 구이 야겐 연골,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410176/BB746CEF97648B24E47159B7F5F8C33D.jpg
+frozen_foods,冷凍食品,７プレミアム　極上炒飯,7 프리미엄 최고의 볶음밥,298円（税込321.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410333/DD6ED0C624B0BA9C235717535DE9B4AD.jpg
+frozen_foods,冷凍食品,７プレミアム　炒飯（袋）,7 프리미엄 볶음밥 (가방),138円（税込149.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410351/ED0F51196022A990D2B1AF4275EE9EF2.jpg
+frozen_foods,冷凍食品,７プレミアム　焼おにぎり,7 프리미엄 구운 쌀 공,168円（税込181.44円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410004/1FB9E22934D91367FA6AAF815AD68C7C.jpg
+frozen_foods,冷凍食品,ザ★チャーハン（カップ）,★ 볶음밥 (컵),278円（税込300.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410076/17FD0900E04738A9B452AA70EE0B56D4.jpg
+frozen_foods,冷凍食品,７プレミアム　すみれチャーハン,7 프리미엄 세미르 볶음밥,278円（税込300.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410302/4A834076DCB5BDD10DFA7F92B7B6BCFE.jpg
+frozen_foods,冷凍食品,完熟マンゴー,잘 익은 망고,238円（税込257.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410461/2030E1CCB6A40A4419D1456FBF6C14DA.jpg
+frozen_foods,冷凍食品,７プレミアム　　　　　柑橘ミックス,7 프리미엄 감귤 믹스,248円（税込267.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410458/ADF2CD37FA19B70362E6B0470FEC4EA9.jpg
+frozen_foods,冷凍食品,７プレミアム　塩ゆで枝豆,7 프리미엄 소금 삶은 에다메,148円（税込159.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410304/8C026E74FA4B93ABB0DFF93281E4EA15.jpg
+frozen_foods,冷凍食品,７プレミアム　ブロッコリー,7 프리미엄 브로콜리,198円（税込213.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410265/D29ED38F200A0AC3931F4E8DA48911FF.jpg
+frozen_foods,冷凍食品,７プレミアム　ブルーベリー,7 프리미엄 블루 베리,248円（税込267.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410326/5F652D70326232A7C8868CC55EB9CE03.jpg
+frozen_foods,冷凍食品,７プレミアム　塩味そら豆,7 프리미엄 소금 블룸 콩,158円（税込170.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/410388/3E4AA762D6BFC6903298BB92243631E8.jpg
+frozen_foods,冷凍食品,７プレミアム　ロックアイス１．１ｋｇ,7 프리미엄 암석 얼음 1.1kg,258円（税込278.64円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450337/3BF411612BAFA56841EACC6F9ADECC7F.jpg
+frozen_foods,冷凍食品,ロックアイス２ｋｇ,2kg 암석 얼음,413円（税込446.04円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450369/AC3D79A7A00D1108BE0EF45BCB7322E0.jpg
+frozen_foods,冷凍食品,ロックアイスグラス　２００ｇ,암석 얼음 유리 200g,120円（税込129.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/450336/03ECC90EB2B185082076B08EED22210C.jpg
+sevencafe,セブンカフェ,セブンカフェ　ホットコーヒーＲ,7 개의 카페 핫 커피 r,112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140042/934264E9370F4B499FB81EDC62B0D00C.jpg
+sevencafe,セブンカフェ,７カフェ　ホットコーヒーＬ,7 카페 핫 커피 l,167円（税込180.36円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140131/57B9EA5F06ADF8B48B5D49B54ACE1B10.jpg
+sevencafe,セブンカフェ,セブンカフェ　アイスコーヒーＲ,7 개의 카페 아이스 커피 r,112円（税込120.96円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140076/7787CA7519C70950250C13C19F4DFAA3.jpg
+sevencafe,セブンカフェ,７カフェ　アイスコーヒーＬ,7 카페 아이스 커피 l,195円（税込210.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140133/FDAD3E88A554819F0D953B8846CCC3E0.jpg
+sevencafe,セブンカフェ,セブンカフェ　キリマンジャロブレンドホットＲ,Seven Cafe Kilimanjaro Blend Hot r,130円（税込140.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140367/F52307690A967F53F3D8CAD567ABC5F9.jpg
+sevencafe,セブンカフェ,セブンカフェキリマンジャロブレンドホットＬ,Seven Cafe Kilimanjaro Blend Hot l,195円（税込210.60円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140368/24D3B989B2949B8A4BC6DB45C5312073.jpg
+sevencafe,セブンカフェ,セブンカフェキリマンジャロブレンドアイスＲ,Seven Cafe Kilimanjaro Blend Ice r,130円（税込140.40円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140381/9DDAF6866D5EF108DD7C6C9CEFB8AF52.jpg
+sevencafe,セブンカフェ,セブンカフェキリマンジャロブレンドアイスＬ,Seven Cafe Kilimanjaro Blend Ice l,223円（税込240.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140379/F8299C8C603CE311C0B2D5B24115F550.jpg
+sevencafe,セブンカフェ,セブンカフェ　ホットカフェラテＲ,7 개의 카페 핫 카페 라떼 r,176円（税込190.08円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140206/E31B4DD460497C2F49568BE4F715CFE2.jpg
+sevencafe,セブンカフェ,セブンカフェ　ホットカフェラテＬ,7 개의 카페 핫 카페 라떼 l,232円（税込250.56円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140209/317280E1C5E5469443ACA3763103E461.jpg
+sevencafe,セブンカフェ,セブンカフェ　アイスカフェラテＲ,Seven Cafe Ice Cafe Latte r,223円（税込240.84円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140208/1C4586010B03F6DE1BCBD831595BC85B.jpg
+sevencafe,セブンカフェ,セブンカフェ　アイスカフェラテＬ,Seven Cafe Ice Cafe Latte l,278円（税込300.24円）,https://img-afd.7api-01.dp1.sej.co.jp/item-image/140210/13A4EA3C2DDB2E6C597183551986CCEC.jpg
