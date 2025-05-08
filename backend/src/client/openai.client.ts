@@ -108,59 +108,77 @@ export class OpenAIClient {
       throw new Error('Failed to fetch directions: ' + error.message);
     }
   }
+
+  // 예시 사용법
+  async getExampleDirections() {
+    try {
+      // 시부야에서 신주쿠까지의 경로
+      const directions = await this.getPublicTransportDirections(
+        'Shibuya Station, Tokyo',
+        'Shinjuku Station, Tokyo',
+        '2024-03-20T10:00:00'
+      );
+
+      console.log('=== 도쿄 대중교통 경로 예시 ===');
+      console.log('출발지: 시부야역');
+      console.log('목적지: 신주쿠역');
+      console.log('출발 시간: 2024-03-20 10:00');
+
+      directions.routes.forEach((route, index) => {
+        console.log(`\n경로 ${index + 1}:`);
+        console.log(`총 거리: ${route.distance.text}`);
+        console.log(`예상 소요 시간: ${route.duration.text}`);
+
+        route.steps.forEach((step, stepIndex) => {
+          console.log(`\n${stepIndex + 1}단계: ${step.instruction}`);
+          if (step.transitDetails) {
+            console.log(`- 이용 노선: ${step.transitDetails.line.name}`);
+            console.log(`- 출발역: ${step.transitDetails.departureStop.name} (${step.transitDetails.departureTime.text})`);
+            console.log(`- 도착역: ${step.transitDetails.arrivalStop.name} (${step.transitDetails.arrivalTime.text})`);
+          }
+        });
+      });
+
+      return directions;
+    } catch (error) {
+      console.error('경로 조회 중 오류 발생:', error);
+      throw error;
+    }
+  }
+
+  // 다른 예시: 아사쿠사에서 도쿄 스카이트리까지
+  async getAnotherExampleDirections() {
+    try {
+      const directions = await this.getPublicTransportDirections(
+        'Asakusa Station, Tokyo',
+        'Tokyo Skytree, Tokyo',
+        '2024-03-20T14:00:00'
+      );
+
+      console.log('=== 도쿄 대중교통 경로 예시 2 ===');
+      console.log('출발지: 아사쿠사역');
+      console.log('목적지: 도쿄 스카이트리');
+      console.log('출발 시간: 2024-03-20 14:00');
+
+      directions.routes.forEach((route, index) => {
+        console.log(`\n경로 ${index + 1}:`);
+        console.log(`총 거리: ${route.distance.text}`);
+        console.log(`예상 소요 시간: ${route.duration.text}`);
+
+        route.steps.forEach((step, stepIndex) => {
+          console.log(`\n${stepIndex + 1}단계: ${step.instruction}`);
+          if (step.transitDetails) {
+            console.log(`- 이용 노선: ${step.transitDetails.line.name}`);
+            console.log(`- 출발역: ${step.transitDetails.departureStop.name} (${step.transitDetails.departureTime.text})`);
+            console.log(`- 도착역: ${step.transitDetails.arrivalStop.name} (${step.transitDetails.arrivalTime.text})`);
+          }
+        });
+      });
+
+      return directions;
+    } catch (error) {
+      console.error('경로 조회 중 오류 발생:', error);
+      throw error;
+    }
+  }
 }
-
-// @Injectable()
-// export class OpenAIClient {
-//   private openai: OpenAI;
-
-//   constructor(private readonly configService: ConfigService) {
-//     this.openai = new OpenAI({
-//       apiKey: this.configService.get<string>('OPENROUTER_API_KEY'),
-//       baseURL: 'https://openrouter.ai/api/v1',
-//       defaultHeaders: {
-//         'HTTP-Referer': this.configService.get<string>(
-//           'OPENROUTER_HTTP_REFERER',
-//           'https://github.com/joshephan/cocoa',
-//         ),
-//         'X-Title': this.configService.get<string>(
-//           'OPENROUTER_APP_NAME',
-//           'COCOA(Coin Coin Korea)',
-//         ),
-//       },
-//     });
-//   }
-
-//   async generateArticle(
-//     systemPrompt: string,
-//     userPrompt: string,
-//   ): Promise<{ title: string; content: string }> {
-//     const response = await this.openai.chat.completions.create({
-//       model: 'openai/gpt-4',
-//       messages: [
-//         { role: 'system', content: systemPrompt },
-//         { role: 'user', content: userPrompt },
-//       ],
-//       temperature: 0.7,
-//       max_tokens: 3000,
-//     });
-
-//     const report = response.choices[0].message.content || '';
-
-//     try {
-//       // 4. 제목과 본문 분리
-//       const [title, content] = report
-//         .split('<DIVIDER>')
-//         .map((part) => part.trim());
-
-//       console.log(title, content);
-//       return {
-//         title: title,
-//         content: content,
-//       };
-//     } catch (error) {
-//       console.error('Failed to parse OpenAI response:', report);
-//       throw new Error('Failed to parse article content: ' + error.message);
-//     }
-//   }
-// }
