@@ -11,13 +11,15 @@ export class TestService {
 
   }
   async create(createTestDto: CreateTestDto) {
-    const result = await this.openaiClient.generateArticle(
-      ['야마 레스토랑', '그릴 아카사카', '미야모토야'],
-      ['아라쿠라야마 센겐 공원', '오시노핫카이', '오이시 공원'],
-      '2025-05-10',
-      '2025-05-11',
-    );
+    // const result = await this.openaiClient.generateArticle(
+    //   ['야마 레스토랑', '그릴 아카사카', '미야모토야'],
+    //   ['아라쿠라야마 센겐 공원', '오시노핫카이', '오이시 공원'],
+    //   '2025-05-10',
+    //   '2025-05-11',
+    // );
+    const result = await this.openaiClient.getExampleDirections();
     console.log(result);
+
     return "성공";
   }
 
