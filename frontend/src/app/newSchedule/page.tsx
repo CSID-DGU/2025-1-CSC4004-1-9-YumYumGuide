@@ -7,6 +7,7 @@ import './newSchedule.css';
 
 const NewSchedule = () => {
   const [budget, setBudget] = useState(1100000);
+  const [isPlacePopupOpen, setIsPlacePopupOpen] = useState(false);
 
   return (
     <div className="new-schedule-container">
@@ -87,11 +88,11 @@ const NewSchedule = () => {
           <div className="place-title">꼭 가고 싶은 명소</div>
           <div className="place-list">
             <div className="place-item place-selected">
+              <img src="/sample-place.jpg" alt="명소" className="place-img" />
               <span className="place-name">규카츠 모토무라 시부야점</span>
-              <img src="/icons/BackArrow.png" alt="place" />
             </div>
-            <div className="place-item place-add">+</div>
-            <div className="place-item place-add">+</div>
+            <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
+            <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
           </div>
         </div>
         {/* 여행 예산 */}
@@ -108,6 +109,47 @@ const NewSchedule = () => {
         {/* 일정 생성하기 버튼 */}
         <button className="create-schedule-btn">일정 생성하기</button>
       </div>
+      {isPlacePopupOpen && (
+        <>
+          <div className="popup-overlay" onClick={() => setIsPlacePopupOpen(false)} />
+          <div className="place-popup">
+            <button className="popup-close-btn" onClick={() => setIsPlacePopupOpen(false)}>←</button>
+            <input className="popup-search" placeholder="검색하기..." />
+            <div className="popup-place-list">
+              <div className="popup-place-card selected">
+                <div className="popup-place-title">스카이트리 <span className="popup-place-badge">추천</span></div>
+                <div className="popup-place-meta">관광 | ₩14,949</div>
+                <button className="popup-place-add-btn">+</button>
+                <div className="popup-place-detail">상세보기 &gt;</div>
+              </div>
+              <div className="popup-place-card selected">
+                <div className="popup-place-title">규카츠 모토무라 시부야점 <span className="popup-place-badge">추천</span></div>
+                <div className="popup-place-meta">맛집 | ₩8,811</div>
+                <button className="popup-place-add-btn">+</button>
+                <div className="popup-place-detail">상세보기 &gt;</div>
+              </div>
+              <div className="popup-place-card">
+                <div className="popup-place-title">센소지</div>
+                <div className="popup-place-meta">관광 | ₩1,980</div>
+                <button className="popup-place-add-btn">+</button>
+                <div className="popup-place-detail">상세보기 &gt;</div>
+              </div>
+              <div className="popup-place-card">
+                <div className="popup-place-title">도쿄타워</div>
+                <div className="popup-place-meta">관광 | ₩13,860</div>
+                <button className="popup-place-add-btn">+</button>
+                <div className="popup-place-detail">상세보기 &gt;</div>
+              </div>
+              <div className="popup-place-card">
+                <div className="popup-place-title">금각사</div>
+                <div className="popup-place-meta"></div>
+                <button className="popup-place-add-btn">+</button>
+                <div className="popup-place-detail">상세보기 &gt;</div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
       <Nav />
     </div>
   );
