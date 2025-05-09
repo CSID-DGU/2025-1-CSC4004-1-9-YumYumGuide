@@ -109,7 +109,8 @@ for card in cards:
         category = card.find_element(By.CLASS_NAME, "card-text-subtitle").text.strip()
         title = card.find_element(By.CLASS_NAME, "card-text-title").text.strip()
         description = card.find_element(By.CLASS_NAME, "card-text-description").text.strip()
-        
+        image_element = card.find_element(By.CLASS_NAME, "sp-hide")
+        image = image_element.get_attribute("src")
         # 링크 정보 가져오기
         link_element = card.find_element(By.TAG_NAME, "a")
         link = link_element.get_attribute("href")
@@ -119,7 +120,8 @@ for card in cards:
             "title": title,
             "description": description,
             "link": link,
-            "address": "정보 없음"  # 기본값
+            "address": "정보 없음", # 기본값
+            "image": image
         })
     except Exception as e:
         print(f"[WARN] 카드 기본 데이터 수집 실패: {e}")
@@ -145,7 +147,7 @@ processed = 0
 csv_file = "tokyo_cards_with_address.csv"
 with open(csv_file, mode="w", newline="", encoding="utf-8") as file:
     writer = csv.writer(file)
-    writer.writerow(["카테고리", "명소", "설명", "주소"])
+    writer.writerow(["카테고리", "명소", "설명", "주소","이미지"])
 
     # 각 카드의 상세 정보 수집
     for card_data in base_card_data:
@@ -175,6 +177,7 @@ with open(csv_file, mode="w", newline="", encoding="utf-8") as file:
                 card_data["title"],
                 card_data["description"],
                 card_data["address"],
+                card_data["image"]
             ])
             
             # 로그 출력 (10개마다 또는 마지막)
@@ -190,6 +193,7 @@ with open(csv_file, mode="w", newline="", encoding="utf-8") as file:
                 card_data["title"],
                 card_data["description"],
                 "수집 실패",
+                 card_data["image"]
             ])
             
             # 진행 상황 카운트
