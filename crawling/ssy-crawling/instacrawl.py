@@ -28,8 +28,8 @@ def move_next(driver):
     driver.implicitly_wait(3)
 
 
-id = 'kdekwa'
-pw = 'roller!1'
+id = ''
+pw = ''
 find = '건대놀거리'
 target = 25
 
