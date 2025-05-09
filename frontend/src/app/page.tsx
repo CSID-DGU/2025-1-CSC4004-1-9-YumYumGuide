@@ -1,5 +1,6 @@
 'use client';
 import Nav from './componets/nav';
+import Signature from './componets/handerWrittenSignature';
 import { useState, useEffect } from 'react';
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -23,7 +24,7 @@ export default function Home() {
         setMovies(result.data);
         setPagination(result.pagination);
       } catch (err) {
-        setError(err.message);
+        // setError(err.message);
         console.error('영화 데이터 가져오기 오류:', err);
       } finally {
         setLoading(false);
@@ -39,6 +40,8 @@ export default function Home() {
       setPage(prevPage => prevPage - 1);
     }
   };
+
+
 
   if (loading) return <div className="p-4">로딩 중...</div>;
   if (error) return <div className="p-4 text-red-500">오류: {error}</div>;
@@ -56,7 +59,7 @@ export default function Home() {
             marginRight: '0.5rem',
             cursor: 'pointer'
           }} 
-          // onClick={moveTrip}
+          // onClick={moveUser}
         >
           Go to Trip Detail
         </button>
@@ -89,7 +92,7 @@ export default function Home() {
         </div>
       )}
       
-      
+      <Signature />
       
       <Nav />
     </div>
