@@ -6,7 +6,7 @@ const defaultWeather = [
 ];
 
 const WeatherList = () => {
-  // 여기서 날씨 정보 가져오면 될 듯합니다.
+  // 여기서 날씨 정보 가져오면 될 듯해용
   return (
     <section className="mb-2 w-full ">
       <p className="text-2xl font-semibold mb-2">현재 날씨</p>
