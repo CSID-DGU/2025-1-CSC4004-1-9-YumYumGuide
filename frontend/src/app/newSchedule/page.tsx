@@ -8,6 +8,7 @@ import './newSchedule.css';
 const NewSchedule = () => {
   const [budget, setBudget] = useState(1100000);
   const [isPlacePopupOpen, setIsPlacePopupOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="new-schedule-container">
@@ -107,7 +108,7 @@ const NewSchedule = () => {
           <button onClick={() => setBudget(0)} className="budget-reset-ui">초기화</button>
         </div>
         {/* 일정 생성하기 버튼 */}
-        <button className="create-schedule-btn">일정 생성하기</button>
+        <button className="create-schedule-btn" onClick={() => router.push('/schedule/result')}>일정 생성하기</button>
       </div>
       {isPlacePopupOpen && (
         <>
