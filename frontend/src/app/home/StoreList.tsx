@@ -15,7 +15,7 @@ const defaultStores: Store[] = [
 const StoreList = () => {
   const stores = defaultStores;
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex flex-col gap-3 w-full mb-8">
       <p className="text-2xl font-semibold mb-2">편의점 정보</p>
       {stores.map((store) => (
         <div

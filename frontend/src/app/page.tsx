@@ -2,6 +2,7 @@
 import Nav from './componets/nav';
 import Signature from './componets/handerWrittenSignature';
 import { useState, useEffect } from 'react';
+import HomePage from './home/page';
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,55 +45,9 @@ export default function Home() {
   if (error) return <div className="p-4 text-red-500">오류: {error}</div>;
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <div style={{ marginBottom: '1rem' }}>
-        <button
-          style={{
-            backgroundColor: '#3b82f6',
-            color: 'white',
-            padding: '0.5rem 1rem',
-            borderRadius: '0.25rem',
-            border: 'none',
-            marginRight: '0.5rem',
-            cursor: 'pointer',
-          }}
-          // onClick={moveUser}
-        >
-          Go to Trip Detail
-        </button>
+    <div>
 
-        <button
-          style={{
-            backgroundColor: loading ? '#9ca3af' : '#22c55e',
-            color: 'white',
-            padding: '0.5rem 1rem',
-            borderRadius: '0.25rem',
-            border: 'none',
-            cursor: loading ? 'not-allowed' : 'pointer',
-          }}
-          // onClick={fetchSampleData}
-          disabled={loading}
-        >
-          {loading ? '로딩 중...' : '샘플 데이터 불러오기'}
-        </button>
-      </div>
-
-      {error && (
-        <div
-          style={{
-            padding: '1rem',
-            backgroundColor: '#fee2e2',
-            color: '#b91c1c',
-            borderRadius: '0.25rem',
-            marginBottom: '1rem',
-          }}
-        >
-          에러: {error}
-        </div>
-      )}
-
-      <Signature />
-
+      <HomePage />
       <Nav />
     </div>
   );
