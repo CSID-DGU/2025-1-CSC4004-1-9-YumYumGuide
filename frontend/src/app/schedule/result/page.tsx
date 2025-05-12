@@ -49,7 +49,7 @@ export default function ScheduleResult() {
   const 맛집수 = dayData?.places.filter(p => p.type === '맛집').length || 0;
 
   return (
-    <div style={{ background: '#fff', minHeight: '100vh', paddingBottom: 80, fontFamily: 'inherit' }}>
+    <div className="min-h-screen bg-white font-sans pb-8">
       {/* 상단 타이틀 */}
       <div style={{ fontWeight: 700, fontSize: 22, textAlign: 'center', marginTop: 0, marginBottom: 0, letterSpacing: '-0.5px' }}>일정 생성 결과</div>
       {/* 탭바 */}
