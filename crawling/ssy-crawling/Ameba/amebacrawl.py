@@ -7,8 +7,9 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 from selenium.webdriver.chrome.options import Options
 import requests
+import os
 
-id = 0
+id = 1
 def translate_text(text, retries=3):
     """안정적인 번역 API를 사용하여 일본어를 한국어로 번역"""
     translated_text = ""
@@ -57,26 +58,31 @@ chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
-def find_one_from_ameba(find):
+def find_one_from_ameba(find, sort):
     global id
     driver_path = r"D:\webdriver\chromedriver-win64\chromedriver-win64\chromedriver.exe"
-    service = Service(driver_path)
+    # service = Service(driver_path)
     driver = webdriver.Chrome(options=chrome_options)
     time.sleep(3)
 
-    with open('crawling/ssy-crawling/Ameba/ameba.csv', 'w', newline='', encoding='utf-8-sig') as csv_file:
+    with open('crawling/ssy-crawling/Ameba/ameba.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['id', '키워드', '제목', '내용', '링크'])
 
+    try:
+        driver.get(f"https://search.ameba.jp/general/entry/{find}.html?p=1&sortField=1")
+        page_count_element = driver.find_element(By.XPATH, f'//*[@id="page"]/main/div[3]/div[1]/section/div[2]/div[1]')
+        page_count = page_count_element.text.split("件中")[0].replace(",", "")
+        page_count_int = int(page_count) // 10 + 1
+        print(f"전체 페이지: {page_count_int}")
+    except:
+        print("검색 결과 없음")
+        driver.close()
+        return
 
-    driver.get(f"https://search.ameba.jp/general/entry/{find}.html?p=1&sortField=1")
-    page_count_element = driver.find_element(By.XPATH, f'//*[@id="page"]/main/div[3]/div[1]/section/div[2]/div[1]')
-    page_count = page_count_element.text.replace("件中 1-10件を表示", "").replace(",", "")
-    page_count_int = int(page_count) // 10
-    print(f"전체 페이지: {page_count_int}")
-
-    for page in range(1, page_count_int + 1):
-        driver.get(f"https://search.ameba.jp/general/entry/{find}.html?p={page}&sortField=1")
+    # 아메바에서 101 페이지 이상 불러올 수 없음
+    for page in range(1, min(page_count_int + 1, 100)):
+        driver.get(f"https://search.ameba.jp/general/entry/{find}.html?p={page}&sortField={sort}")
 
         try:
             for p in range(1, 11):
@@ -135,7 +141,7 @@ def find_one_from_ameba(find):
 
                     print(f"제목: {title}")
                     print("테마 : ", len(theme))
-                    print("내용: ", content)
+                    print("내용: ", len(content))
                     time.sleep(3)
                 
         except NoSuchElementException:
@@ -145,7 +151,42 @@ def find_one_from_ameba(find):
     driver.close()
 
 
-queries = ["東京 グルメ", "東京 美味しいお店", "東京 穴場 グルメ"]
+def get_first_column(csv_file_path):
+    """
+    CSV 파일에서 첫 번째 열만 리스트로 반환하는 함수
+    
+    Args:
+        csv_file_path (str): CSV 파일 경로
+        
+    Returns:
+        list: 첫 번째 열의 값들이 담긴 리스트
+    """
+    first_column = []
+    
+    # 파일을 열어서 첫 번째 열만 읽기
+    with open(csv_file_path, 'r', encoding='utf-8') as file:
+        csv_reader = csv.reader(file)
+        next(csv_reader)
+        for row in csv_reader:
+            if row:  # 빈 행이 아닌 경우·
+                first_column.append(row[0])
+    
+    return first_column
 
-for query in queries:
-    find_one_from_ameba(query)
+
+
+
+
+csv_files_list = os.listdir("./crawling/jjy-crawling/retty/crawled_data/")
+print(csv_files_list)
+
+for file in csv_files_list:
+    if file.endswith(".csv"):
+        restaurant_name_list = get_first_column(f"./crawling/jjy-crawling/retty/crawled_data/{file}")
+        print(restaurant_name_list)
+        for query in restaurant_name_list:
+            find_one_from_ameba(query, 0)
+            find_one_from_ameba(query, 1)
+    else:
+        print("파일이 csv가 아닙니다.")
+
