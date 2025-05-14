@@ -22,7 +22,22 @@ def load_checkpoint(keyword):
         with open(path, 'r', encoding='utf-8') as f:
             page, p, saved_id, collected = map(int, f.read().strip().split(','))
             return page, p, saved_id, collected
-    return 1, 1, 0, 0
+    else:
+        # 체크포인트가 없으면 CSV에서 가장 마지막 id를 불러옴
+        if os.path.exists(csv_path):
+            with open(csv_path, 'r', encoding='utf-8-sig') as f:
+                rows = list(csv.reader(f))
+                if len(rows) > 1:
+                    last_id = int(rows[-1][0])
+                else:
+                    last_id = 0
+        else:
+            last_id = 0
+
+        # 새로운 체크포인트 파일 저장
+        save_checkpoint(keyword, 1, 1, last_id, 0)
+        return 1, 1, last_id, 0
+
 
 def save_checkpoint(keyword, page, p, current_id, collected):
     path = get_checkpoint_path(keyword)
