@@ -192,7 +192,7 @@ queries = []
 
 for file_path in csv_files:
     if not os.path.exists(file_path):
-        print(f"[경고] 파일 없음: {file_path}")
+        print(f"파일 없음: {file_path}")
         continue
 
     with open(file_path, 'r', encoding='utf-8-sig') as f:
