@@ -8,6 +8,15 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 
+chrome_options = Options()
+chrome_options.add_experimental_option("detach", True)
+chrome_options.add_argument(
+    "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+
+# GPU 관련 문제 해결 옵션 추가
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-software-rasterizer')
+
 checkpoint_dir = 'crawling/ssy-crawling/Ameba/checkpoints'
 csv_path = 'crawling/ssy-crawling/Ameba/ameba.csv'
 os.makedirs(os.path.dirname(csv_path), exist_ok=True)
@@ -168,7 +177,33 @@ def find_one_from_ameba(find):
 
 
 
-queries = ["東京 グルメ", "東京 美味しいお店", "東京 穴場 グルメ"]
+# 1열 키워드 가져올 CSV 파일 목록
+csv_files = [
+    'crawling/jjy-crawling/retty/crawled_data/시부야_restaurant_details_110.csv',
+    'crawling/jjy-crawling/retty/crawled_data/시부야_restaurant_details_1722.csv',
+    'crawling/jjy-crawling/retty/crawled_data/신주쿠_restaurant_details_120.csv',
+    'crawling/jjy-crawling/retty/crawled_data/신주쿠_restaurant_details_1998.csv',
+    'crawling/jjy-crawling/retty/crawled_data/아사쿠사_restaurant_details_1777.csv',
+    'crawling/jjy-crawling/retty/crawled_data/우에노_restaurant_details_1800.csv',
+    'crawling/jjy-crawling/retty/crawled_data/이케부코로_restaurant_details_1900.csv',
+]
+
+queries = []
+
+for file_path in csv_files:
+    if not os.path.exists(file_path):
+        print(f"[경고] 파일 없음: {file_path}")
+        continue
+
+    with open(file_path, 'r', encoding='utf-8-sig') as f:
+        reader = csv.reader(f)
+        next(reader, None)  # 헤더 스킵
+        for row in reader:
+            if row and row[0].strip():  # 빈 셀 제외
+                queries.append(row[0].strip())
+
+print(f">> 총 {len(queries)}개의 쿼리 수집 완료.")
+
 
 for query in queries:
     find_one_from_ameba(query)
