@@ -5,7 +5,10 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Nest Framework",
+
       "runtimeExecutable": "pnpm",
+      "experimentalNetworking": "off",
+
       "runtimeArgs": ["run", "start:debug", "--", "--inspect-brk"],
       "autoAttachChildProcesses": true,
       "restart": true,

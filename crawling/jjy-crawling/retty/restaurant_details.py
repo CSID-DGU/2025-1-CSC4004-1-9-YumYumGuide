@@ -17,7 +17,7 @@ from urllib.parse import quote
 from tqdm import tqdm  # 진행률 표시용
 
 class RettyRestaurantCrawler:
-    def __init__(self, delay_min=0.01, delay_max=0.03, max_retries=2, headless=True, batch_translate=True):
+    def __init__(self, delay_min=0.03, delay_max=0.05, max_retries=2, headless=True, batch_translate=True):
         """
         retty.me 웹사이트의 식당 정보를 크롤링하는 클래스
         
@@ -36,14 +36,27 @@ class RettyRestaurantCrawler:
         
         # 지역 정보 맵핑
         self.area_info = {
-            "신주쿠": {
-                "url": "https://retty.me/area/PRE13/ARE1/",
-                "selection_url": "https://retty.me/selection/area/are1/"
-            },
+            
             "시부야": {
                 "url": "https://retty.me/area/PRE13/ARE8/",
                 "selection_url": "https://retty.me/selection/area/are8/"
-            }
+             },
+             "신주쿠": {
+                "url": "https://retty.me/area/PRE13/ARE1/",
+                "selection_url": "https://retty.me/selection/area/are1/"
+            },
+            # ,
+            # "우에노" : {
+            #      "selection_url" : "https://retty.me/selection/area/sub901/"
+            #  },
+            #  "아사쿠사": {
+            #     "selection_url": "https://retty.me/selection/area/sub902/"
+            # },
+            #  "이케부코로" : {
+            #      "selection_url" : "https://retty.me/selection/area/are662/"
+            #  }
+             
+
         }
         
         # 이미 수집한 식당 URL 추적 (지역별)
@@ -82,7 +95,7 @@ class RettyRestaurantCrawler:
 
         # WebDriver 초기화
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.set_page_load_timeout(3)  # 페이지 로드 타임아웃 설정
+        self.driver.set_page_load_timeout(4)  # 페이지 로드 타임아웃 설정
         self.driver.implicitly_wait(0.3)  # 암시적 대기 시간 감소
         
         # 번역 풀 생성
@@ -183,7 +196,7 @@ class RettyRestaurantCrawler:
                 
                 # 페이지가 로드될 때까지 짧은 시간 대기
                 try:
-                    WebDriverWait(self.driver, 3).until(
+                    WebDriverWait(self.driver, 4).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, 'a.selection-restaurant__restaurant-link'))
                     )
                 except TimeoutException:
@@ -285,7 +298,6 @@ class RettyRestaurantCrawler:
             # 이미지 URL 처리 부분
             try:
                 if image_elements:
-                    print('이미지 발견')
                     image_url = image_elements[0].get_attribute("src")
                     
                     # URL이 S3 또는 다른 CDN을 사용하는지 체크
@@ -686,7 +698,7 @@ def main():
     parser = argparse.ArgumentParser(description='Retty.me 식당 정보 크롤러')
     parser.add_argument('--area', type=str, default='all',
                       help='크롤링할 지역 이름 (신주쿠, 시부야, all)')
-    parser.add_argument('--max', type=int, default=10,
+    parser.add_argument('--max', type=int, default=250,
                       help='각 지역당 수집할 최대 식당 수')
     parser.add_argument('--headless', action='store_true', default=True,
                       help='헤드리스 모드 사용 여부')
