@@ -119,7 +119,7 @@ export default function ScheduleResult() {
         <div className="flex items-center gap-2">
           <button
             ref={filterBtnRef}
-            className="bg-green-200 rounded-full w-10 h-10 flex items-center justify-center text-2xl"
+            className="w-10 h-10 flex items-center justify-center text-2xl"
             onClick={handleFilterBtnClick}
           >
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter"><polygon points="22 3 2 3 10 14 10 21 14 21 14 14 22 3"></polygon></svg>
@@ -134,10 +134,9 @@ export default function ScheduleResult() {
         >
           {categories.map((cat, idx) => (
             <div
-              key={cat.key}
-              className={`flex items-center px-4 py-3 cursor-pointer rounded-xl transition
+              key={idx}
+              className={`flex items-center px-4 py-3 cursor-pointer rounded-xl transition border-b border-gray-200
                 ${activeFilters.includes(cat.key) ? 'bg-gray-100' : ''}
-                ${idx !== categories.length - 1 ? 'border-b border-gray-200' : ''}
               `}
               onClick={() =>
                 setActiveFilters(filters =>
@@ -148,7 +147,7 @@ export default function ScheduleResult() {
               }
             >
               <span className="text-xl w-5 mr-2">
-                {activeFilters.includes(cat.key) ? '✓' : '✕'}
+                {activeFilters.includes(cat.key) ? '✓' : ''}
               </span>
               <span className="text-xl mr-2">{cat.icon}</span>
               <span className="font-semibold">{cat.key}</span>
