@@ -54,6 +54,8 @@ export default function ScheduleResult() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [popupTop, setPopupTop] = useState(0);
   const [popupLeft, setPopupLeft] = useState(0);
+  const [openedActionIdx, setOpenedActionIdx] = useState<number | null>(null);
+  const [showPlaceChange, setShowPlaceChange] = useState(false);
 
   // 필터링된 데이터
   const filteredData = activeFilters.length
@@ -128,32 +130,36 @@ export default function ScheduleResult() {
       </div>
       {/* 필터 팝업 */}
       {filterOpen && (
-        <div
-          className="absolute z-50 bg-white rounded-2xl shadow-xl p-2"
-          style={{ top: popupTop, left: popupLeft, minWidth: 160, width: 180 }}
-        >
-          {categories.map((cat, idx) => (
-            <div
-              key={idx}
-              className={`flex items-center px-4 py-3 cursor-pointer rounded-xl transition border-b border-gray-200
-                ${activeFilters.includes(cat.key) ? 'bg-gray-100' : ''}
-              `}
-              onClick={() =>
-                setActiveFilters(filters =>
-                  filters.includes(cat.key)
-                    ? filters.filter(f => f !== cat.key)
-                    : [...filters, cat.key]
-                )
-              }
-            >
-              <span className="text-xl w-5 mr-2">
-                {activeFilters.includes(cat.key) ? '✓' : ''}
-              </span>
-              <span className="text-xl mr-2">{cat.icon}</span>
-              <span className="font-semibold">{cat.key}</span>
-            </div>
-          ))}
-        </div>
+        <>
+          {/* 오버레이: 팝업 바깥 클릭 시 닫힘 */}
+          <div className="fixed inset-0 z-40" onClick={() => setFilterOpen(false)} />
+          <div
+            className="absolute z-50 bg-white rounded-2xl shadow-xl p-2"
+            style={{ top: popupTop, left: popupLeft, minWidth: 160, width: 180 }}
+          >
+            {categories.map((cat, idx) => (
+              <div
+                key={idx}
+                className={`flex items-center px-4 py-3 cursor-pointer rounded-xl transition border-b border-gray-200
+                  ${activeFilters.includes(cat.key) ? 'bg-gray-100' : ''}
+                `}
+                onClick={() =>
+                  setActiveFilters(filters =>
+                    filters.includes(cat.key)
+                      ? filters.filter(f => f !== cat.key)
+                      : [...filters, cat.key]
+                  )
+                }
+              >
+                <span className="text-xl w-5 mr-2">
+                  {activeFilters.includes(cat.key) ? '✓' : ''}
+                </span>
+                <span className="text-xl mr-2">{cat.icon}</span>
+                <span className="font-semibold">{cat.key}</span>
+              </div>
+            ))}
+          </div>
+        </>
       )}
       {/* 리스트 헤더 */}
       <div className="flex px-[30px] mt-4 mb-2 text-gray-400 text-sm items-center">
@@ -171,7 +177,20 @@ export default function ScheduleResult() {
             </div>
             {/* 카드 */}
             <div className="flex-1 bg-white rounded-xl shadow p-4 flex flex-col relative ml-4">
-              <div className="absolute top-4 right-4 text-2xl text-gray-300 cursor-pointer">⋮</div>
+              <div className="absolute top-4 right-4 text-2xl text-gray-300 cursor-pointer"
+                   onClick={() => setOpenedActionIdx(idx)}>
+                ⋮
+              </div>
+              {openedActionIdx === idx && (
+                <>
+                  {/* 오버레이: 팝업 바깥 클릭 시 닫힘 */}
+                  <div className="fixed inset-0 z-40" onClick={() => setOpenedActionIdx(null)} />
+                  <div className="absolute right-0 top-10 bg-white rounded-xl shadow-lg z-50 w-24">
+                    <button className="w-full py-2 hover:bg-gray-100" onClick={() => {/* 삭제 로직 */}}>삭제</button>
+                    <button className="w-full py-2 hover:bg-gray-100" onClick={() => { setShowPlaceChange(true); setOpenedActionIdx(null); }}>변경</button>
+                  </div>
+                </>
+              )}
               <div className="font-bold text-lg">{item.name}</div>
               <div className="text-gray-500 text-sm mt-1">
                 {icons[item.type as PlaceType]} {item.type} | ₩{item.price.toLocaleString()}
@@ -181,6 +200,32 @@ export default function ScheduleResult() {
           </div>
         ))}
       </div>
+      {showPlaceChange && (
+        <>
+          {/* 오버레이: 팝업 바깥 클릭 시 닫힘 */}
+          <div className="fixed inset-0 bg-black/30 z-40" onClick={() => setShowPlaceChange(false)} />
+          <div className="fixed inset-0 z-50 flex justify-center items-center">
+            <div className="bg-white rounded-2xl p-6 w-[340px] max-w-full relative">
+              <button className="absolute left-4 top-4 text-2xl" onClick={() => setShowPlaceChange(false)}>←</button>
+              <div className="text-center font-bold text-lg mb-6">명소 변경</div>
+              <div className="flex items-center mb-4 px-2">
+                <input className="flex-1 border-none outline-none bg-transparent" placeholder="검색하기..." />
+                <svg className="w-5 h-5 text-gray-400" /* ... */ />
+              </div>
+              <div className="space-y-4">
+                {mockData[activeTab - 1].places.map((place, i) => (
+                  <div key={i} className={`rounded-2xl p-4 bg-white flex flex-col relative`}>
+                    <div className="font-bold">{place.name}</div>
+                    <div className="text-gray-500 text-sm">{icons[place.type as PlaceType]} {place.type} | ₩{place.price.toLocaleString()}</div>
+                    <button className="absolute right-4 bottom-4 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow">+</button>
+                    <div className="mt-2 text-green-600 cursor-pointer">상세보기 &gt;</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
       <Nav />
     </div>
   );
