@@ -6,8 +6,6 @@ import { User } from 'src/user/schemas/user.schema';
 import { ApiResponseDto } from 'src/common/api.response.dto/api.response.dto';
 import { GetUser } from './custom-guards-decorators/get-user.decorators';
 import { UserResponseDto } from 'src/user/dto/update-user.dto';
-import { SignInRequestDto } from './dto/sign-in-request.dto';
-import { SignUpRequestDto } from './dto/sign-up-request.dto';
 
 @Controller('api/auth')
 export class AuthController {
