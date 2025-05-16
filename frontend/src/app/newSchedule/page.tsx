@@ -198,10 +198,10 @@ const NewSchedule = () => {
                 onClick={() => handleEditPlace(idx)}
               >
                 <span className="place-name">{place}</span>
-              </div>
+            </div>
             ))}
             {editingPlaceIndex === null && selectedPlaces.length < 5 && (
-              <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
+            <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
             )}
           </div>
         </div>
@@ -237,8 +237,8 @@ const NewSchedule = () => {
                   <div className="popup-place-title">{place.name} {place.meta.includes('추천') && <span className="popup-place-badge">추천</span>}</div>
                   <div className="popup-place-meta">{place.meta}</div>
                   <button className="popup-place-add-btn" onClick={() => handleAddPlace(place.name)}>+</button>
-                  <div className="popup-place-detail">상세보기 &gt;</div>
-                </div>
+                <div className="popup-place-detail">상세보기 &gt;</div>
+              </div>
               ))}
             </div>
           </div>

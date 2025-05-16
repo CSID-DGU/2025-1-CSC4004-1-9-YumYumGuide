@@ -35,11 +35,11 @@ export async function GET() {
         collection: firstCollection
       });
     } else {
-      return NextResponse.json({
-        success: true,
+    return NextResponse.json({
+      success: true,
         message: '데이터베이스에 컬렉션이 없습니다.',
         data: []
-      });
+    });
     }
     
   } catch (error) {
