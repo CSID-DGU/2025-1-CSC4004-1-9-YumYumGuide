@@ -1,18 +1,36 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '../componets/nav';
 import './schedule.css';
 
 const Schedule = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   // 요일 데이터
   const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   // 오늘 날짜 기준 초기 연/월
   const today = new Date();
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth()); // 0-indexed
+  const [currentYear, setCurrentYear] = useState(() => {
+    const year = searchParams.get('year');
+    return year ? parseInt(year) : today.getFullYear();
+  });
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const month = searchParams.get('month');
+    return month ? parseInt(month) : today.getMonth();
+  });
+
+  // URL 업데이트 함수
+  const updateURL = (year: number, month: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('year', year.toString());
+    params.set('month', month.toString());
+    router.push(`/schedule?${params.toString()}`);
+  };
 
   // 범위 선택 상태
   const [range, setRange] = useState<{start: number|null, end: number|null}>({start: null, end: null});
@@ -113,20 +131,35 @@ const Schedule = () => {
 
   // 월 이동 핸들러
   const handlePrevMonth = () => {
+    let newYear = currentYear;
+    let newMonth = currentMonth;
+    
     if (currentMonth === 0) {
-      setCurrentYear(currentYear - 1);
-      setCurrentMonth(11);
+      newYear = currentYear - 1;
+      newMonth = 11;
     } else {
-      setCurrentMonth(currentMonth - 1);
+      newMonth = currentMonth - 1;
     }
+    
+    setCurrentYear(newYear);
+    setCurrentMonth(newMonth);
+    updateURL(newYear, newMonth);
   };
+
   const handleNextMonth = () => {
+    let newYear = currentYear;
+    let newMonth = currentMonth;
+    
     if (currentMonth === 11) {
-      setCurrentYear(currentYear + 1);
-      setCurrentMonth(0);
+      newYear = currentYear + 1;
+      newMonth = 0;
     } else {
-      setCurrentMonth(currentMonth + 1);
+      newMonth = currentMonth + 1;
     }
+    
+    setCurrentYear(newYear);
+    setCurrentMonth(newMonth);
+    updateURL(newYear, newMonth);
   };
 
   // 월/일 포맷
