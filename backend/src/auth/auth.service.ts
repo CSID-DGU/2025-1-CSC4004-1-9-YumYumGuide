@@ -7,8 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { User, UserDocument } from 'src/user/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SignInRequestDto } from './dto/sign-in-request.dto';
-import { SignUpRequestDto } from './dto/sign-up-request.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -18,73 +17,9 @@ export class AuthService {
     @InjectModel(User.name)
     private userModel: Model<User>,
     private jwtService: JwtService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private configService: ConfigService
   ) { }
-
-  // 회원 가입
-  async signUp(signUpRequestDto: SignUpRequestDto): Promise<User> {
-    const { username, password, email } = signUpRequestDto;
-    this.logger.verbose(`Attempting to sign up user with email: ${email}`);
-
-    // 이메일 중복 확인
-    // await this.checkEmailExists(email);
-
-    // 비밀번호 해싱
-    const hashedPassword = await this.hashPassword(password);
-
-    const newUser = this.userModel.create({
-      username,
-      password: hashedPassword, // 해싱된 비밀번호 사용
-      email,
-    });
-
-    const savedUser = await this.userModel.create(newUser);
-
-    this.logger.verbose(`User signed up successfully with email: ${email}`);
-    this.logger.debug(`User details: ${JSON.stringify(savedUser)}`);
-
-    return savedUser;
-  }
-
-  // 로그인
-  async signIn(signInRequestDto: SignInRequestDto): Promise<{ jwtToken: string, user: User }> {
-    const { email, password } = signInRequestDto;
-    this.logger.verbose(`Attempting to sign in user with email: ${email}`);
-
-    try {
-      const existingUser = await this.userModel.findOne({ email: email });
-
-      if (!existingUser || !(await bcrypt.compare(password, existingUser.password))) {
-        this.logger.warn(`Failed login attempt for email: ${email}`);
-        throw new UnauthorizedException('Incorrect email or password.');
-      }
-      // [1] JWT 토큰 생성 (Secret + Payload)
-      const jwtToken = await this.generateJwtToken(existingUser);
-
-      // [2] 사용자 정보 반환
-      return { jwtToken, user: existingUser };
-    } catch (error) {
-      this.logger.error('Signin failed', error.stack);
-      throw error;
-    }
-  }
-
-  // // 이메일 중복 확인 메서드
-  // private async checkEmailExists(email: string): Promise<void> {
-  //   this.logger.verbose(`Checking if email exists: ${email}`);
-
-  //   const existingUser = await this.findUserByEmail(email);
-  //   if (existingUser) {
-  //     this.logger.warn(`Email already exists: ${email}`);
-  //     throw new ConflictException('Email already exists');
-  //   }
-  //   this.logger.verbose(`Email is available: ${email}`);
-  // }
-
-  // // 이메일로 유저 찾기 메서드
-  // private async findUserByEmail(email: string): Promise<User | undefined> {
-  //   return await this.usersRepository.findOne({ where: { email } });
-  // }
 
   // 비밀번호 해싱 암호화 메서드
   private async hashPassword(password: string): Promise<string> {
@@ -143,10 +78,9 @@ export class AuthService {
     const tokenUrl = 'https://kauth.kakao.com/oauth/token';
     const payload = {
       grant_type: 'authorization_code',
-      client_id: process.env.KAKAO_CLIENT_ID, // Kakao REST API Key
-      redirect_uri: process.env.KAKAO_REDIRECT_URI,
+      client_id: this.configService.get<string>('KAKAO_CLIENT_ID'), // Kakao REST API Key
+      redirect_uri: this.configService.get<string>('KAKAO_CALLBACK_URL'),
       code,
-      // client_secret: process.env.KAKAO_CLIENT_SECRET // 필요시 사용
     };
 
     // http는 다른 서버와 통신할 때 사용하는 도구

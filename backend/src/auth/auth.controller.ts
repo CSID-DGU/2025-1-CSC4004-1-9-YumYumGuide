@@ -15,42 +15,6 @@ export class AuthController {
 
   constructor(private authService: AuthService) { }
 
-  // 회원 가입 기능
-  @Post('/signup')
-  async signUp(@Body() signUpRequestDto: SignUpRequestDto): Promise<ApiResponseDto<UserResponseDto>> { // 응답 통일에 Dto넣기
-    // 로그 찍기
-    this.logger.verbose(`Attempting to sign up user with email: ${signUpRequestDto.email}`);
-
-    // authService에서 회원가입 처리
-    const user = await this.authService.signUp(signUpRequestDto);
-
-    // 응답 Dto 생성
-    const userResponseDto = new UserResponseDto(user);
-
-    this.logger.verbose(`User signed up successfully: ${JSON.stringify(userResponseDto)}`);
-
-    return new ApiResponseDto(true, 201, 'User signed up successfully', userResponseDto);
-  }
-
-  // 로그인 기능
-  @Post('/signin')
-  async signIn(@Body() signInRequestDto: SignInRequestDto, @Res() res: Response): Promise<void> {
-    this.logger.verbose(`Attempting to sign in user with email: ${signInRequestDto.email}`);
-    const { jwtToken, user } = await this.authService.signIn(signInRequestDto);
-    const userResponseDto = new UserResponseDto(user);
-    this.logger.verbose(`User signed in successfully: ${JSON.stringify(userResponseDto)}`);
-
-    // [3] 쿠키 설정
-    res.cookie('Authorization', jwtToken, {
-      httpOnly: true, // 클라이언트 측 스크립트에서 쿠키 접근 금지
-      secure: false, // HTTPS에서만 쿠키 전송, 임시 비활성화
-      maxAge: 3600000, // 1시간
-      sameSite: 'none', // CSRF 공격 방어
-    });
-
-    res.status(200).json(new ApiResponseDto(true, 200, 'Sign in successful', { jwtToken, user: userResponseDto }));
-  }
-
   // 인증된 회원이 들어갈 수 있는 테스트 URL 경로
   @Post('/test')
   @UseGuards(AuthGuard()) // @UseGuards : 핸들러는 지정한 인증 가드가 적용됨 -> AuthGuard()의 'jwt'는 기본값으로 생략가능
