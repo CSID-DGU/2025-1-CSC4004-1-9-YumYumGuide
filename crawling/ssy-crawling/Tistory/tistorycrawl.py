@@ -1,7 +1,6 @@
 import os
 import csv
 import time
-import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -21,33 +20,22 @@ checkpoint_text = 'crawling/ssy-crawling/Tistory/checkpoint.txt'
 csv_path = 'crawling/ssy-crawling/Tistory/tistorycrawl.csv'
 os.makedirs(os.path.dirname(csv_path), exist_ok=True)
 
-def load_checkpoint(keyword):
+def load_checkpoint():
     if os.path.exists(checkpoint_text):
         with open(checkpoint_text, 'r', encoding='utf-8') as f:
-            keyword, p, saved_id, collected = map(int, f.read().strip().split(','))
-            return keyword, p, saved_id, collected
+            data = f.read().strip().split(',')
+            file_index = int(data[0])
+            query_index = int(data[1])
+            p = int(data[2])
+            return file_index, query_index, p
     else:
-        # 체크포인트가 없으면 CSV에서 가장 마지막 id를 불러옴
-        if os.path.exists(csv_path):
-            with open(csv_path, 'r', encoding='utf-8-sig') as f:
-                rows = list(csv.reader(f))
-                if len(rows) > 1:
-                    last_id = int(rows[-1][0])
-                else:
-                    last_id = 0
-        else:
-            last_id = 0
-            p = 1
-            collected = 0
+        # 새로운 체크포인트 파일 저장 (첫 번째 파일, 첫 번째 쿼리부터 시작)
+        save_checkpoint(0, 0, 1)
+        return 0, 0, 1
 
-        # 새로운 체크포인트 파일 저장
-        save_checkpoint(keyword, 1, 1, last_id, 0)
-        return "Kanedaya", 1, 1, last_id, 0
-
-
-def save_checkpoint(keyword, p, current_id, collected):
+def save_checkpoint(file_index, query_index, p):
     with open(checkpoint_text, 'w', encoding='utf-8') as f:
-        f.write(f'{keyword},{p},{current_id},{collected}')
+        f.write(f'{file_index},{query_index},{p}')
 
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
@@ -59,16 +47,17 @@ def find_from_tistory(find):
     driver = webdriver.Chrome(options=chrome_options)
     time.sleep(3)
 
-    keyword, start_p, current_id, count = load_checkpoint(find)
-    print(f'>> 체크포인트 - 가게 이름: {keyword}, 인덱스: {start_p}, ID: {current_id}, 수집 개수: {count}')
+    file_index, query_index, start_p = load_checkpoint()
+    print(f'>> 체크포인트 - 인덱스: {start_p}')
 
     if not os.path.exists(csv_path):
         with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
-            csv.writer(f).writerow(['id', 'restaurant', 'title', 'content', 'link'])
+            csv.writer(f).writerow(['restaurant', 'title', 'content', 'link'])
 
     driver.get(f"https://www.tistory.com/search?keyword={find}&type=post&sort=ACCURACY&page=1")
     time.sleep(1)
 
+    count = 0
     for p in range(1, 31):
         if count >= 2:
             return
@@ -96,13 +85,12 @@ def find_from_tistory(find):
                 except NoSuchElementException:
                     content = ''
 
-                current_id += 1
                 count += 1
 
                 with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
-                    csv.writer(f).writerow([current_id, find, title, content, link])
+                    csv.writer(f).writerow([find, title, content, link])
 
-                save_checkpoint(find, p, current_id, count)
+                save_checkpoint(file_index, query_index, p)
                 driver.close()
                 driver.switch_to.window(driver.window_handles[0])
                 print(f"[post-{p}] 제목: {title}")
@@ -127,9 +115,13 @@ def find_from_tistory(find):
 file_list = os.listdir('crawling/jjy-crawling/retty/crawled_data/')
 csv_files = [os.path.join('crawling/jjy-crawling/retty/crawled_data/', file) for file in file_list if file.endswith('.csv')]
 
+file_index, query_index, start_p = load_checkpoint()
+print(f">> 체크포인트 - 파일 인덱스: {file_index}, 쿼리 인덱스: {query_index}, 페이지: {start_p}")
+
 queries = []
 
-for file_path in csv_files:
+for i in range(file_index, len(csv_files)):
+    file_path = csv_files[i]
     if not os.path.exists(file_path):
         print(f"파일 없음: {file_path}")
         continue
@@ -137,12 +129,16 @@ for file_path in csv_files:
     with open(file_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.reader(f)
         next(reader, None)  # 헤더 스킵
-        for row in reader:
-            if row and row[1].strip():  # 빈 셀 제외
-                queries.append(row[1].strip())
+        rows = list(reader)
 
-print(f">> 총 {len(queries)}개의 쿼리 수집 완료.")
+    start_idx = query_index if i == file_index else 0
 
+    for j in range(start_idx, len(rows)):
+        if rows[j] and rows[j][0].strip():  # 빈 셀 제외
+            query = rows[j][0].strip()
+            print(f">> 처리 중: 파일 {i+1}/{len(csv_files)}, 쿼리 {j+1}/{len(rows)} - {query}")
 
-for query in queries:
-    find_from_tistory(query)
+            save_checkpoint(i, j, start_p)
+            find_from_tistory(query)
+
+            start_p = 1
