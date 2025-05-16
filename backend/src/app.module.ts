@@ -9,12 +9,12 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        JWT_SECRET: Joi.string().required(),
         KAKAO_CLIENT_ID: Joi.string().required(),
         KAKAO_CALLBACK_URL: Joi.string().required(),
         MONGODB_URI: Joi.string().required(),
         GOOGLE_MAPS_API_KEY: Joi.string().required(),
         OPENAI_API_KEY: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
       })
     }),
     MongooseModule.forRootAsync({

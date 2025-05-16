@@ -7,7 +7,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { KakaoStrategy } from './strategy/jwt.strategy';
+import { KakaoStrategy } from './strategy/kakao.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -26,6 +27,6 @@ import { KakaoStrategy } from './strategy/jwt.strategy';
 
   ],
   controllers: [AuthController],
-  providers: [AuthService, KakaoStrategy],
+  providers: [AuthService, KakaoStrategy, JwtStrategy],
 })
 export class AuthModule { }
