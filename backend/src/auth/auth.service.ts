@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { User } from 'src/user/schemas/user.schema';
+import { User, UserDocument } from 'src/user/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SignInRequestDto } from './dto/sign-in-request.dto';
@@ -95,12 +95,11 @@ export class AuthService {
   }
 
   // 카카오 정보 회원 가입
-  async signUpWithKakao(kakaoId: string, profile: any): Promise<User> {
-    const kakaoAccount = profile.kakao_account;
+  async signUpWithKakao(kakaoId: string, profile: any): Promise<UserDocument> {
 
     // 이름이랑 이메일을 알아야겠네 여기까지
-    const kakaoUsername = kakaoAccount.name;
-    const kakaoEmail = kakaoAccount.email;
+    const kakaoUsername = profile.properties.nickname;
+    const kakaoEmail = profile.kakao_account.email;
 
     // 카카오 프로필 데이터를 기반으로 사용자 찾기 또는 생성 로직을 구현
     const existingUser = await this.userModel.findOne({ email: kakaoEmail });
@@ -122,7 +121,7 @@ export class AuthService {
   }
 
   // 카카오 로그인
-  async signInWithKakao(kakaoAuthResCode: string): Promise<{ jwtToken: string, user: User }> {
+  async signInWithKakao(kakaoAuthResCode: string): Promise<{ jwtToken: string, user: UserDocument }> {
     // Authorization Code로 Kakao API에 Access Token 요청
     const accessToken = await this.getKakaoAccessToken(kakaoAuthResCode);
 
@@ -147,9 +146,10 @@ export class AuthService {
       client_id: process.env.KAKAO_CLIENT_ID, // Kakao REST API Key
       redirect_uri: process.env.KAKAO_REDIRECT_URI,
       code,
-      client_secret: process.env.KAKAO_CLIENT_SECRET // 필요시 사용
+      // client_secret: process.env.KAKAO_CLIENT_SECRET // 필요시 사용
     };
 
+    // http는 다른 서버와 통신할 때 사용하는 도구
     const response = await firstValueFrom(this.httpService.post(tokenUrl, null, {
       params: payload,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -163,6 +163,7 @@ export class AuthService {
     const userInfoUrl = 'https://kapi.kakao.com/v2/user/me';
 
     // 헤더에 Authorization 키를 포함하여 요청
+    // KaKao 연결된 사용자가 있는지 확인
     const response = await firstValueFrom(this.httpService.get(userInfoUrl, {
       headers: { Authorization: `Bearer ${accessToken}` }
     }));
@@ -171,11 +172,11 @@ export class AuthService {
   }
 
   // JWT 생성 공통 메서드
-  async generateJwtToken(user: User): Promise<string> {
+  async generateJwtToken(user: UserDocument): Promise<string> {
     // [1] JWT 토큰 생성 (Secret + Payload)
     const payload = {
       email: user.email,
-      // userId: user._id,
+      userId: user.id,
     };
     const accessToken = await this.jwtService.sign(payload);
     this.logger.debug(`Generated JWT Token: ${accessToken}`);
