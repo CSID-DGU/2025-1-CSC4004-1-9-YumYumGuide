@@ -1,102 +1,84 @@
 'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './editProfile.module.css';
 
-/* 기본 프로필  */
-const DEFAULT_PROFILE = {
-  nickname: 'LoveTrip',
-  email: 'LoveTrip@naver.com',
-  account: 'naver' as 'naver' | 'kakao',
-};
-
-const ProfileEdit = () => {
+const ProfileEdit: NextPage = () => {
+  const [nickname, setNickname] = useState('LoveTrip');
+  const [selectedCountry, setSelectedCountry] = useState('일본');
+  const [isSaved, setIsSaved] = useState(false);
   const router = useRouter();
 
-  /* 상태 */
-  const [nickname, setNickname] = useState(DEFAULT_PROFILE.nickname);
-  const [email, setEmail] = useState(DEFAULT_PROFILE.email);
-  const [account, setAccount] = useState<'naver' | 'kakao'>(DEFAULT_PROFILE.account);
-  const [saving, setSaving] = useState(false);
+  const handleSave = () => {
+    setIsSaved(true);
 
-  /* (예시) 최초 로드 시 백엔드 호출 */
-  useEffect(() => {
+    console.log('저장된 닉네임:', nickname);
+    console.log('저장된 국가:', selectedCountry);
 
-    const stored = localStorage.getItem('nickname');
-    if (stored) setNickname(stored);
-    
-    (async () => {
-      /** 실제 API 교체 지점 */
-      await new Promise(r => setTimeout(r, 400));
-      // const data = await (await fetch('/api/profile')).json();
-      // setNickname(data.nickname);
-      // setEmail(data.email);
-      // setAccount(data.provider);  // 'naver' | 'kakao'
-    })();
-  }, []);
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 1000);
+  };
 
-  /* 닉네임 저장 */
-  const handleSave = async () => {
-    if (saving) return;
-    setSaving(true);
-    try {
-      await new Promise(r => setTimeout(r, 1000));
-      localStorage.setItem('nickname', nickname);
-    } finally {
-      setSaving(false);
-    }
+  const handleBack = () => {
+    router.back();
   };
 
   return (
     <div className={styles.div}>
-      {/* ← 뒤로가기 */}
-      <button className={styles.backIcon} onClick={() => router.back()} aria-label="뒤로가기">
-        <Image width={44} height={44} alt="" src="/icons/back.svg" />
-      </button>
-
       <div className={styles.div1}>프로필 설정</div>
 
-      {/* 저장 */}
-      <button
-        className={`${styles.saveIcon} ${saving ? styles.saveIconActive : ''}`}
+      <Image
+        className={`${styles.saveIcon} ${isSaved ? styles.saved : ''}`}
+        width={44}
+        height={44}
+        alt="저장"
+        src="/icons/save.svg"
         onClick={handleSave}
-        aria-label="저장"
-        disabled={saving}
-      >
-        <Image width={44} height={44} alt="" src="/icons/save.svg" />
-      </button>
-
-      {/* 프로필 사진 */}
+      />
+      <Image
+        className={styles.backIcon}
+        width={44}
+        height={44}
+        alt="뒤로"
+        src="/icons/back.svg"
+        onClick={handleBack}
+      />
       <Image
         className={styles.profileIcon}
         width={64}
         height={64}
-        alt="프로필"
+        alt="프로필 아이콘"
         src="/icons/profile_icon.svg"
       />
-
-      {/* 닉네임 */}
       <div className={styles.div2}>닉네임</div>
+      <div className={styles.box1} />
       <input
-        className={styles.box1}
+        className={styles.nicknameInput}
+        type="text"
         value={nickname}
-        onChange={e => setNickname(e.target.value)}
-        aria-label="닉네임"
+        onChange={(e) => setNickname(e.target.value)}
+        placeholder="닉네임을 입력하세요"
       />
 
-      {/* 연동 계정 */}
-      <div className={styles.div3}>연동 계정</div>
-      <div className={styles.box2}>{email}</div>
-
-      {/* 네이버 / 카카오 */}
-      <div className={`${styles.boxNaver} ${account === 'naver' ? styles.selected : ''}`}>
-        <Image className={styles.platformIcon} width={32} height={32} alt="Naver" src="/icons/naver.svg" />
-      </div>
-
-      <div className={`${styles.boxKakao} ${account === 'kakao' ? styles.selected : ''}`}>
-        <Image className={styles.platformIcon} width={32} height={32} alt="Kakao" src="/icons/kakaotalk.svg" />
+      <div className={styles.country}>
+        <div className={styles.div3}>여행 국가</div>
+        <div className={styles.r1} />
+        <div
+          className={`${styles.box1_1} ${selectedCountry === '일본' ? styles.selected : ''}`}
+          onClick={() => setSelectedCountry('일본')}
+        />
+        <div className={styles.div4}>일본</div>
+        <div
+          className={`${styles.box1_2} ${selectedCountry === '태국' ? styles.selected : ''}`}
+          onClick={() => setSelectedCountry('태국')}
+        />
+        <div className={styles.div5}>태국</div>
+        <div className={styles.rrr1} />
+        <div className={styles.div6}>{selectedCountry}</div>
       </div>
     </div>
   );
