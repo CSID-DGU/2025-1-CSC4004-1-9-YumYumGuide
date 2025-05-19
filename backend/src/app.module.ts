@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,7 +16,13 @@ import * as Joi from 'joi';
         DB_PORT: Joi.number().required(),
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
-        DB_DATABASE: Joi.string().required()
+        DB_DATABASE: Joi.string().required(),
+        KAKAO_CLIENT_ID: Joi.string().required(),
+        KAKAO_CALLBACK_URL: Joi.string().required(),
+        MONGODB_URI: Joi.string().required(),
+        GOOGLE_MAPS_API_KEY: Joi.string().required(),
+        OPENAI_API_KEY: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
       })
     }),
     TypeOrmModule.forRootAsync({
@@ -30,6 +39,9 @@ import * as Joi from 'joi';
       }),
       inject: [ConfigService]
     }),
-  ]
+    AuthModule,
+    UserModule,
+  ],
+  providers: []
 })
 export class AppModule { }

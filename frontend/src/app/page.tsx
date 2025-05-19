@@ -1,6 +1,7 @@
 'use client';
 import Nav from './componets/nav';
 import { useState, useEffect } from 'react';
+import HomePage from './home/page';
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,7 +18,7 @@ export default function Home() {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const result = await response.json();
         console.log('받은 데이터:', result); // 전체 응답 확인
         setMovies(result.data);
@@ -29,21 +30,21 @@ export default function Home() {
         setLoading(false);
       }
     }
-    
+
     fetchMovies();
   }, [page]);
 
-
   const handlePrevPage = () => {
     if (page > 1) {
-      setPage(prevPage => prevPage - 1);
+      setPage((prevPage) => prevPage - 1);
     }
   };
 
   if (loading) return <div className="p-4">로딩 중...</div>;
   if (error) return <div className="p-4 text-red-500">오류: {error}</div>;
-  
+
   return (
+<<<<<<< HEAD
     <div style={{ padding: '1rem' }}>
       <div style={{ marginBottom: '1rem' }}>
         <button 
@@ -91,6 +92,11 @@ export default function Home() {
       
       
       
+=======
+    <div>
+
+      <HomePage />
+>>>>>>> origin/main
       <Nav />
     </div>
   );
