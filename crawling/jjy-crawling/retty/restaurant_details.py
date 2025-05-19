@@ -14,7 +14,7 @@ import requests
 import json
 import pickle
 from urllib.parse import quote
-from tqdm import tqdm  # 진행률 표시용
+# from tqdm import tqdm  # 진행률 표시용
 
 class RettyRestaurantCrawler:
     def __init__(self, delay_min=0.03, delay_max=0.05, max_retries=2, headless=True, batch_translate=True):
@@ -36,21 +36,6 @@ class RettyRestaurantCrawler:
         
         # 지역 정보 맵핑
         self.area_info = {
-         
-            "타마 치": {
-                "selection_url": "https://retty.me/selection/area/sub1302/"
-             },
-               "마루노우치": {
-                "selection_url": "https://retty.me/selection/area/sub1504/"
-             },
-               "칸다": {
-                "selection_url": "https://retty.me/selection/area/sub1101/"
-             },
-
-             "유라쿠초": {
-                "selection_url": "https://retty.me/selection/area/sub202/"
-             }, 
-               
 
             "구다": {
                 "selection_url": " https://retty.me/selection/area/sub1303/"
@@ -110,7 +95,19 @@ class RettyRestaurantCrawler:
             #      "selection_url" : "https://retty.me/selection/area/are662/"
             #  }
              
+             "타마 치": {
+                "selection_url": "https://retty.me/selection/area/sub1302/"
+             },
+               "마루노우치": {
+                "selection_url": "https://retty.me/selection/area/sub1504/"
+             },
+               "칸다": {
+                "selection_url": "https://retty.me/selection/area/sub1101/"
+             },
 
+             "유라쿠초": {
+                "selection_url": "https://retty.me/selection/area/sub202/"
+             }    
         }
         
         # 이미 수집한 식당 URL 추적 (지역별)
@@ -234,7 +231,7 @@ class RettyRestaurantCrawler:
         print(f"{area_name} 지역에서 {max_restaurants}개의 새로운 식당 찾는 중...")
         
         # 진행 표시기 초기화
-        pbar = tqdm(total=max_restaurants, desc=f"새로운 식당 링크 수집 중")
+        # pbar = tqdm(total=max_restaurants, desc=f"새로운 식당 링크 수집 중")
         
         while len(restaurant_links) < max_restaurants and page <= max_pages:
             if page > 1:
@@ -296,7 +293,7 @@ class RettyRestaurantCrawler:
                     print(f"페이지 {page}에서 {page_new_found}개의 새로운 식당을 찾았습니다.")
                     
                 # 진행 표시기 업데이트
-                pbar.update(page_new_found)
+                # pbar.update(page_new_found)
                 
                 # 다음 페이지로 이동
                 page += 1
@@ -309,7 +306,7 @@ class RettyRestaurantCrawler:
                 page += 1  # 다음 페이지로 이동
         
         # 진행 표시기 닫기
-        pbar.close()
+        # pbar.close()
         
         print(f"{area_name} 지역에서 총 {new_found}개의 새로운 식당 링크 수집 완료")
         
@@ -528,7 +525,7 @@ class RettyRestaurantCrawler:
         print(f"{len(restaurants)}개의 새로운 식당에서 정보 수집 중...")
         
         # 진행 표시기 초기화
-        pbar = tqdm(total=len(restaurants), desc="식당 정보 수집")
+        # pbar = tqdm(total=len(restaurants), desc="식당 정보 수집")
         
         # 배치 처리
         for batch_start in range(0, len(restaurants), batch_size):
@@ -576,7 +573,7 @@ class RettyRestaurantCrawler:
                     continue
                 
                 # 진행 표시기 업데이트
-                pbar.update(1)
+                # pbar.update(1)
             
             # 2단계: 일괄 번역 작업 시작
             if self.batch_translate and all_texts_to_translate:
@@ -639,7 +636,7 @@ class RettyRestaurantCrawler:
         self._save_visited_restaurants()
         
         # 진행 표시기 닫기
-        pbar.close()
+        # pbar.close()
         
         return pd.DataFrame(results)
 
