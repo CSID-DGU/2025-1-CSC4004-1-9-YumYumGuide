@@ -37,19 +37,19 @@ class RettyRestaurantCrawler:
         # 지역 정보 맵핑
         self.area_info = {
          
-            # "타마 치": {
-            #     "selection_url": "https://retty.me/selection/area/sub1302/"
-            #  },
-            #    "마루노우치": {
-            #     "selection_url": "https://retty.me/selection/area/sub1504/"
-            #  },
-            #    "칸다": {
-            #     "selection_url": "https://retty.me/selection/area/sub1101/"
-            #  },
+            "타마 치": {
+                "selection_url": "https://retty.me/selection/area/sub1302/"
+             },
+               "마루노우치": {
+                "selection_url": "https://retty.me/selection/area/sub1504/"
+             },
+               "칸다": {
+                "selection_url": "https://retty.me/selection/area/sub1101/"
+             },
 
-            #  "유라쿠초": {
-            #     "selection_url": "https://retty.me/selection/area/sub202/"
-            #  }, 
+             "유라쿠초": {
+                "selection_url": "https://retty.me/selection/area/sub202/"
+             }, 
                
 
             "구다": {
