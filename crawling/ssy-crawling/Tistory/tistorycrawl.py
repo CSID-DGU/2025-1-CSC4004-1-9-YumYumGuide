@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-
+# 수정 필요!!!!!!!
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
 chrome_options.add_argument(
@@ -53,49 +53,62 @@ def find_from_tistory(find):
     if not os.path.exists(csv_path):
         with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
             csv.writer(f).writerow(['restaurant', 'title', 'content', 'link'])
-
-    driver.get(f"https://www.tistory.com/search?keyword={find}&type=post&sort=ACCURACY&page=1")
-    time.sleep(1)
-
+    
     count = 0
-    for p in range(1, 31):
-        if count >= 2:
-            return
+    for page in range(1, 5):
+        driver.get(f"https://www.tistory.com/search?keyword={find}&type=post&sort=ACCURACY&page={page}")
+        time.sleep(1)
 
-        print(f">> p: {p}")
-        post = driver.find_elements(By.CLASS_NAME, f'item_group')            
-        
-        for item in post:
-            try:
-                title_element = item.find_element(By.CLASS_NAME, 'tit_cont')
-                title = title_element.text.strip()
-                link_element = item.find_element(By.CLASS_NAME, 'link_cont')
-                link = link_element.get_attribute('href')
-            except NoSuchElementException:
+        for p in range(start_p, 31):
+            if count >= 2:
+                driver.quit()
                 return
-                
-            if link:
-                driver.execute_script("window.open('', '_blank');")
-                driver.switch_to.window(driver.window_handles[1])
-                driver.get(link)
-                time.sleep(3)
 
+            print(f">> p: {p}")
+            post = driver.find_elements(By.CLASS_NAME, f'item_group')            
+            
+            for item in post:
                 try:
-                    content = driver.find_element(By.CLASS_NAME, 'contents_style').text.strip()
+                    title_element = item.find_element(By.CLASS_NAME, 'tit_cont')
+                    title = title_element.text.strip()
+                    link_element = item.find_element(By.CLASS_NAME, 'link_cont')
+                    link = link_element.get_attribute('href')
                 except NoSuchElementException:
-                    content = ''
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
+                    continue
+                    
+                if link:
+                    driver.execute_script("window.open('', '_blank');")
+                    driver.switch_to.window(driver.window_handles[1])
+                    driver.get(link)
+                    time.sleep(3)
 
-                count += 1
+                    try:
+                        content = driver.find_element(By.CLASS_NAME, 'contents_style').text.strip()
+                    except NoSuchElementException:
+                        content = ''
 
-                with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
-                    csv.writer(f).writerow([find, title, content, link])
+                    if not "일본" in content:
+                        driver.close()
+                        driver.switch_to.window(driver.window_handles[0])
+                        continue
+                    if not "식당" in content:
+                        driver.close()
+                        driver.switch_to.window(driver.window_handles[0])
+                        continue
 
-                save_checkpoint(file_index, query_index, p)
-                driver.close()
-                driver.switch_to.window(driver.window_handles[0])
-                print(f"[post-{p}] 제목: {title}")
-                print("내용:", content[:30])
-                time.sleep(1)
+                    count += 1
+
+                    with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
+                        csv.writer(f).writerow([find, title, content, link])
+
+                    save_checkpoint(file_index, query_index, p)
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
+                    print(f"[post-{p}] 제목: {title}")
+                    print("내용:", content[:30])
+                    time.sleep(1)
 
     driver.quit()
 
@@ -134,8 +147,8 @@ for i in range(file_index, len(csv_files)):
     start_idx = query_index if i == file_index else 0
 
     for j in range(start_idx, len(rows)):
-        if rows[j] and rows[j][0].strip():  # 빈 셀 제외
-            query = rows[j][0].strip()
+        if rows[j] and rows[j][1].strip():  # 빈 셀 제외
+            query = rows[j][1].strip()
             print(f">> 처리 중: 파일 {i+1}/{len(csv_files)}, 쿼리 {j+1}/{len(rows)} - {query}")
 
             save_checkpoint(i, j, start_p)

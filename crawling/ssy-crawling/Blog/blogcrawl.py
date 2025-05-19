@@ -52,48 +52,67 @@ def find_from_blog(find):
     if not os.path.exists(csv_path):
         with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
             csv.writer(f).writerow(['restaurants', 'title', 'content', 'link'])
-    
-    driver.get(f"https://section.blog.naver.com/Search/Post.naver?pageNo=1&rangeType=ALL&orderBy=sim&keyword={find}")
-    time.sleep(1)
 
     count = 0
-    for p in range(start_p, 8):
-        if count >= 2:
-            return
-        print(f">> p: {p}")
-        post = driver.find_elements(By.XPATH, f'//*[@id="content"]/section/div[2]/div[{p}]')
-        for item in post:
-            try:
-                title_element = item.find_element(By.CLASS_NAME, 'title_post')
-                title = title_element.text.strip()
-                link_element = item.find_element(By.CLASS_NAME, 'desc_inner')
-                link = link_element.get_attribute('href')
-            except NoSuchElementException:
+    for page in range(1, 5):
+        driver.get(f"https://section.blog.naver.com/Search/Post.naver?pageNo={page}&rangeType=ALL&orderBy=sim&keyword={find}")
+        time.sleep(1)
+        for p in range(start_p, 8):
+            if count >= 2:
+                driver.quit()
                 return
-                
-            if link:
-                driver.execute_script("window.open('', '_blank');")
-                driver.switch_to.window(driver.window_handles[1])
-                driver.get(link)
-                time.sleep(3)
-
+            print(f">> p: {p}")
+            post = driver.find_elements(By.XPATH, f'//*[@id="content"]/section/div[2]/div[{p}]/div/div[1]')
+            for item in post:
                 try:
-                    content = driver.find_element(By.XPATH, '//*[@id="post-view223842009530"]/div/div[3]').text.strip()
+                    title_element = item.find_element(By.CLASS_NAME, 'title_post')
+                    title = title_element.text.strip()
+                    link_element = item.find_element(By.CLASS_NAME, 'desc_inner')
+                    link = link_element.get_attribute('href')
                 except NoSuchElementException:
-                    content = ''
-                
-                count += 1
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
+                    continue
+                    
+                if link:
+                    driver.execute_script("window.open('', '_blank');")
+                    driver.switch_to.window(driver.window_handles[1])
+                    driver.get(link)
+                    time.sleep(3)
 
-                with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
-                    csv.writer(f).writerow([find, title, content, link])
-                
-                save_checkpoint(file_index, query_index, p)
-                driver.close()
-                driver.switch_to.window(driver.window_handles[0])
-                print(f"[post: {p}] 제목: {title}")
-                print("내용:", content[:30])
-                time.sleep(1)
+                    try:
+                        # iframe 확인
+                        iframe = driver.find_element(By.ID, 'mainFrame')  # 네이버 블로그는 보통 mainFrame이라는 ID를 사용
+                        driver.switch_to.frame(iframe)
+    
+                        # iframe 내부에서 콘텐츠 찾기
+                        content_element = driver.find_element(By.CSS_SELECTOR, '.se-main-container')
+                        content = content_element.text.strip()
+    
+                        # 다시 기본 컨텍스트로 전환
+                        driver.switch_to.default_content()
+                    except Exception:
+                        content = ''
+                    
+                    if not "일본" in content:
+                        driver.close()
+                        driver.switch_to.window(driver.window_handles[0])
+                        continue
+                    if not "식당" in content:
+                        driver.close()
+                        driver.switch_to.window(driver.window_handles[0])
+                        continue
 
+                    count += 1
+
+                    with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
+                        csv.writer(f).writerow([find, title, content, link])
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
+                    save_checkpoint(file_index, query_index, p)
+                    print(f"[post: {p}] 제목: {title}")
+                    print("내용:", content[:30])
+                    time.sleep(1)
     driver.quit()
 
 
@@ -131,8 +150,8 @@ for i in range(file_index, len(csv_files)):
     start_idx = query_index if i == file_index else 0
 
     for j in range(start_idx, len(rows)):
-        if rows[j] and rows[j][0].strip():  # 빈 셀 제외
-            query = rows[j][0].strip()
+        if rows[j] and rows[j][1].strip():  # 빈 셀 제외
+            query = rows[j][1].strip()
             print(f">> 처리 중: 파일 {i+1}/{len(csv_files)}, 쿼리 {j+1}/{len(rows)} - {query}")
 
             save_checkpoint(i, j, start_p)
