@@ -65,7 +65,7 @@ def scrape_menu(driver, restaurant_url, restaurant_name, translated_name):
         
         # 페이지 로딩 대기 시간 줄임
         try:
-            WebDriverWait(driver, 5).until(
+            WebDriverWait(driver, 1).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.menu-price-list__row"))
             )
         except TimeoutException:
