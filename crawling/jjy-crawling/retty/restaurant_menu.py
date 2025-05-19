@@ -16,7 +16,7 @@ import pickle
 translator = googletrans.Translator()
 
 # 입력 파일 경로 설정
-input_file = 'crawling/jjy-crawling/retty/crawled_data/신주쿠_restaurant_details_preprocessed_eng_preprocessed_1502.csv'
+input_file = 'crawling/jjy-crawling/retty/crawled_data/시부야_restaurant_details_preprocessed_eng_preprocessed_1257.csv'
 
 # 출력 파일 경로 설정
 output_file = '신주쿠_menu_data.csv'
@@ -73,7 +73,7 @@ def scrape_menu(driver, restaurant_url, restaurant_name, translated_name):
             return []
         
         # 대기 시간 줄임
-        time.sleep(random.uniform(0.2, 0.4))
+        time.sleep(random.uniform(0.5, 0.8))
         
         # 메뉴 항목 찾기
         menu_items = driver.find_elements(By.CSS_SELECTOR, "div.menu-price-list__row")
