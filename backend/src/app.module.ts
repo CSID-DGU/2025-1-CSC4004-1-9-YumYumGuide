@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { AttractionModule } from './attraction/attraction.module';
 import { ConvenienceModule } from './convenience/convenience.module';
+import { ScheduleModule } from './schedule/schedule.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -30,6 +31,7 @@ import { ConvenienceModule } from './convenience/convenience.module';
     UserModule,
     AttractionModule,
     ConvenienceModule,
+    ScheduleModule,
   ],
   providers: []
 })
