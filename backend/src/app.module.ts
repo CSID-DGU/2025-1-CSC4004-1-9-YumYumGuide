@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { AttractionModule } from './attraction/attraction.module';
+import { ConvenienceModule } from './convenience/convenience.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +29,7 @@ import { AttractionModule } from './attraction/attraction.module';
     AuthModule,
     UserModule,
     AttractionModule,
+    ConvenienceModule,
   ],
   providers: []
 })
