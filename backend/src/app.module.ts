@@ -4,6 +4,7 @@ import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { AttractionModule } from './attraction/attraction.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +27,7 @@ import { UserModule } from './user/user.module';
     }),
     AuthModule,
     UserModule,
+    AttractionModule,
   ],
   providers: []
 })
