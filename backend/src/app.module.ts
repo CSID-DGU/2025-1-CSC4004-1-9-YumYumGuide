@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { AttractionModule } from './attraction/attraction.module';
 import { ConvenienceModule } from './convenience/convenience.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { FavoriteModule } from './favorite/favorite.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,6 +33,7 @@ import { ScheduleModule } from './schedule/schedule.module';
     AttractionModule,
     ConvenienceModule,
     ScheduleModule,
+    FavoriteModule,
   ],
   providers: []
 })
