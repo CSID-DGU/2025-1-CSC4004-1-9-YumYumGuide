@@ -1,3 +1,5 @@
+import { PaginationMetaDto } from './pagination-meta.dto';
+
 export class ApiResponseDto<T> {
   success: boolean;
   statusCode?: number;
@@ -11,5 +13,15 @@ export class ApiResponseDto<T> {
     this.message = message;
     this.data = data;
     this.error = error;
+  }
+}
+
+export class PaginationResponseDto<T> {
+  items: T[];
+  meta: PaginationMetaDto;
+
+  constructor(items: T[], total: number, page: number, take: number) {
+    this.items = items;
+    this.meta = new PaginationMetaDto(total, page, take);
   }
 }
