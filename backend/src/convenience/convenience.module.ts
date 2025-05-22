@@ -6,7 +6,7 @@ import { ConvenienceSchema } from './schema/convenience.schema';
 
 @Module({
   imports: [MongooseModule.forFeature([
-    { name: 'convience', schema: ConvenienceSchema },
+    { name: 'Convenience', schema: ConvenienceSchema },
   ])],
   controllers: [ConvenienceController],
   providers: [ConvenienceService],
