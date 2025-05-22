@@ -5,6 +5,24 @@ import { MongoClient } from 'mongodb';
 export class EventsController {
   private readonly uri = process.env.MONGODB_URI;
 
+  @Get()
+  async getAllEvents() {
+    console.log('[API] /api/home/events 전체 호출');
+    const client = new MongoClient(this.uri!);
+    try {
+      await client.connect();
+      const database = client.db('main');
+      const attractions = database.collection('attractions');
+      const allEvents = await attractions
+        .find({ category: '축제', date: { $exists: true, $ne: null } })
+        .project({ attraction: 1, description: 1, address: 1, image: 1, date: 1, price: 1 })
+        .toArray();
+      return allEvents;
+    } finally {
+      await client.close();
+    }
+  }
+
   @Get('future')
   async getFutureEvents() {
     console.log('[API] /api/home/events/future 호출됨');
@@ -15,7 +33,7 @@ export class EventsController {
       const attractions = database.collection('attractions');
       const allEvents = await attractions
         .find({ category: '축제', date: { $exists: true, $ne: null } })
-        .project({ attraction: 1, image: 1, date: 1 })
+        .project({ attraction: 1, description: 1, address: 1, image: 1, date: 1, price: 1 })
         .toArray();
 
       const today = new Date();

@@ -6,12 +6,16 @@ type Event = {
   attraction: string;
   image: string;
   date: string;
+  description?: string;
+  address?: string;
+  price?: string;
 };
 
 const EventList = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,23 +25,7 @@ const EventList = () => {
           throw new Error('Failed to fetch events');
         }
         const data = await response.json();
-        console.log(data, 'data');
-        // 이번달의 시작 월 구하기
-        const today = new Date();
-        const thisMonth = today.getMonth() + 1;
-
-        // date에서 월을 파싱해서 이번달 이상만 남기고 2개만 표시
-        const filteredEvents = data
-          .filter((event: Event) => {
-            if (!event.date) return false;
-            // date가 'M.D' 또는 'M.D-M.D' 형식이므로, 앞의 월만 추출
-            const monthStr = event.date.split('.')[0];
-            const month = parseInt(monthStr, 10);
-            return month >= thisMonth;
-          })
-          .slice(0, 2);
-        console.log(filteredEvents, 'filteredEvents');
-        setEvents(filteredEvents);
+        setEvents(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch events');
       } finally {
@@ -66,6 +54,7 @@ const EventList = () => {
           <div
             className="flex items-center justify-between bg-white rounded-xl shadow p-3 w-full hover:bg-gray-50 cursor-pointer h-[100px]"
             key={event._id}
+            onClick={() => setSelectedEvent(event)}
           >
             <div className="flex items-center gap-4">
               <Image
@@ -83,6 +72,32 @@ const EventList = () => {
             <Image src="/icons/arrow.svg" alt="화살표" width={24} height={24} className="mr-2" />
           </div>
         ))
+      )}
+
+      {/* 팝업 모달 */}
+      {selectedEvent && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-100"
+          onClick={() => setSelectedEvent(null)}
+        >
+          <div
+            className="bg-white rounded-xl p-6 w-[350px] relative"
+            onClick={e => e.stopPropagation()}
+          >
+            <img
+              src={selectedEvent.image}
+              alt={selectedEvent.attraction}
+              className="rounded-lg w-full h-48 object-cover"
+            />
+            <h2 className="text-xl font-bold mt-4">{selectedEvent.attraction}</h2>
+            {/* <p className="text-gray-500 mb-1">{selectedEvent.address}</p> */}
+            <div className="flex justify-between items-center text-gray-500 mb-1">
+              <span>{selectedEvent.date}</span>
+              <span>{selectedEvent.price ? `${selectedEvent.price}원` : '무료'}</span>
+            </div>
+            <p className="mt-2">{selectedEvent.description}</p>
+          </div>
+        </div>
       )}
     </div>
   );
