@@ -59,57 +59,46 @@ const Schedule = () => {
   const calendarMatrix = getCalendarMatrix(currentYear, currentMonth);
 
   // 일정 데이터
-  const schedules = [
+  type ScheduleType = {
+    id: number;
+    date: string;
+    title: string;
+    image: string;
+    spot: string;
+  };
+
+  // 오늘과 내일 날짜 구하기 (string)
+  function formatDate(dateObj: Date) {
+    const yyyy = dateObj.getFullYear();
+    const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(dateObj.getDate()).padStart(2, '0');
+    return `${yyyy}.${mm}.${dd}`;
+  }
+  const todayDateObj = new Date();
+  const tomorrowDateObj = new Date();
+  tomorrowDateObj.setDate(todayDateObj.getDate() + 1);
+  const todayStr = formatDate(todayDateObj);
+  const tomorrowStr = formatDate(tomorrowDateObj);
+
+  const schedules: ScheduleType[] = [
     {
       id: 1,
-      date: '2025.04.22',
+      date: todayStr,
       title: '도쿄타워',
       image: '/tokyo-tower.png',
       spot: 'Minato City, Tokyo'
     },
     {
       id: 2,
-      date: '2025.04.22',
+      date: tomorrowStr,
       title: '스카이트리',
       image: '/skytree.png',
       spot: 'Sumida City, Tokyo'
-    },
-    {
-      id: 3,
-      date: '2025.04.22',
-      title: '규카츠 모토무라 시부야점',
-      image: '/restaurant.png',
-      spot: 'Shibuya City, Tokyo'
-    },
-    {
-      id: 4,
-      date: '2025.04.22',
-      title: '규카츠 모토무라 시부야점',
-      image: '/restaurant.png',
-      spot: 'Shibuya City, Tokyo'
-    },
-    {
-      id: 5,
-      date: '2025.04.22',
-      title: '규카츠 모토무라 시부야점',
-      image: '/restaurant.png',
-      spot: 'Shibuya City, Tokyo'
-    },
-    {
-      id: 6,
-      date: '2025.04.22',
-      title: '규카츠 모토무라 시부야점',
-      image: '/restaurant.png',
-      spot: 'Shibuya City, Tokyo'
-    },
-    {
-      id: 7,
-      date: '2025.04.22',
-      title: '규카츠 모토무라 시부야점',
-      image: '/restaurant.png',
-      spot: 'Shibuya City, Tokyo'
-    },
+    }
   ];
+
+  // 일정이 있는 날짜 배열 (YYYY.MM.DD)
+  const scheduleDates = schedules.map(s => s.date);
 
   // 날짜 클릭 핸들러
   const handleDateClick = (date: number) => {
@@ -173,7 +162,7 @@ const Schedule = () => {
       </div>
 
       {/* 날짜 선택 (동적 달력) */}
-      <div className="date-block-cal px-2.5 mx-2.5 py-4 border border-gray-200 rounded-xl overflow-x-auto">
+      <div className="date-block-cal px-4 py-4 border border-gray-200 rounded-xl bg-white">
         <div className="date-title-cal flex items-center gap-2">
           <img src="/icons/airplane.png" alt="airplane" className="date-icon-cal" />
           <span>시작 일자</span>
@@ -183,7 +172,7 @@ const Schedule = () => {
           <span>{monthLabel}</span>
           <button onClick={handleNextMonth} className="text-2xl px-2">{'>'}</button>
         </div>
-        <div className="w-full min-w-[340px]">
+        <div className="w-full">
           <table className="calendar-table-cal w-full text-center">
             <thead>
               <tr>
@@ -195,25 +184,33 @@ const Schedule = () => {
             <tbody>
               {calendarMatrix.map((row, i) => (
                 <tr key={i}>
-                  {row.map((date, j) => (
-                    <td
-                      key={j}
-                      className={
-                        date
-                          ? isSelected(date)
-                            ? 'calendar-selected-cal bg-[#4CC88A] text-white font-bold rounded-lg transition-all duration-150 cursor-pointer w-9 h-9 md:w-10 md:h-10'
-                            : 'cursor-pointer w-9 h-9 md:w-10 md:h-10 transition-all duration-150'
-                          : ''
-                      }
-                      onClick={() => {
-                        if (!date) return;
-                        handleDateClick(date);
-                      }}
-                      style={{ minWidth: 36, minHeight: 36 }}
-                    >
-                      {date || ''}
-                    </td>
-                  ))}
+                  {row.map((date, j) => {
+                    // 날짜 포맷 맞추기
+                    const dateStr = date
+                      ? `${currentYear}.${String(currentMonth+1).padStart(2, '0')}.${String(date).padStart(2, '0')}`
+                      : '';
+                    return (
+                      <td
+                        key={j}
+                        className={
+                          date
+                            ? isSelected(date)
+                              ? 'calendar-selected-cal bg-[#4CC88A] text-white font-bold rounded-lg transition-all duration-150 cursor-pointer w-9 h-9 md:w-10 md:h-10'
+                              : scheduleDates.includes(dateStr)
+                                ? 'calendar-has-schedule transition-all duration-150 cursor-pointer w-9 h-9 md:w-10 md:h-10'
+                                : 'cursor-pointer w-9 h-9 md:w-10 md:h-10 transition-all duration-150'
+                            : ''
+                        }
+                        onClick={() => {
+                          if (!date) return;
+                          handleDateClick(date);
+                        }}
+                        style={{ minWidth: 36, minHeight: 36 }}
+                      >
+                        {date || ''}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
@@ -224,31 +221,52 @@ const Schedule = () => {
       {/* 일정 목록 */}
       <div className="schedule-list px-4 mt-6">
         <h3 className="list-title text-lg font-bold mb-4">나의 일정</h3>
-        
         <div className="schedule-scroll-container max-h-[580px] overflow-y-scroll scrollbar-hide pb-24">
           <div className="space-y-4">
-            {schedules.map(schedule => (
-              <Link href={`/detail/${schedule.id}`} key={schedule.id}>
-                <div className="schedule-item flex items-center bg-gray-50 p-3 rounded-xl">
-                  <div className="schedule-image w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0">
-                    <img src={schedule.image} alt={schedule.title} className="w-full h-full object-cover" />
+            {schedules.length === 0 ? (
+              <div
+                className="empty-schedule-box flex flex-col items-center justify-center mx-auto mt-8 mb-8"
+                style={{
+                  width: '100%',
+                  maxWidth: 400,
+                  height: 100,
+                  background: '#ededed',
+                  borderRadius: 20,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'background 0.2s',
+                }}
+                onClick={() => {
+                  router.push('/newSchedule');
+                }}
+              >
+                <div style={{ fontSize: 40, color: '#bdbdbd', marginBottom: 8 }}>+</div>
+                <div style={{ color: '#888', fontSize: 16 }}>일정 추가하기</div>
+              </div>
+            ) : (
+              schedules.map(schedule => (
+                <Link href={`/detail/${schedule.id}`} key={schedule.id}>
+                  <div className="schedule-item flex items-center bg-gray-50 p-3 rounded-xl">
+                    <div className="schedule-image w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0">
+                      <img src={schedule.image} alt={schedule.title} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="schedule-details flex-1">
+                      {schedule.date && (
+                        <div className="schedule-date text-xs text-gray-500 mb-1">
+                          <span className="calendar-icon mr-1">📅</span>
+                          <span>{schedule.date}</span>
+                        </div>
+                      )}
+                      <div className="schedule-title text-base font-medium">{schedule.title}</div>
+                      <div className="schedule-subtitle text-sm text-gray-600">{schedule.spot}</div>
+                    </div>
+                    <div className="schedule-arrow text-gray-400 flex-shrink-0 mr-2">
+                      <span>&gt;</span>
+                    </div>
                   </div>
-                  <div className="schedule-details flex-1">
-                    {schedule.date && (
-                      <div className="schedule-date text-xs text-gray-500 mb-1">
-                        <span className="calendar-icon mr-1">📅</span>
-                        <span>{schedule.date}</span>
-                      </div>
-                    )}
-                    <div className="schedule-title text-base font-medium">{schedule.title}</div>
-                    <div className="schedule-subtitle text-sm text-gray-600">{schedule.spot}</div>
-                  </div>
-                  <div className="schedule-arrow text-gray-400 flex-shrink-0 mr-2">
-                    <span>&gt;</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>

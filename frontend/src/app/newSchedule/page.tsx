@@ -12,7 +12,7 @@ const NewSchedule = () => {
   const [editingPlaceIndex, setEditingPlaceIndex] = useState<number | null>(null);
   const [selectedRegion, setSelectedRegion] = useState('치요다구');
   const router = useRouter();
-
+  
   // 팝업에서 선택 가능한 명소 목록 (예시)
   const popupPlaces = [
     { name: '스카이트리', meta: '관광 | ₩14,949' },
