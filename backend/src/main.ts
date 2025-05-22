@@ -8,6 +8,11 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true
   }));
+  // CORS 허용 추가
+  app.enableCors({
+    origin: true, // 프론트엔드 주소
+    credentials: true,
+  });
   await app.listen(process.env.PORT ?? 5000);
 }
 bootstrap();

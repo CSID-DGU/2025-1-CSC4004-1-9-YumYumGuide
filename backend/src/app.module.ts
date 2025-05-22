@@ -3,7 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TestModule } from './test/test.module';
 import * as Joi from 'joi';
-import { MongooseModule } from '@nestjs/mongoose';
+import { EventsModule } from './api/home/events.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,14 +13,8 @@ import { MongooseModule } from '@nestjs/mongoose';
         ENV: Joi.string().valid('dev', 'prod').required(),
       })
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
     TestModule,
-  ]
+    EventsModule,
+  ],
 })
 export class AppModule { }

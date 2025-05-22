@@ -16,7 +16,7 @@ const EventList = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('/api/events');
+        const response = await fetch('http://localhost:5050/api/home/events/future');
         if (!response.ok) {
           throw new Error('Failed to fetch events');
         }

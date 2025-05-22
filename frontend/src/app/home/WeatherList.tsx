@@ -99,7 +99,6 @@ interface WeatherApiResponse {
  */
 const getIconTypeFromConditionCode = (code: number): WeatherIconType => {
   // 날씨 조건 코드: https://www.weatherapi.com/docs/weather_conditions.json
-  console.log(code, 'code');
   if (code >= 1000 && code < 1003) {
     return 'sun'; // 맑음 (코드 1000-1002)
   } else if (code >= 1003 && code < 1063) {
@@ -247,7 +246,6 @@ const WeatherList = (): React.ReactElement => {
         if (!hour.time || hour.temp_c === undefined || hour.condition?.code === undefined) {
           return defaultWeather[0];
         }
-        console.log(hour, 'hour')
         // 시간 포맷팅 (HH:MM -> HH am/pm)
         const hourDate = new Date(hour.time);
         const formattedHour = hourDate.getHours() % 12 || 12;
