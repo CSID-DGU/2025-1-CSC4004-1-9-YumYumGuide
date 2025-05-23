@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="480.68399" viewBox="-162 -150 500 480.68399"><path d="M-162 232.084 61.673-150 338 328.612c-101.39-42.305-327.133-213.496-500-96.528Z" style="opacity:1;fill:#1e51a2;fill-opacity:1;stroke:none;stroke-width:13.8069px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"/><path d="M-161.103 330.684h391.128c-66.547-64.163-275.42-136.138-367.636-58.272-18.549 19.424-23.565 38.848-23.492 58.272z" style="opacity:1;fill:#009a52;fill-opacity:1;stroke:none;stroke-width:13.8069px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"/></svg>
+<?xml version="1.0"?>
+<svg width="500" height="480.68399" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g class="layer">
+  <title>Layer 1</title>
+  <g id="svg_3" transform="matrix(1 0 0 1 0 0)">
+   <path d="m0,382.08l223.67,-382.08l276.33,478.61c-101.39,-42.3 -327.13,-213.49 -500,-96.53z" fill="#000000" id="svg_1" stroke-width="13.81px"/>
+   <path d="m0.9,480.68l391.12,0c-66.54,-64.16 -275.42,-136.13 -367.63,-58.27c-18.55,19.43 -23.57,38.85 -23.49,58.27z" fill="#000000" id="svg_2" stroke-width="13.81px"/>
+  </g>
+ </g>
+</svg>
