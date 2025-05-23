@@ -1,0 +1,182 @@
+.div1 {
+  position: absolute;
+  top: 67px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  line-height: 22px;
+}
+.backIcon,
+.saveIcon {
+  position: absolute;
+  top: 56px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.backIcon { left: 37px; }
+.saveIcon { left: 419px; }
+
+.profileIcon {
+  position: absolute;
+  top: 129.33px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+}
+.div2 {
+  	position: absolute;
+  	top: 254px;
+  	left: 66px;
+  	letter-spacing: 0.5px;
+  	line-height: 24px;
+  	font-weight: 600;
+  	display: inline-block;
+  	width: 56px;
+}
+.box1 {
+  	position: absolute;
+  	top: 290px;
+  	left: 66px;
+  	border-radius: 16px;
+  	background-color: #f7f7f9;
+  	width: 368px;
+  	height: 48px;
+}
+.nickname {
+  	position: absolute;
+  	top: 307px;
+  	left: 83.58px;
+  	font-size: 16px;
+  	letter-spacing: 0.3px;
+  	line-height: 16px;
+  	display: inline-block;
+  	width: 101.1px;
+}
+.div3 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	font-size: 18px;
+  	letter-spacing: 0.5px;
+  	line-height: 24px;
+  	font-weight: 600;
+}
+.r1 {
+  	position: absolute;
+  	top: 41px;
+  	left: 0px;
+  	box-shadow: 0px 6px 16px rgba(180, 188, 201, 0.12);
+  	border-radius: 16px;
+  	background-color: #fff;
+  	width: 368px;
+  	height: 84px;
+}
+.box1_1 {
+  	position: absolute;
+  	top: 51px;
+  	left: 10.99px;
+    background-color: #f8f8f8;
+  	border-radius: 16px;
+  	width: 167px;
+  	height: 64px;
+}
+.div4 {
+  	position: absolute;
+  	top: 76px;
+  	left: 54.93px;
+  	letter-spacing: 0.3px;
+  	line-height: 16px;
+  	font-weight: 600;
+  	color: #000;
+  	text-align: center;
+  	display: inline-block;
+  	width: 74.7px;
+}
+.box1_2 {
+  	position: absolute;
+  	top: 51px;
+  	left: 188.94px;
+    background-color: #f8f8f8;
+  	border-radius: 16px;
+  	width: 168.1px;
+  	height: 64px;
+}
+.div5 {
+  	position: absolute;
+  	top: 76px;
+  	left: 231.79px;
+  	letter-spacing: 0.3px;
+  	line-height: 16px;
+  	font-weight: 600;
+  	color: #000;
+  	text-align: center;
+  	display: inline-block;
+  	width: 74.7px;
+}
+.rrr1 {
+  	position: absolute;
+  	top: 137px;
+  	left: 0px;
+  	border-radius: 16px;
+  	background-color: #f7f7f9;
+  	width: 368px;
+  	height: 48px;
+}
+.div6 {
+  	position: absolute;
+  	top: 154px;
+  	left: 17.58px;
+  	font-size: 16px;
+  	letter-spacing: 0.3px;
+  	line-height: 16px;
+  	display: inline-block;
+  	width: 81.3px;
+}
+.country {
+  	position: absolute;
+  	top: 355px;
+  	left: 66px;
+  	width: 368px;
+  	height: 185px;
+  	font-size: 13px;
+}
+.div {
+  	width: 100%;
+  	position: relative;
+  	background-color: #fff;
+  	height: 981px;
+  	overflow: hidden;
+  	text-align: left;
+  	font-size: 18px;
+  	color: #1b1e28;
+  	font-family: 'Kantumruy Pro';
+}
+.nicknameInput {
+  position: absolute;
+  top: 295px;
+  left: 80px;
+  width: 340px;
+  height: 38px;
+  font-size: 16px;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+.selected {
+  background: #fff !important;
+  border: 2px solid #27c289 !important;
+  box-sizing: border-box;
+}
+.saved {
+  filter: invert(57%) sepia(48%) saturate(706%) hue-rotate(98deg) brightness(91%) contrast(92%);
+}
+.box1_1,
+.box1_2 {
+  cursor: pointer;
+}

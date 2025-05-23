@@ -1,0 +1,76 @@
+.backgroundIcon {
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width: 500px;
+  height: 100%;
+  object-fit: cover;
+}
+.logoIcon {
+  position: absolute;
+  top: 178px;
+  left: 139px;
+  width: 218px;
+  height: 126px;
+  overflow: hidden;
+}
+.boxKakao {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 23px;
+  background-color: #fae300;
+  width: 335px;
+  height: 48px;
+}
+.kakaotalkIcon {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  width: 30px;
+  height: 30px;
+}
+.div1 {
+  position: absolute;
+  top: calc(50% - 6px);
+  left: 77px;
+  font-weight: 600;
+  display: inline-block;
+  width: 202px;
+  height: 18px;
+}
+.kakaoSection {
+  position: absolute;
+  top: 736px;
+  left: 82px;
+  width: 335px;
+  height: 48px;
+}
+.boxNaver {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 23px;
+  background-color: #00b900;
+  width: 335px;
+  height: 48px;
+}
+.naverSection {
+  position: absolute;
+  top: 795px;
+  left: 82px;
+  width: 335px;
+  height: 48px;
+  color: #fff;
+}
+.div {
+  width: 100%;
+  position: relative;
+  background-color: #27c289;
+  min-height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  font-size: 16px;
+  color: #391b1b;
+  font-family: Inter;
+}

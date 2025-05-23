@@ -36,15 +36,70 @@ class RettyRestaurantCrawler:
         
         # 지역 정보 맵핑
         self.area_info = {
+             # "구다": {
+            #     "selection_url": " https://retty.me/selection/area/sub1303/"
+            #  },
+            #  "나카메": {
+            #     "selection_url": "  https://retty.me/selection/area/sub703/"
+            #  },
+            #  "메구로": {
+            #     "selection_url": " https://retty.me/selection/area/sub704/"
+            #  },
+            #  "하마 마츠": {
+            #     "selection_url": " https://retty.me/selection/area/sub1602/"
+            #  },
+            #  "니혼 바시": {
+            #     "selection_url": "  https://retty.me/selection/area/sub1503/"
+            #  },
+            
+             
+            #  "아키하바라": {
+            #     "selection_url": "https://retty.me/selection/area/sub1102/"
+            #  },
+            #  "에비스": {
+            #     "selection_url": "https://retty.me/selection/area/sub701/"
+            #  },
+            #  "긴자": {
+            #     "selection_url": "https://retty.me/selection/area/sub201/"
+            #  },
+             
+            #  "신바시": {
+            #     "selection_url": "https://retty.me/selection/area/sub1601/"
+            #  },
+             
+             
+             
+            #  ,
+            #   "도쿄역 주변": {
+            #     "selection_url": "https://retty.me/selection/area/sub1501/"
+            #  },
+            
+            #  ,
+            # "시부야": {
+            #     "url": "https://retty.me/area/PRE13/ARE8/",
+            #     "selection_url": "https://retty.me/selection/area/are8/"
+            #  },
+            #  "신주쿠": {
+            #     "url": "https://retty.me/area/PRE13/ARE1/",
+            #     "selection_url": "https://retty.me/selection/area/are1/"
+            # },
+            # ,
+            # "우에노" : {
+            #      "selection_url" : "https://retty.me/selection/area/sub901/"
+            #  },
+            #  "아사쿠사": {
+            #     "selection_url": "https://retty.me/selection/area/sub902/"
+            # },
+            #  "이케부코로" : {
+            #      "selection_url" : "https://retty.me/selection/area/are662/"
+            #  }
+             
             #  "타마 치": {
             #     "selection_url": "https://retty.me/selection/area/sub1302/"
             #  },
             #    "마루노우치": {
             #     "selection_url": "https://retty.me/selection/area/sub1504/"
             #  },
-               "칸다": {
-                "selection_url": "https://retty.me/selection/area/sub1101/"
-             },
 
              "유라쿠초": {
                 "selection_url": "https://retty.me/selection/area/sub202/"
@@ -690,7 +745,8 @@ def main():
     parser = argparse.ArgumentParser(description='Retty.me 식당 정보 크롤러')
     parser.add_argument('--area', type=str, default='all',
                       help='크롤링할 지역 이름 (신주쿠, 시부야, all)')
-    parser.add_argument('--max', type=int, default=300,
+    
+    parser.add_argument('--max', type=int, default=500,
                       help='각 지역당 수집할 최대 식당 수')
     parser.add_argument('--headless', action='store_true', default=True,
                       help='헤드리스 모드 사용 여부')

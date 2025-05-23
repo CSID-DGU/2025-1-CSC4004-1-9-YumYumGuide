@@ -1,14 +1,63 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '../componets/nav';
 import './schedule.css';
 
 const Schedule = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   // 요일 데이터
   const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const dates = [18, 19, 20, 21, 22, 23, 24];
-  
+
+  // 오늘 날짜 기준 초기 연/월
+  const today = new Date();
+  const [currentYear, setCurrentYear] = useState(() => {
+    const year = searchParams.get('year');
+    return year ? parseInt(year) : today.getFullYear();
+  });
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const month = searchParams.get('month');
+    return month ? parseInt(month) : today.getMonth();
+  });
+
+  // URL 업데이트 함수
+  const updateURL = (year: number, month: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('year', year.toString());
+    params.set('month', month.toString());
+    router.push(`/schedule?${params.toString()}`);
+  };
+
+  // 범위 선택 상태
+  const [range, setRange] = useState<{start: number|null, end: number|null}>({start: null, end: null});
+
+  // 달력 데이터 생성 함수
+  function getCalendarMatrix(year: number, month: number) {
+    const firstDay = new Date(year, month, 1).getDay(); // 0: Sunday
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    const matrix = [];
+    let day = 1 - firstDay;
+    for (let i = 0; i < 6; i++) {
+      const row = [];
+      for (let j = 0; j < 7; j++) {
+        if (day > 0 && day <= lastDate) {
+          row.push(day);
+        } else {
+          row.push(null);
+        }
+        day++;
+      }
+      matrix.push(row);
+    }
+    return matrix;
+  }
+
+  const calendarMatrix = getCalendarMatrix(currentYear, currentMonth);
+
   // 일정 데이터
   const schedules = [
     {
@@ -62,44 +111,121 @@ const Schedule = () => {
     },
   ];
 
+  // 날짜 클릭 핸들러
+  const handleDateClick = (date: number) => {
+    if (range.start === null || (range.start !== null && range.end !== null)) {
+      setRange({start: date, end: null});
+    } else {
+      setRange({start: range.start, end: date});
+    }
+  };
+
+  // 날짜가 선택된 범위에 포함되는지
+  const isSelected = (date: number) => {
+    if (range.start !== null && range.end !== null) {
+      const [min, max] = [range.start, range.end].sort((a, b) => a - b);
+      return date >= min && date <= max;
+    }
+    return date === range.start;
+  };
+
+  // 월 이동 핸들러
+  const handlePrevMonth = () => {
+    let newYear = currentYear;
+    let newMonth = currentMonth;
+    
+    if (currentMonth === 0) {
+      newYear = currentYear - 1;
+      newMonth = 11;
+    } else {
+      newMonth = currentMonth - 1;
+    }
+    
+    setCurrentYear(newYear);
+    setCurrentMonth(newMonth);
+    updateURL(newYear, newMonth);
+  };
+
+  const handleNextMonth = () => {
+    let newYear = currentYear;
+    let newMonth = currentMonth;
+    
+    if (currentMonth === 11) {
+      newYear = currentYear + 1;
+      newMonth = 0;
+    } else {
+      newMonth = currentMonth + 1;
+    }
+    
+    setCurrentYear(newYear);
+    setCurrentMonth(newMonth);
+    updateURL(newYear, newMonth);
+  };
+
+  // 월/일 포맷
+  const monthLabel = `${currentYear}년 ${currentMonth + 1}월`;
+
   return (
-    <div className="schedule-container max-w-[500px] mx-auto bg-white min-h-screen pb-20">
+    <div className="min-h-screen bg-white flex flex-col pb-20 max-w-[500px] mx-auto px-2.5">
       {/* 헤더 */}
       <div className="schedule-header flex justify-between items-center p-4">
         <h1 className="header-title text-xl font-medium">일정</h1>
       </div>
 
-      {/* 날짜 선택 */}
-      <div className="date-selector px-4 py-2 flex justify-between items-center">
-        <h2 className="date-title text-lg font-medium">4월 22일</h2>
-        <div className="date-navigation flex gap-2">
-          <button className="nav-button w-6 h-6 flex items-center justify-center">&lt;</button>
-          <button className="nav-button w-6 h-6 flex items-center justify-center">&gt;</button>
+      {/* 날짜 선택 (동적 달력) */}
+      <div className="date-block-cal px-2.5 mx-2.5 py-4 border border-gray-200 rounded-xl overflow-x-auto">
+        <div className="date-title-cal flex items-center gap-2">
+          <img src="/icons/airplane.png" alt="airplane" className="date-icon-cal" />
+          <span>시작 일자</span>
         </div>
-      </div>
-
-      {/* 요일 및 날짜 */}
-      <div className="week-view grid grid-cols-7 text-center bg-gray-50 p-4 rounded-xl mx-4">
-        {weekDays.map((day, index) => (
-          <div 
-            className={`day-column relative flex flex-col items-center ${[21, 22, 23].includes(dates[index]) ? 'bg-[#B3E9D5] rounded-lg' : ''}`} 
-            key={index}
-          >
-            <div className="day-label text-sm text-gray-400 mb-2 weekly">{day}</div>
-            <div className="date-container">
-              <div className={`date-number text-lg ${[21, 22, 23].includes(dates[index]) ? 'text-black font-semibold' : 'text-gray-500'}`}>
-                {dates[index]}
-              </div>
-            </div>
-          </div>
-        ))}
+        <div className="calendar-header-cal font-bold text-lg my-2 flex items-center gap-2">
+          <button onClick={handlePrevMonth} className="text-2xl px-2">{'<'}</button>
+          <span>{monthLabel}</span>
+          <button onClick={handleNextMonth} className="text-2xl px-2">{'>'}</button>
+        </div>
+        <div className="w-full min-w-[340px]">
+          <table className="calendar-table-cal w-full text-center">
+            <thead>
+              <tr>
+                {weekDays.map((day, i) => (
+                  <th key={i} className="text-gray-400 font-semibold text-base py-1">{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {calendarMatrix.map((row, i) => (
+                <tr key={i}>
+                  {row.map((date, j) => (
+                    <td
+                      key={j}
+                      className={
+                        date
+                          ? isSelected(date)
+                            ? 'calendar-selected-cal bg-[#4CC88A] text-white font-bold rounded-lg transition-all duration-150 cursor-pointer w-9 h-9 md:w-10 md:h-10'
+                            : 'cursor-pointer w-9 h-9 md:w-10 md:h-10 transition-all duration-150'
+                          : ''
+                      }
+                      onClick={() => {
+                        if (!date) return;
+                        handleDateClick(date);
+                      }}
+                      style={{ minWidth: 36, minHeight: 36 }}
+                    >
+                      {date || ''}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* 일정 목록 */}
       <div className="schedule-list px-4 mt-6">
         <h3 className="list-title text-lg font-bold mb-4">나의 일정</h3>
         
-        <div className="schedule-scroll-container max-h-[580px] overflow-y-scroll scrollbar-hide">
+        <div className="schedule-scroll-container max-h-[580px] overflow-y-scroll scrollbar-hide pb-24">
           <div className="space-y-4">
             {schedules.map(schedule => (
               <Link href={`/detail/${schedule.id}`} key={schedule.id}>
