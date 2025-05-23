@@ -68,6 +68,7 @@ export default function ScheduleResult() {
   const [popupLeft, setPopupLeft] = useState(0);
   const [openedActionIdx, setOpenedActionIdx] = useState<number | null>(null);
   const [showPlaceChange, setShowPlaceChange] = useState(false);
+  const [showAddPlace, setShowAddPlace] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
   const [changeIdx, setChangeIdx] = useState<number | null>(null);
@@ -229,13 +230,21 @@ export default function ScheduleResult() {
           <div className="h-5 w-px bg-gray-200 mx-2" />
           <div>장소</div>
         </div>
-        <button
-          ref={filterBtnRef}
-          className="w-10 h-10 flex items-center justify-center text-2xl"
-          onClick={handleFilterBtnClick}
-        >
-          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter"><polygon points="22 3 2 3 10 14 10 21 14 21 14 14 22 3"></polygon></svg>
-        </button>
+        <div className="flex gap-2">
+          <button
+            ref={filterBtnRef}
+            className="w-10 h-10 flex items-center justify-center text-2xl"
+            onClick={handleFilterBtnClick}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter"><polygon points="22 3 2 3 10 14 10 21 14 21 14 14 22 3"></polygon></svg>
+          </button>
+          <button
+            className="w-10 h-10 flex items-center justify-center text-2xl"
+            onClick={() => setShowAddPlace(true)}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
       </div>
       {/* 일정 카드 리스트 */}
       <div className="px-[30px]">
@@ -340,6 +349,47 @@ export default function ScheduleResult() {
                   animation: trade-down 0.4s forwards;
                 }
               `}</style>
+            </div>
+          </div>
+        </>
+      )}
+      {showAddPlace && (
+        <>
+          {/* 오버레이: 팝업 바깥 클릭 시 닫힘 */}
+          <div className="fixed inset-0 bg-black/30 z-[100]" onClick={() => setShowAddPlace(false)} />
+          <div className="fixed inset-0 z-[110] flex justify-center items-center">
+            <div className="bg-white rounded-2xl p-6 w-[340px] max-w-full relative h-[720px]">
+              <button className="absolute left-4 top-4 text-2xl" onClick={() => setShowAddPlace(false)}>←</button>
+              <div className="text-center font-bold text-lg mb-6">명소 추가</div>
+              {/* 검색창 */}
+              <div className="flex items-center mb-4 w-full">
+                <div className="flex-1 flex items-center border border-gray-200 rounded-xl bg-white px-4 py-3 w-full">
+                  <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                  <input
+                    className="flex-1 border-none outline-none bg-transparent"
+                    placeholder="검색하기..."
+                  />
+                </div>
+              </div>
+              {/* 추천 명소 리스트 */}
+              <div className="space-y-4 max-h-[520px] overflow-y-auto">
+                {recommendedPlaces.map((place, i) => (
+                  <div key={i} className="bg-white rounded-2xl shadow p-6 flex flex-col items-start relative">
+                    <div className="font-bold text-lg">{place.name}</div>
+                    <div className="text-gray-500 text-sm mt-1">{icons[place.type as PlaceType]} {place.type} | ₩{place.price.toLocaleString()}</div>
+                    <button
+                      className="absolute right-4 bottom-4 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow"
+                      onClick={() => {
+                        mockData[activeTab - 1].places.push(place);
+                        setShowAddPlace(false);
+                      }}
+                    >
+                      +
+                    </button>
+                    <div className="mt-2 text-green-600 cursor-pointer font-semibold">상세보기 &gt;</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </>
