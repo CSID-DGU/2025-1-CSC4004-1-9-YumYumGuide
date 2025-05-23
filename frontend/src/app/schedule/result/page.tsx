@@ -58,6 +58,7 @@ const categories = [
   { key: '맛집', icon: '🍜' },
 ];
 
+
 export default function ScheduleResult() {
   const [activeTab, setActiveTab] = useState(2);
   const [filterOpen, setFilterOpen] = useState(false);
