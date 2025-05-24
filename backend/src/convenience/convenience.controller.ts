@@ -1,9 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ConvenienceService } from './convenience.service';
-import { CreateConvenienceDto } from './dto/create-convenience.dto';
-import { UpdateConvenienceDto } from './dto/update-convenience.dto';
-import { ConvenienceCategory } from './enums/convenience-category.enum';
-import { ConvenienceCategoryPipe } from './pipe/convenience-category.pipe';
 import { GetConvenienceDto } from './dto/get-conveneience.dto';
 
 @Controller('convenience')
