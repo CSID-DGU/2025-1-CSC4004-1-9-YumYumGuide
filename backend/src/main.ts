@@ -31,6 +31,6 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true
   }));
-  await app.listen(process.env.PORT ?? 8080);
+  await app.listen(process.env.PORT || 5000); // elastick beanstalk 포트 번호로 실행 되어야 포트포워딩이 된다.
 }
 bootstrap();
