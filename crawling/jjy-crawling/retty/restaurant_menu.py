@@ -16,9 +16,9 @@ import pickle
 translator = googletrans.Translator()
 
 # 입력 파일 경로 설정
-input_file = 'crawling/jjy-crawling/retty/crawled_data/니혼바시_restaurant_details_eng_preprocessed_1246.csv'
+input_file = 'backend/data/restaurant/도쿄역 주변_restaurant_details_eng_preprocessed_1501.csv'
 # 출력 파일 경로 설정
-output_file = '구다_menu_data.csv'
+output_file = 'backend/data/menu/도쿄역 주변_menu_data.csv'
 
 # 체크포인트 파일 경로 설정
 checkpoint_file = 'retty_scraper_checkpoint.pkl'
