@@ -16,10 +16,9 @@ import pickle
 translator = googletrans.Translator()
 
 # 입력 파일 경로 설정
-input_file = 'crawling/jjy-crawling/retty/crawled_data/시부야_restaurant_details_preprocessed_eng_preprocessed_1257.csv'
-
+input_file = 'crawling/jjy-crawling/retty/crawled_data/니혼바시_restaurant_details_eng_preprocessed_1246.csv'
 # 출력 파일 경로 설정
-output_file = '신주쿠_menu_data.csv'
+output_file = '니혼바시시_menu_data.csv'
 
 # 체크포인트 파일 경로 설정
 checkpoint_file = 'retty_scraper_checkpoint.pkl'
@@ -65,7 +64,7 @@ def scrape_menu(driver, restaurant_url, restaurant_name, translated_name):
         
         # 페이지 로딩 대기 시간 줄임
         try:
-            WebDriverWait(driver, 1).until(
+            WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.menu-price-list__row"))
             )
         except TimeoutException:
@@ -196,7 +195,7 @@ def main():
                 save_checkpoint(current_index + 1)
             
             # 차단 방지를 위한 랜덤 대기 시간 (1~3초로 줄임)
-            wait_time = random.uniform(0.1, 0.3)
+            wait_time = random.uniform(0.5, 1)
             print(f"{wait_time:.1f}초 대기 중...")
             time.sleep(wait_time)
             
