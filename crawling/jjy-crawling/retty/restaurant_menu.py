@@ -20,7 +20,6 @@ translator = googletrans.Translator()
 input_file = 'backend/data/restaurant/도쿄역 주변_restaurant_details_eng_preprocessed_1501.csv'
 # 출력 파일 경로 설정
 output_file = 'backend/data/menu/도쿄역 주변_menu_data.csv'
->>>>>>> ff902da808c5cf78eb62d2513944bbf5ec92e6f1
 
 # 체크포인트 파일 경로 설정
 checkpoint_file = 'retty_scraper_checkpoint.pkl'
