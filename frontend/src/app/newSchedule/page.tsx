@@ -6,13 +6,22 @@ import Nav from '../componets/nav';
 import './newSchedule.css';
 import dayjs from 'dayjs';
 
+const flightTimes = [
+  { label: '오전', value: 'morning' },
+  { label: '오후', value: 'afternoon' },
+  { label: '저녁', value: 'evening' },
+  { label: '새벽', value: 'dawn' },
+];
+
 const NewSchedule = () => {
-  const [budget, setBudget] = useState(1100000);
+  const [budget, setBudget] = useState(0);
   const [isPlacePopupOpen, setIsPlacePopupOpen] = useState(false);
-  const [selectedPlaces, setSelectedPlaces] = useState<string[]>(['규카츠 모토무라 시부야점']);
+  const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
   const [editingPlaceIndex, setEditingPlaceIndex] = useState<number | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState('치요다구');
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
   const router = useRouter();
+  const [flightDeparture, setFlightDeparture] = useState('morning');
+  const [flightArrival, setFlightArrival] = useState('morning');
   
   // 팝업에서 선택 가능한 명소 목록 (예시)
   const popupPlaces = [
@@ -68,8 +77,24 @@ const NewSchedule = () => {
   };
 
   const handleEditPlace = (index: number) => {
+    if (selectedRegions.length === 0) {
+      alert('먼저 여행지역을 선택해 주세요.');
+      return;
+    }
     setEditingPlaceIndex(index);
     setIsPlacePopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    if (selectedRegions.length === 0) {
+      alert('먼저 여행지역을 선택해 주세요.');
+      return;
+    }
+    setIsPlacePopupOpen(true);
+  };
+
+  const handleDeletePlace = (index: number) => {
+    setSelectedPlaces(selectedPlaces.filter((_, i) => i !== index));
   };
   
   const regionData = [
@@ -97,10 +122,48 @@ const NewSchedule = () => {
     { name: '고토구', icon: '/icons/tokyo/22_Koto.svg' },
     { name: '에도가와구', icon: '/icons/tokyo/23_Edogawa.svg' },
   ];
-  
+
+  // Calculate trip duration
+  const calculateTripDuration = () => {
+    const startDate = dayjs(`${startCalendar.year}-${startCalendar.month + 1}-${startCalendar.selected}`);
+    const endDate = dayjs(`${endCalendar.year}-${endCalendar.month + 1}-${endCalendar.selected}`);
+    return endDate.diff(startDate, 'day') + 1;
+  };
+
   return (
     <div className="new-schedule-container">
       <div className="text-center p-6 font-bold text-[24px]">새로운 일정</div>
+      {/* 비행기 출발/도착 시간 선택 UI */}
+      <div className="flight-time-section">
+        <div className="flight-time-block">
+          <span className="flight-time-title"><img src="/icons/clock.png" alt="clock" className="flight-time-icon" /> 비행기 출발 시간</span>
+          <div className="flight-time-list">
+            {flightTimes.map(t => (
+              <div
+                key={t.value}
+                className={`flight-time-item${flightDeparture === t.value ? ' flight-time-selected' : ''}`}
+                onClick={() => setFlightDeparture(t.value)}
+              >
+                {t.label}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flight-time-block">
+          <span className="flight-time-title"><img src="/icons/clock.png" alt="clock" className="flight-time-icon" /> 비행기 도착 시간</span>
+          <div className="flight-time-list">
+            {flightTimes.map(t => (
+              <div
+                key={t.value}
+                className={`flight-time-item${flightArrival === t.value ? ' flight-time-selected' : ''}`}
+                onClick={() => setFlightArrival(t.value)}
+              >
+                {t.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="new-schedule-content">
         {/* 시작/종료 날짜 */}
         <div className="date-section-cal">
@@ -196,13 +259,20 @@ const NewSchedule = () => {
         </div>
         {/* 여행 지역 */}
         <div className="region-section">
-          <div className="region-title">여행 지역</div>
+          <div className="region-title">여행 지역 ({selectedRegions.length}/{calculateTripDuration()}개 선택 가능)</div>
           <div className="region-list">
             {regionData.map(region => (
               <div
                 key={region.name}
-                className={`region-item ${selectedRegion === region.name ? 'region-selected' : ''}`}
-                onClick={() => setSelectedRegion(region.name)}
+                className={`region-item ${selectedRegions.includes(region.name) ? 'region-selected' : ''}`}
+                onClick={() => {
+                  const duration = calculateTripDuration();
+                  if (selectedRegions.includes(region.name)) {
+                    setSelectedRegions(selectedRegions.filter(r => r !== region.name));
+                  } else if (selectedRegions.length < duration) {
+                    setSelectedRegions([...selectedRegions, region.name]);
+                  }
+                }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
                 <img
@@ -223,13 +293,18 @@ const NewSchedule = () => {
               <div 
                 key={place} 
                 className="place-item place-selected"
-                onClick={() => handleEditPlace(idx)}
               >
-                <span className="place-name">{place}</span>
-            </div>
+                <span className="place-name" onClick={() => handleEditPlace(idx)}>{place}</span>
+                <button 
+                  className="place-delete-btn"
+                  onClick={() => handleDeletePlace(idx)}
+                >
+                  ×
+                </button>
+              </div>
             ))}
             {editingPlaceIndex === null && selectedPlaces.length < 5 && (
-            <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
+            <div className="place-item place-add" onClick={handleAddPlaceClick}>+</div>
             )}
           </div>
         </div>
