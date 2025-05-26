@@ -17,7 +17,7 @@ from urllib.parse import quote
 # from tqdm import tqdm  # 진행률 표시용
 
 class RettyRestaurantCrawler:
-    def __init__(self, delay_min=0.03, delay_max=0.05, max_retries=2, headless=True, batch_translate=True):
+    def __init__(self, delay_min=0.04, delay_max=0.06, max_retries=2, headless=True, batch_translate=True):
         """
         retty.me 웹사이트의 식당 정보를 크롤링하는 클래스
         
@@ -37,21 +37,21 @@ class RettyRestaurantCrawler:
         # 지역 정보 맵핑
         self.area_info = {
 
-            "구다": {
-                "selection_url": " https://retty.me/selection/area/sub1303/"
-             },
-             "나카메": {
-                "selection_url": "  https://retty.me/selection/area/sub703/"
-             },
-             "메구로": {
-                "selection_url": " https://retty.me/selection/area/sub704/"
-             },
-             "하마 마츠": {
-                "selection_url": " https://retty.me/selection/area/sub1602/"
-             },
-             "니혼 바시": {
-                "selection_url": "  https://retty.me/selection/area/sub1503/"
-             },
+            # "구다": {
+            #     "selection_url": " https://retty.me/selection/area/sub1303/"
+            #  },
+            #  "나카메": {
+            #     "selection_url": "  https://retty.me/selection/area/sub703/"
+            #  },
+            #  "메구로": {
+            #     "selection_url": " https://retty.me/selection/area/sub704/"
+            #  },
+            #  "하마 마츠": {
+            #     "selection_url": " https://retty.me/selection/area/sub1602/"
+            #  },
+            #  "니혼 바시": {
+            #     "selection_url": "  https://retty.me/selection/area/sub1503/"
+            #  },
             
              
             #  "아키하바라": {
@@ -70,10 +70,10 @@ class RettyRestaurantCrawler:
              
              
              
-            #  ,
-            #   "도쿄역 주변": {
-            #     "selection_url": "https://retty.me/selection/area/sub1501/"
-            #  },
+             
+              "도쿄역 주변": {
+                "selection_url": "https://retty.me/selection/area/sub1501/"
+             },
             
             #  ,
             # "시부야": {
@@ -95,19 +95,19 @@ class RettyRestaurantCrawler:
             #      "selection_url" : "https://retty.me/selection/area/are662/"
             #  }
              
-             "타마 치": {
-                "selection_url": "https://retty.me/selection/area/sub1302/"
-             },
-               "마루노우치": {
-                "selection_url": "https://retty.me/selection/area/sub1504/"
-             },
-               "칸다": {
-                "selection_url": "https://retty.me/selection/area/sub1101/"
-             },
+            #  "타마 치": {
+            #     "selection_url": "https://retty.me/selection/area/sub1302/"
+            #  },
+            #    "마루노우치": {
+            #     "selection_url": "https://retty.me/selection/area/sub1504/"
+            #  },
+            #    "칸다": {
+            #     "selection_url": "https://retty.me/selection/area/sub1101/"
+            #  },
 
-             "유라쿠초": {
-                "selection_url": "https://retty.me/selection/area/sub202/"
-             }    
+            #  "유라쿠초": {
+            #     "selection_url": "https://retty.me/selection/area/sub202/"
+            #  }    
         }
         
         # 이미 수집한 식당 URL 추적 (지역별)
@@ -146,8 +146,8 @@ class RettyRestaurantCrawler:
 
         # WebDriver 초기화
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.set_page_load_timeout(4)  # 페이지 로드 타임아웃 설정
-        self.driver.implicitly_wait(0.3)  # 암시적 대기 시간 감소
+        self.driver.set_page_load_timeout(5)  # 페이지 로드 타임아웃 설정
+        self.driver.implicitly_wait(0.5)  # 암시적 대기 시간 감소
         
         # 번역 풀 생성
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
@@ -759,8 +759,8 @@ def main():
     
     # 크롤러 초기화
     crawler = RettyRestaurantCrawler(
-        delay_min=0.01,
-        delay_max=0.03,
+        delay_min=0.02,
+        delay_max=0.04,
         max_retries=2,
         headless=args.headless,
         batch_translate=True

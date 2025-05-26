@@ -3,7 +3,7 @@ import re
 import os
 
 # 원본 파일 경로
-input_csv_path = 'crawling/jjy-crawling/retty/crawled_data/도쿄역 주변_restaurant_details_2000.csv'  
+input_csv_path = 'crawling/jjy-crawling/retty/crawled_data/마루노우치_restaurant_details_1500.csv'  
 
 # 결과물을 저장할 폴더 이름
 output_folder = 'crawling/jjy-crawling/retty/crawled_data'
