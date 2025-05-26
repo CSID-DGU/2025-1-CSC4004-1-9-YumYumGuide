@@ -100,46 +100,51 @@ def find_from_ameba(find):
         with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
             csv.writer(f).writerow(['restaurants', 'title', 'content', 'link'])
 
-    driver.get(f"https://search.ameba.jp/general/entry/{find}.html?p=1&sortField=1")
-    time.sleep(1)
-
     count = 0
-    for p in range(start_p, 11):
-        if count >= 2:
-            return
-        print(f">> p: {p}")
-        post = driver.find_elements(By.XPATH, f'//*[@id="page"]/main/div[3]/div[1]/section/ul/li[{p}]')
-        for item in post:
-            try:
-                title = item.find_element(By.CLASS_NAME, 'PcEntryListItem_EntryTitle').text.strip()
-                link = item.find_element(By.CLASS_NAME, 'PcEntryListItem_Link').get_attribute('href')
-            except NoSuchElementException:
+    for page in range(1, 5):
+        driver.get(f"https://search.ameba.jp/general/entry/{find}.html?p={page}&sortField=1")
+        time.sleep(1)
+
+        for p in range(start_p, 11):
+            if count >= 2:
                 return
-
-            if link:
-                driver.execute_script("window.open('', '_blank');")
-                driver.switch_to.window(driver.window_handles[1])
-                driver.get(link)
-                time.sleep(3)
-
+            
+            print(f">> p: {p}")
+            post = driver.find_elements(By.XPATH, f'//*[@id="page"]/main/div[3]/div[1]/section/ul/li[{p}]')
+            
+            for item in post:
                 try:
-                    content = driver.find_element(By.XPATH, '//*[@id="entryBody"]').text.strip()
+                    title = item.find_element(By.CLASS_NAME, 'PcEntryListItem_EntryTitle').text.strip()
+                    link = item.find_element(By.CLASS_NAME, 'PcEntryListItem_Link').get_attribute('href')
                 except NoSuchElementException:
-                    content = ''
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
+                    continue
 
-                title = translate_text(title)
-                content = translate_text(content)
-                count += 1
+                if link:
+                    driver.execute_script("window.open('', '_blank');")
+                    driver.switch_to.window(driver.window_handles[1])
+                    driver.get(link)
+                    time.sleep(3)
 
-                with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
-                    csv.writer(f).writerow([find, title, content, link])
+                    try:
+                        content = driver.find_element(By.XPATH, '//*[@id="entryBody"]').text.strip()
+                    except NoSuchElementException:
+                        content = ''
 
-                save_checkpoint(file_index, query_index, p)
-                driver.close()
-                driver.switch_to.window(driver.window_handles[0])
-                print(f"[post-{p}] 제목: {title}")
-                print("내용:", content[:30])
-                time.sleep(1)
+                    title = translate_text(title)
+                    content = translate_text(content)
+                    count += 1
+
+                    with open(csv_path, 'a', newline='', encoding='utf-8-sig') as f:
+                        csv.writer(f).writerow([find, title, content, link])
+
+                    save_checkpoint(file_index, query_index, p)
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
+                    print(f"[post-{p}] 제목: {title}")
+                    print("내용:", content[:30])
+                    time.sleep(1)
 
     driver.quit()
 

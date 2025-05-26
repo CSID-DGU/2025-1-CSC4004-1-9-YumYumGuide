@@ -36,8 +36,12 @@ class RettyRestaurantCrawler:
         
         # 지역 정보 맵핑
         self.area_info = {
+<<<<<<< HEAD
 
             # "구다": {
+=======
+             # "구다": {
+>>>>>>> ff902da808c5cf78eb62d2513944bbf5ec92e6f1
             #     "selection_url": " https://retty.me/selection/area/sub1303/"
             #  },
             #  "나카메": {
@@ -101,6 +105,7 @@ class RettyRestaurantCrawler:
             #    "마루노우치": {
             #     "selection_url": "https://retty.me/selection/area/sub1504/"
             #  },
+<<<<<<< HEAD
             #    "칸다": {
             #     "selection_url": "https://retty.me/selection/area/sub1101/"
             #  },
@@ -108,6 +113,12 @@ class RettyRestaurantCrawler:
             #  "유라쿠초": {
             #     "selection_url": "https://retty.me/selection/area/sub202/"
             #  }    
+=======
+
+             "유라쿠초": {
+                "selection_url": "https://retty.me/selection/area/sub202/"
+             }
+>>>>>>> ff902da808c5cf78eb62d2513944bbf5ec92e6f1
         }
         
         # 이미 수집한 식당 URL 추적 (지역별)
@@ -156,7 +167,7 @@ class RettyRestaurantCrawler:
     def _load_visited_restaurants(self):
         """이미 방문한 식당 URL 목록 로드"""
         visited = {}
-        data_dir = "crawled_data"
+        data_dir = "crawling/jjy-crawling/retty/crawled_data"
         visited_file = os.path.join(data_dir, "visited_restaurants.pkl")
         
         # 디렉토리 확인 및 생성
@@ -182,7 +193,7 @@ class RettyRestaurantCrawler:
 
     def _save_visited_restaurants(self):
         """방문한 식당 URL 목록 저장"""
-        data_dir = "crawled_data"
+        data_dir = "crawling/jjy-crawling/retty/crawled_data"
         visited_file = os.path.join(data_dir, "visited_restaurants.pkl")
         
         try:
@@ -479,7 +490,7 @@ class RettyRestaurantCrawler:
     def _get_total_restaurant_count(self, area_name):
         """특정 지역에서 이미 수집한 식당 수 확인"""
         # 기존 파일에서 식당 수 확인
-        data_dir = "crawled_data"
+        data_dir = "crawling/jjy-crawling/retty/crawled_data"
         existing_count = 0
         
         # 디렉토리가 없으면 0 반환
@@ -640,7 +651,7 @@ class RettyRestaurantCrawler:
         
         return pd.DataFrame(results)
 
-    def save_to_csv(self, df, area_name, output_dir='crawled_data'):
+    def save_to_csv(self, df, area_name, output_dir='crawling/jjy-crawling/retty/crawled_data'):
         """DataFrame을 증분 CSV 파일로 저장"""
         if df.empty:
             print(f"저장할 데이터가 없습니다: {area_name}")
@@ -687,7 +698,7 @@ class RettyRestaurantCrawler:
             print("저장할 데이터가 없습니다.")
             return None
 
-    def crawl_all_areas(self, max_restaurants=300, output_dir='crawled_data'):
+    def crawl_all_areas(self, max_restaurants=250, output_dir='crawling/jjy-crawling/retty/crawled_data'):
         """모든 지역 크롤링 및 증분 CSV 파일 저장"""
         # 출력 디렉토리 생성
         os.makedirs(output_dir, exist_ok=True)
@@ -749,11 +760,12 @@ def main():
     parser = argparse.ArgumentParser(description='Retty.me 식당 정보 크롤러')
     parser.add_argument('--area', type=str, default='all',
                       help='크롤링할 지역 이름 (신주쿠, 시부야, all)')
+    
     parser.add_argument('--max', type=int, default=500,
                       help='각 지역당 수집할 최대 식당 수')
     parser.add_argument('--headless', action='store_true', default=True,
                       help='헤드리스 모드 사용 여부')
-    parser.add_argument('--output', type=str, default='crawled_data',
+    parser.add_argument('--output', type=str, default='crawling/jjy-crawling/retty/crawled_data',
                       help='출력 디렉토리 경로')
     args = parser.parse_args()
     
