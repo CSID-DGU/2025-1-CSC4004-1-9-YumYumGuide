@@ -9,24 +9,27 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KakaoStrategy } from './strategy/kakao.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([
-    { name: User.name, schema: UserSchema }
-  ]),
-  PassportModule.register({ defaultStrategy: 'jwt' }),
-  JwtModule.registerAsync({
-    imports: [ConfigModule],
-    useFactory: async (configService: ConfigService) => ({
-      secret: configService.get<string>('JWT_SECRET'),
-      signOptions: { expiresIn: '24h' },
+  imports: [
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema }
+    ]),
+    UserModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '24h' },
+      }),
+      inject: [ConfigService],
     }),
-    inject: [ConfigService],
-  }),
     HttpModule,
-
   ],
   controllers: [AuthController],
   providers: [AuthService, KakaoStrategy, JwtStrategy],
+  // exports: [AuthService] // 필요하다면 AuthService export
 })
 export class AuthModule { }

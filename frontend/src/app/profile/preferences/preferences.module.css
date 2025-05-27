@@ -462,10 +462,9 @@
   letter-spacing: 0.5px;
   line-height: 24px;
   font-weight: 600;
-  color: #1b1e28;
-  text-align: left;
   display: inline-block;
-  width: 104.1px;
+  width: auto;
+  white-space: nowrap;
 }
 .box7_1 {
   position: absolute;

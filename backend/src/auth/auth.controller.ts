@@ -9,6 +9,8 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Authorization } from './custom-guards-decorators/get-user.decorators';
 import { JwtAuthGuard } from './strategy/jwt.strategy';
 import { ConfigService } from '@nestjs/config';
+import { UserService } from 'src/user/user.service';
+import { UserDocument } from 'src/user/schemas/user.schema';
 
 @Controller('api/auth')
 export class AuthController {
@@ -16,7 +18,8 @@ export class AuthController {
 
   constructor(
     private authService: AuthService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private userService: UserService,
   ) { }
 
   // 인증된 회원이 들어갈 수 있는 테스트 URL 경로
@@ -46,7 +49,7 @@ export class AuthController {
         throw new InternalServerErrorException('User information not found');
       }
 
-      const user = req.user;
+      const user = req.user as UserDocument;
       
       // 이전 토큰이 있다면 삭제
       await this.authService.invalidateExistingTokens(user.id);
@@ -58,17 +61,22 @@ export class AuthController {
       this.logger.verbose(`User signed in successfully: ${JSON.stringify(userResponseDto)}`);
     
       const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
-      // 토큰을 쿠키에 저장하고 홈 화면으로 리다이렉트
+      
+      // 사용자 취향 정보 확인
+      const hasPreferences = await this.userService.checkIfUserHasPreferences(user.id);
+
       res.cookie('auth_token', jwtToken, {
-        httpOnly: false, // 개발환경에서만 false
-        secure: false,   // 개발환경에서만 false
-        sameSite: 'lax', // 또는 'strict'
-        // secure: process.env.NODE_ENV === 'production',
-        // sameSite: 'none',
-        // domain: 'localhost',
-        maxAge: 24 * 60 * 60 * 1000 // 24시간
+        httpOnly: false, 
+        secure: false,   
+        sameSite: 'lax', 
+        maxAge: 24 * 60 * 60 * 1000 
       });
-      res.redirect(`${frontendUrl}/home`);
+
+      if (hasPreferences) {
+        res.redirect(`${frontendUrl}/home`);
+      } else {
+        res.redirect(`${frontendUrl}/signin`);
+      }
     } catch (error) {
       this.logger.error(`Kakao callback error: ${error.message}`, error.stack);
       const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
