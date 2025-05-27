@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/user/schemas/user.schema';
-import { ApiResponseDto } from 'src/common/api.response.dto/api.response.dto';
+import { ApiResponseDto } from 'src/common/dto/api.response.dto';
 import { UserResponseDto } from 'src/user/dto/update-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Authorization } from './custom-guards-decorators/get-user.decorators';
@@ -47,5 +47,6 @@ export class AuthController {
   
     // 프론트엔드로 리다이렉트 (토큰과 함께)
     res.redirect(`http://localhost:3001/auth/success?token=${jwtToken}`);
+
   }
 }

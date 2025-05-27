@@ -15,6 +15,9 @@ export class User {
 
   @Prop({ required: true, unique: true })
   userId: string;
+  
+  @Prop({ required: true })
+  password: string;
 
 }
 
