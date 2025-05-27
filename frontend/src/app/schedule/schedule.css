@@ -188,3 +188,10 @@
     margin-right: 20px;
   }
   
+  .calendar-has-schedule {
+    background: #e6f9ed;
+    color: #4CC88A;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+  

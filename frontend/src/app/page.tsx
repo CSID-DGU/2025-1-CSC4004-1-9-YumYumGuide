@@ -21,7 +21,6 @@ export default function Home() {
         }
 
         const result = await response.json();
-        console.log('받은 데이터:', result); // 전체 응답 확인
         setMovies(result.data);
         setPagination(result.pagination);
       } catch (err) {

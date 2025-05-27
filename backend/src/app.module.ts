@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
+import { EventsModule } from './api/home/events.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { AttractionModule } from './attraction/attraction.module';
 import { ConvenienceModule } from './convenience/convenience.module';
 import { ScheduleModule } from './schedule/schedule.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,6 +34,8 @@ import { ScheduleModule } from './schedule/schedule.module';
     AttractionModule,
     ConvenienceModule,
     ScheduleModule,
+    TestModule,
+    EventsModule,
   ],
   providers: []
 })

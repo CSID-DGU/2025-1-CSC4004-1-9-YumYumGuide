@@ -16,4 +16,10 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       callbackURL: configService.get<string>('KAKAO_CALLBACK_URL'),
     });
   }
+
+  async validate(accessToken: string, refreshToken: string, profile: any) {
+    // 카카오에서 받은 프로필 정보로 사용자 생성 및 조회
+    const user = await this.authService.signUpWithKakao(profile.id, profile);
+    return user;
+  }
 }

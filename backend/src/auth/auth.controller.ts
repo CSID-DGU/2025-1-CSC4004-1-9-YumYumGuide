@@ -35,15 +35,18 @@ export class AuthController {
 
   // 카카오 로그인 콜백 엔드포인트
   @Get('/kakao/callback')
-  async kakaoCallback(@Query('code') kakaoAuthResCode: string, @Res() res: Response) {
-    console.log('kakaoAuthResCode', kakaoAuthResCode);
-
-    const { jwtToken, user } = await this.authService.signInWithKakao(kakaoAuthResCode);
-
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoCallback(@Req() req: any, @Res() res: Response) {
+    const user = req.user; // Passport에서 자동으로 설정된 사용자 정보
+    
+    // JWT 토큰 생성
+    const jwtToken = await this.authService.generateJwtToken(user);
     const userResponseDto = new UserResponseDto(user);
-
+  
     this.logger.verbose(`User signed in successfully: ${JSON.stringify(userResponseDto)}`);
+  
+    // 프론트엔드로 리다이렉트 (토큰과 함께)
+    res.redirect(`http://localhost:3001/auth/success?token=${jwtToken}`);
 
-    return new ApiResponseDto(true, 200, 'Sign in successful', { jwtToken, user: userResponseDto });
   }
 }
