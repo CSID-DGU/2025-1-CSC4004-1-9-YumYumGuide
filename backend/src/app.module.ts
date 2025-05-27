@@ -34,7 +34,6 @@ import { ScheduleModule } from './schedule/schedule.module';
     AttractionModule,
     ConvenienceModule,
     ScheduleModule,
-    TestModule,
     EventsModule,
   ],
   providers: []
