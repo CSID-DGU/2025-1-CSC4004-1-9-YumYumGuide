@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Nav from '../componets/nav';
 import './newSchedule.css';
@@ -130,6 +130,14 @@ const NewSchedule = () => {
     return endDate.diff(startDate, 'day') + 1;
   };
 
+  // 여행 기간이 변경될 때마다 선택된 지역 초기화
+  useEffect(() => {
+    const duration = calculateTripDuration();
+    if (selectedRegions.length > duration) {
+      setSelectedRegions([]);
+    }
+  }, [startCalendar, endCalendar]);
+
   return (
     <div className="new-schedule-container">
       <div className="text-center p-6 font-bold text-[24px]">새로운 일정</div>
@@ -173,17 +181,27 @@ const NewSchedule = () => {
               <span>시작 일자</span>
             </div>
             <div className="calendar-header-cal">
-              <button onClick={() => setStartCalendar(cal => {
-                let m = cal.month - 1, y = cal.year;
+              <button onClick={() => {
+                let m = startCalendar.month - 1, y = startCalendar.year;
                 if (m < 0) { m = 11; y--; }
-                return { ...cal, year: y, month: m };
-              })}>{'<'}</button>
+                const newCal = { ...startCalendar, year: y, month: m };
+                setStartCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'<'}</button>
               {` ${startCalendar.year}년 ${startCalendar.month + 1}월 `}
-              <button onClick={() => setStartCalendar(cal => {
-                let m = cal.month + 1, y = cal.year;
+              <button onClick={() => {
+                let m = startCalendar.month + 1, y = startCalendar.year;
                 if (m > 11) { m = 0; y++; }
-                return { ...cal, year: y, month: m };
-              })}>{'>'}</button>
+                const newCal = { ...startCalendar, year: y, month: m };
+                setStartCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'>'}</button>
             </div>
             <table className="calendar-table-cal">
               <thead>
@@ -200,7 +218,15 @@ const NewSchedule = () => {
                           d === startCalendar.selected ? 'calendar-selected-cal' :
                           (startCalendar.year === today.year() && startCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
                         }
-                        onClick={() => d && setStartCalendar(cal => ({ ...cal, selected: d }))}
+                        onClick={() => {
+                          if (d) {
+                            setStartCalendar(cal => ({ ...cal, selected: d }));
+                            const duration = calculateTripDuration();
+                            if (selectedRegions.length > duration) {
+                              setSelectedRegions([]);
+                            }
+                          }
+                        }}
                         style={{ cursor: d ? 'pointer' : 'default' }}
                       >
                         {d || ''}
@@ -218,17 +244,27 @@ const NewSchedule = () => {
               <span>종료 일자</span>
             </div>
             <div className="calendar-header-cal">
-              <button onClick={() => setEndCalendar(cal => {
-                let m = cal.month - 1, y = cal.year;
+              <button onClick={() => {
+                let m = endCalendar.month - 1, y = endCalendar.year;
                 if (m < 0) { m = 11; y--; }
-                return { ...cal, year: y, month: m };
-              })}>{'<'}</button>
+                const newCal = { ...endCalendar, year: y, month: m };
+                setEndCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'<'}</button>
               {` ${endCalendar.year}년 ${endCalendar.month + 1}월 `}
-              <button onClick={() => setEndCalendar(cal => {
-                let m = cal.month + 1, y = cal.year;
+              <button onClick={() => {
+                let m = endCalendar.month + 1, y = endCalendar.year;
                 if (m > 11) { m = 0; y++; }
-                return { ...cal, year: y, month: m };
-              })}>{'>'}</button>
+                const newCal = { ...endCalendar, year: y, month: m };
+                setEndCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'>'}</button>
             </div>
             <table className="calendar-table-cal">
               <thead>
@@ -245,7 +281,15 @@ const NewSchedule = () => {
                           d === endCalendar.selected ? 'calendar-selected-cal' :
                           (endCalendar.year === today.year() && endCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
                         }
-                        onClick={() => d && setEndCalendar(cal => ({ ...cal, selected: d }))}
+                        onClick={() => {
+                          if (d) {
+                            setEndCalendar(cal => ({ ...cal, selected: d }));
+                            const duration = calculateTripDuration();
+                            if (selectedRegions.length > duration) {
+                              setSelectedRegions([]);
+                            }
+                          }
+                        }}
                         style={{ cursor: d ? 'pointer' : 'default' }}
                       >
                         {d || ''}
