@@ -1,20 +1,42 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { AuthGuard, PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { AuthService } from "../auth.service";
 
 export class JwtAuthGuard extends AuthGuard('jwt') { }
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService
+  ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // header에서 bearer토큰 추출
-      ignoreExpiration: false, // 만료된 토큰 무시
-      secretOrKey: configService.get<string>('JWT_SECRET')!, // 토큰 검증 시 사용되는 비밀키
-    }); // 검증
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request) => {
+          return request?.cookies?.auth_token;
+        },
+        ExtractJwt.fromAuthHeaderAsBearerToken()
+      ]),
+      ignoreExpiration: false,
+      secretOrKey: configService.get<string>('JWT_SECRET')!,
+      passReqToCallback: true,
+    });
   }
 
-  validate(payload: any) {
+  async validate(req: any, payload: any) {
+    const token = req.cookies?.auth_token || req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      throw new UnauthorizedException('No token provided');
+    }
+
+    // 토큰이 블랙리스트에 있는지 확인
+    if (this.authService.isTokenBlacklisted(token)) {
+      throw new UnauthorizedException('Token has been invalidated');
+    }
+
     return { userId: payload.userId, email: payload.email };
   }
 } 

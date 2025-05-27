@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -20,7 +22,7 @@ const EventList = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:5050/api/home/events/future');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/home/events/future`);
         if (!response.ok) {
           throw new Error('Failed to fetch events');
         }

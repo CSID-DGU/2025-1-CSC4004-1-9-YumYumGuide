@@ -11,7 +11,6 @@ export default function Home() {
   const [pagination, setPagination] = useState(null);
 
   useEffect(() => {
-    console.log('useEffect 실행됨');
     async function fetchMovies() {
       try {
         setLoading(true);
@@ -25,7 +24,6 @@ export default function Home() {
         setPagination(result.pagination);
       } catch (err) {
         // setError(err.message);
-        console.error('영화 데이터 가져오기 오류:', err);
       } finally {
         setLoading(false);
       }
@@ -45,9 +43,7 @@ export default function Home() {
 
   return (
     <div>
-
       <HomePage />
-      <Nav />
     </div>
   );
 }

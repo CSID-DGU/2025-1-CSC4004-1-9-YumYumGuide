@@ -6,7 +6,7 @@ import styles from './login.module.css';
 const Login = () => {
   const handleKakaoLogin = () => {
     // 백엔드의 카카오 로그인 엔드포인트로 리다이렉트
-    window.location.href = 'http://localhost:5000/api/auth/kakao';
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/kakao`;
   };
 
   return (

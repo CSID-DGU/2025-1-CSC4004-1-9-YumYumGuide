@@ -24,7 +24,9 @@ export default function TripDetailPage({ params }: TripDetailProps) {
       try {
         setLoading(true);
         // 실제 API로 교체
-        const response = await fetch(`/api/trips/${id}`);
+        const response = await fetch(`/api/trips/${id}`, {
+          credentials: 'include'
+        });
         
         if (!response.ok) {
           throw new Error('데이터를 불러오는데 실패했습니다');

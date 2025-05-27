@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private readonly tokenBlacklist = new Set<string>();
 
   constructor(
     @InjectModel(User.name)
@@ -29,12 +30,24 @@ export class AuthService {
     return await bcrypt.hash(password, salt); // 비밀번호 해싱
   }
 
+  // 이전 토큰 무효화
+  async invalidateExistingTokens(userId: string): Promise<void> {
+    this.logger.verbose(`Invalidating existing tokens for user: ${userId}`);
+    this.tokenBlacklist.clear();
+  }
+
+  // 토큰이 블랙리스트에 있는지 확인
+  isTokenBlacklisted(token: string): boolean {
+    return this.tokenBlacklist.has(token);
+  }
+
   // 카카오 정보 회원 가입
   async signUpWithKakao(kakaoId: string, profile: any): Promise<UserDocument> {
+    this.logger.debug(`Kakao profile: ${JSON.stringify(profile)}`);
 
-    // 이름이랑 이메일을 알아야겠네 여기까지
-    const kakaoUsername = profile.properties.nickname;
-    const kakaoEmail = profile.kakao_account.email;
+    // 카카오 프로필에서 필요한 정보 추출
+    const kakaoUsername = profile._json?.properties?.nickname || `user_${kakaoId}`;
+    const kakaoEmail = profile._json?.kakao_account?.email || `${kakaoId}@kakao.com`;
 
     // 카카오 프로필 데이터를 기반으로 사용자 찾기 또는 생성 로직을 구현
     const existingUser = await this.userModel.findOne({ email: kakaoEmail });
@@ -47,11 +60,14 @@ export class AuthService {
     const hashedPassword = await this.hashPassword(temporaryPassword);
 
     // 새 사용자 생성 로직
-    const newUser = this.userModel.create({
+    const newUser = await this.userModel.create({
       username: kakaoUsername,
       email: kakaoEmail,
       password: hashedPassword, // 해싱된 임시 비밀번호 사용
+      userId: `kakao_${kakaoId}`, // 카카오 ID를 기반으로 userId 생성
     });
+
+    this.logger.debug(`Created new user: ${JSON.stringify(newUser)}`);
     return newUser;
   }
 
