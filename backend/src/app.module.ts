@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TestModule } from './test/test.module';
+import { SearchModule } from './search/search.module'
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 @Module({
@@ -20,6 +21,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       inject: [ConfigService],
     }),
     TestModule,
+    SearchModule
   ]
 })
 export class AppModule { }
