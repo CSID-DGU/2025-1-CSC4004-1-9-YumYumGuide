@@ -17,16 +17,13 @@ import { ScheduleModule } from './schedule/schedule.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-<<<<<<< HEAD
         ENV: Joi.string().valid('dev', 'prod').required(),
-=======
         KAKAO_CLIENT_ID: Joi.string().required(),
         KAKAO_CALLBACK_URL: Joi.string().required(),
         MONGODB_URI: Joi.string().required(),
         GOOGLE_MAPS_API_KEY: Joi.string().required(),
         OPENAI_API_KEY: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
->>>>>>> main
       })
     }),
     MongooseModule.forRootAsync({
@@ -36,11 +33,8 @@ import { ScheduleModule } from './schedule/schedule.module';
       }),
       inject: [ConfigService],
     }),
-<<<<<<< HEAD
     TestModule,
-    SearchModule
-  ]
-=======
+    SearchModule,
     AuthModule,
     UserModule,
     AttractionModule,
@@ -49,6 +43,5 @@ import { ScheduleModule } from './schedule/schedule.module';
     EventsModule,
   ],
   providers: []
->>>>>>> main
 })
 export class AppModule { }
