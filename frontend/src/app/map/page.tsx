@@ -6,6 +6,7 @@ import Nav from '../componets/nav';
 import PlaceCard from './components/placeCard';
 import DayCard from './components/dayCard';
 import GoogleMapComponent from './components/googleMap';
+import SearchBar from './components/searchBar';
 import styles from './map.module.css';
 
 const Map: React.FC = () => {
@@ -35,7 +36,9 @@ const Map: React.FC = () => {
           routeToPlaceName={routeToPlaceName}
         />
       </div>
-
+      <div className={styles.searchWrapper} >
+        <SearchBar /> 
+      </div>
       <div className={styles.scrollWrapper}>
         {[1, 2, 3, 4, 5, 6].map((day) => (
           <DayCard

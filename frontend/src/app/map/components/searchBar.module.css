@@ -1,0 +1,32 @@
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(60, 60, 60, 0.06);
+  padding: 8px 20px;
+  width: 360px;
+  height: 48px;
+  margin: 16px auto;
+}
+
+.searchIcon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 20px;
+  color: #6a6a6a;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: #c0c0c0;
+  font-weight: 400;
+  opacity: 1;
+}
