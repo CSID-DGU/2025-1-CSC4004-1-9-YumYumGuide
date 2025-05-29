@@ -1,16 +1,177 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Nav from '../componets/nav';
 import './newSchedule.css';
+import dayjs from 'dayjs';
+
+const flightTimes = [
+  { label: '오전', value: 'morning' },
+  { label: '오후', value: 'afternoon' },
+  { label: '저녁', value: 'evening' },
+  { label: '새벽', value: 'dawn' },
+];
 
 const NewSchedule = () => {
-  const [budget, setBudget] = useState(1100000);
+  const [budget, setBudget] = useState(0);
   const [isPlacePopupOpen, setIsPlacePopupOpen] = useState(false);
+  const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
+  const [editingPlaceIndex, setEditingPlaceIndex] = useState<number | null>(null);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const router = useRouter();
+  const [flightDeparture, setFlightDeparture] = useState('morning');
+  const [flightArrival, setFlightArrival] = useState('morning');
+  
+  // 팝업에서 선택 가능한 명소 목록 (예시)
+  const popupPlaces = [
+    { name: '스카이트리', meta: '관광 | ₩14,949' },
+    { name: '규카츠 모토무라 시부야점', meta: '맛집 | ₩8,811' },
+    { name: '센소지', meta: '관광 | ₩1,980' },
+    { name: '도쿄타워', meta: '관광 | ₩13,860' },
+    { name: '금각사', meta: '' },
+  ];
+
+  // 캘린더 상태 추가
+  const today = dayjs();
+  const [startCalendar, setStartCalendar] = useState({
+    year: today.year(),
+    month: today.month(), // 0-indexed
+    selected: today.date(),
+  });
+  const [endCalendar, setEndCalendar] = useState({
+    year: today.year(),
+    month: today.month(),
+    selected: today.date() + 2,
+  });
+
+  // 달력 날짜 배열 생성 함수
+  const getCalendarMatrix = (year: number, month: number) => {
+    const firstDay = dayjs(`${year}-${month + 1}-01`);
+    const startDay = firstDay.day();
+    const daysInMonth = firstDay.daysInMonth();
+    const matrix = [];
+    let day = 1 - startDay;
+    for (let i = 0; i < 6; i++) {
+      const week = [];
+      for (let j = 0; j < 7; j++, day++) {
+        week.push(day > 0 && day <= daysInMonth ? day : null);
+      }
+      matrix.push(week);
+    }
+    return matrix;
+  };
+
+  const handleAddPlace = (placeName: string) => {
+    if (editingPlaceIndex !== null) {
+      const newPlaces = [...selectedPlaces];
+      newPlaces[editingPlaceIndex] = placeName;
+      setSelectedPlaces(newPlaces);
+      setEditingPlaceIndex(null);
+    } else {
+      if (!selectedPlaces.includes(placeName) && selectedPlaces.length < 5) {
+        setSelectedPlaces([...selectedPlaces, placeName]);
+      }
+    }
+    setIsPlacePopupOpen(false);
+  };
+
+  const handleEditPlace = (index: number) => {
+    if (selectedRegions.length === 0) {
+      alert('먼저 여행지역을 선택해 주세요.');
+      return;
+    }
+    setEditingPlaceIndex(index);
+    setIsPlacePopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    if (selectedRegions.length === 0) {
+      alert('먼저 여행지역을 선택해 주세요.');
+      return;
+    }
+    setIsPlacePopupOpen(true);
+  };
+
+  const handleDeletePlace = (index: number) => {
+    setSelectedPlaces(selectedPlaces.filter((_, i) => i !== index));
+  };
+  
+  const regionData = [
+    { name: '스기나미구', icon: '/icons/tokyo/1_Suginami.svg' },
+    { name: '네리마구', icon: '/icons/tokyo/2_Nerima.svg' },
+    { name: '이타바시구', icon: '/icons/tokyo/3_Itabashi.svg' },
+    { name: '나카노구', icon: '/icons/tokyo/4_Nakano.svg' },
+    { name: '도시마구', icon: '/icons/tokyo/5_Toshima.svg' },
+    { name: '키타구', icon: '/icons/tokyo/6_Kita.svg' },
+    { name: '아다치구', icon: '/icons/tokyo/7_Adachi.svg' },
+    { name: '신주쿠구', icon: '/icons/tokyo/8_Shinjuku.svg' },
+    { name: '분쿄구', icon: '/icons/tokyo/9_Bunkyo.svg' },
+    { name: '다이토구', icon: '/icons/tokyo/10_Taito.svg' },
+    { name: '아라카와구', icon: '/icons/tokyo/11_Arakawa.svg' },
+    { name: '세타가야구', icon: '/icons/tokyo/12_Setagaya.svg' },
+    { name: '메구로구', icon: '/icons/tokyo/13_Meguro.svg' },
+    { name: '시부야구', icon: '/icons/tokyo/14_Shibuya.svg' },
+    { name: '치요다구', icon: '/icons/tokyo/15_Chiyoda.svg' },
+    { name: '미나토구', icon: '/icons/tokyo/16_Minato.svg' },
+    { name: '주오구', icon: '/icons/tokyo/17_Chuo.svg' },
+    { name: '스미다구', icon: '/icons/tokyo/18_Sumida.svg' },
+    { name: '카츠시카구', icon: '/icons/tokyo/19_Katsushika.svg' },
+    { name: '오타구', icon: '/icons/tokyo/20_Ota.svg' },
+    { name: '시나가와구', icon: '/icons/tokyo/21_Shinagawa.svg' },
+    { name: '고토구', icon: '/icons/tokyo/22_Koto.svg' },
+    { name: '에도가와구', icon: '/icons/tokyo/23_Edogawa.svg' },
+  ];
+
+  // Calculate trip duration
+  const calculateTripDuration = () => {
+    const startDate = dayjs(`${startCalendar.year}-${startCalendar.month + 1}-${startCalendar.selected}`);
+    const endDate = dayjs(`${endCalendar.year}-${endCalendar.month + 1}-${endCalendar.selected}`);
+    return endDate.diff(startDate, 'day') + 1;
+  };
+
+  // 여행 기간이 변경될 때마다 선택된 지역 초기화
+  useEffect(() => {
+    const duration = calculateTripDuration();
+    if (selectedRegions.length > duration) {
+      setSelectedRegions([]);
+    }
+  }, [startCalendar, endCalendar]);
 
   return (
     <div className="new-schedule-container">
+      <div className="text-center p-6 font-bold text-[24px]">새로운 일정</div>
+      {/* 비행기 출발/도착 시간 선택 UI */}
+      <div className="flight-time-section">
+        <div className="flight-time-block">
+          <span className="flight-time-title"><img src="/icons/clock.png" alt="clock" className="flight-time-icon" /> 비행기 출발 시간</span>
+          <div className="flight-time-list">
+            {flightTimes.map(t => (
+              <div
+                key={t.value}
+                className={`flight-time-item${flightDeparture === t.value ? ' flight-time-selected' : ''}`}
+                onClick={() => setFlightDeparture(t.value)}
+              >
+                {t.label}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flight-time-block">
+          <span className="flight-time-title"><img src="/icons/clock.png" alt="clock" className="flight-time-icon" /> 비행기 도착 시간</span>
+          <div className="flight-time-list">
+            {flightTimes.map(t => (
+              <div
+                key={t.value}
+                className={`flight-time-item${flightArrival === t.value ? ' flight-time-selected' : ''}`}
+                onClick={() => setFlightArrival(t.value)}
+              >
+                {t.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="new-schedule-content">
         {/* 시작/종료 날짜 */}
         <div className="date-section-cal">
@@ -19,17 +180,60 @@ const NewSchedule = () => {
               <img src="/icons/airplane.png" alt="airplane" className="date-icon-cal" />
               <span>시작 일자</span>
             </div>
-            <div className="calendar-header-cal">{'< 2025년 4월 21일 >'}</div>
+            <div className="calendar-header-cal">
+              <button onClick={() => {
+                let m = startCalendar.month - 1, y = startCalendar.year;
+                if (m < 0) { m = 11; y--; }
+                const newCal = { ...startCalendar, year: y, month: m };
+                setStartCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'<'}</button>
+              {` ${startCalendar.year}년 ${startCalendar.month + 1}월 `}
+              <button onClick={() => {
+                let m = startCalendar.month + 1, y = startCalendar.year;
+                if (m > 11) { m = 0; y++; }
+                const newCal = { ...startCalendar, year: y, month: m };
+                setStartCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'>'}</button>
+            </div>
             <table className="calendar-table-cal">
               <thead>
                 <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
               </thead>
               <tbody>
-                <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
-                <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
-                <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
-                <tr><td className="calendar-selected-cal">21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
-                <tr><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
+                {getCalendarMatrix(startCalendar.year, startCalendar.month).map((week, i) => (
+                  <tr key={i}>
+                    {week.map((d, j) => (
+                      <td
+                        key={j}
+                        className={
+                          d === null ? '' :
+                          d === startCalendar.selected ? 'calendar-selected-cal' :
+                          (startCalendar.year === today.year() && startCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
+                        }
+                        onClick={() => {
+                          if (d) {
+                            setStartCalendar(cal => ({ ...cal, selected: d }));
+                            const duration = calculateTripDuration();
+                            if (selectedRegions.length > duration) {
+                              setSelectedRegions([]);
+                            }
+                          }
+                        }}
+                        style={{ cursor: d ? 'pointer' : 'default' }}
+                      >
+                        {d || ''}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -39,60 +243,113 @@ const NewSchedule = () => {
               <img src="/icons/comebackhome.png" alt="home" className="date-icon-cal" />
               <span>종료 일자</span>
             </div>
-            <div className="calendar-header-cal">{'< 2025년 4월 23일 >'}</div>
+            <div className="calendar-header-cal">
+              <button onClick={() => {
+                let m = endCalendar.month - 1, y = endCalendar.year;
+                if (m < 0) { m = 11; y--; }
+                const newCal = { ...endCalendar, year: y, month: m };
+                setEndCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'<'}</button>
+              {` ${endCalendar.year}년 ${endCalendar.month + 1}월 `}
+              <button onClick={() => {
+                let m = endCalendar.month + 1, y = endCalendar.year;
+                if (m > 11) { m = 0; y++; }
+                const newCal = { ...endCalendar, year: y, month: m };
+                setEndCalendar(newCal);
+                const duration = calculateTripDuration();
+                if (selectedRegions.length > duration) {
+                  setSelectedRegions([]);
+                }
+              }}>{'>'}</button>
+            </div>
             <table className="calendar-table-cal">
               <thead>
                 <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
               </thead>
               <tbody>
-                <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
-                <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
-                <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
-                <tr><td>21</td><td>22</td><td className="calendar-selected-cal">23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
-                <tr><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
+                {getCalendarMatrix(endCalendar.year, endCalendar.month).map((week, i) => (
+                  <tr key={i}>
+                    {week.map((d, j) => (
+                      <td
+                        key={j}
+                        className={
+                          d === null ? '' :
+                          d === endCalendar.selected ? 'calendar-selected-cal' :
+                          (endCalendar.year === today.year() && endCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
+                        }
+                        onClick={() => {
+                          if (d) {
+                            setEndCalendar(cal => ({ ...cal, selected: d }));
+                            const duration = calculateTripDuration();
+                            if (selectedRegions.length > duration) {
+                              setSelectedRegions([]);
+                            }
+                          }
+                        }}
+                        style={{ cursor: d ? 'pointer' : 'default' }}
+                      >
+                        {d || ''}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
         {/* 여행 지역 */}
         <div className="region-section">
-          <div className="region-title">여행 지역</div>
+          <div className="region-title">여행 지역 ({selectedRegions.length}/{calculateTripDuration()}개 선택 가능)</div>
           <div className="region-list">
-            <div className="region-item region-selected">치요다구</div>
-            <div className="region-item">주오구</div>
-            <div className="region-item">미나토구</div>
-            <div className="region-item">신주쿠구</div>
-            <div className="region-item">분쿄구</div>
-            <div className="region-item">다이토구</div>
-            <div className="region-item">스미다구</div>
-            <div className="region-item">고토구</div>
-            <div className="region-item">시나가와구</div>
-            <div className="region-item">메구로구</div>
-            <div className="region-item">오타구</div>
-            <div className="region-item">세타가야구</div>
-            <div className="region-item">시부야구</div>
-            <div className="region-item">나카노구</div>
-            <div className="region-item">스기나미구</div>
-            <div className="region-item">도시마구</div>
-            <div className="region-item">키타구</div>
-            <div className="region-item">아라카와구</div>
-            <div className="region-item">이타바시구</div>
-            <div className="region-item">네리마구</div>
-            <div className="region-item">아다치구</div>
-            <div className="region-item">카츠시카구</div>
-            <div className="region-item">에도가와구</div>
+            {regionData.map(region => (
+              <div
+                key={region.name}
+                className={`region-item ${selectedRegions.includes(region.name) ? 'region-selected' : ''}`}
+                onClick={() => {
+                  const duration = calculateTripDuration();
+                  if (selectedRegions.includes(region.name)) {
+                    setSelectedRegions(selectedRegions.filter(r => r !== region.name));
+                  } else if (selectedRegions.length < duration) {
+                    setSelectedRegions([...selectedRegions, region.name]);
+                  }
+                }}
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <img
+                  src={region.icon}
+                  alt={region.name}
+                  style={{ width: 40, height: 40, marginBottom: 4 }}
+                />
+                <div>{region.name}</div>
+              </div>
+            ))}
           </div>
         </div>
         {/* 가고 싶은 명소 */}
         <div className="place-section">
           <div className="place-title">꼭 가고 싶은 명소</div>
           <div className="place-list">
-            <div className="place-item place-selected">
-              <img src="/sample-place.jpg" alt="명소" className="place-img" />
-              <span className="place-name">규카츠 모토무라 시부야점</span>
-            </div>
-            <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
-            <div className="place-item place-add" onClick={() => setIsPlacePopupOpen(true)}>+</div>
+            {selectedPlaces.map((place, idx) => (
+              <div 
+                key={place} 
+                className="place-item place-selected"
+              >
+                <span className="place-name" onClick={() => handleEditPlace(idx)}>{place}</span>
+                <button 
+                  className="place-delete-btn"
+                  onClick={() => handleDeletePlace(idx)}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            {editingPlaceIndex === null && selectedPlaces.length < 5 && (
+            <div className="place-item place-add" onClick={handleAddPlaceClick}>+</div>
+            )}
           </div>
         </div>
         {/* 여행 예산 */}
@@ -107,45 +364,29 @@ const NewSchedule = () => {
           <button onClick={() => setBudget(0)} className="budget-reset-ui">초기화</button>
         </div>
         {/* 일정 생성하기 버튼 */}
-        <button className="create-schedule-btn">일정 생성하기</button>
+        <button className="create-schedule-btn" onClick={() => router.push('/schedule/result')}>일정 생성하기</button>
       </div>
       {isPlacePopupOpen && (
         <>
           <div className="popup-overlay" onClick={() => setIsPlacePopupOpen(false)} />
           <div className="place-popup">
-            <button className="popup-close-btn" onClick={() => setIsPlacePopupOpen(false)}>←</button>
+            <button className="popup-close-btn" onClick={() => {
+              setIsPlacePopupOpen(false);
+              setEditingPlaceIndex(null);
+            }}>←</button>
             <input className="popup-search" placeholder="검색하기..." />
             <div className="popup-place-list">
-              <div className="popup-place-card selected">
-                <div className="popup-place-title">스카이트리 <span className="popup-place-badge">추천</span></div>
-                <div className="popup-place-meta">관광 | ₩14,949</div>
-                <button className="popup-place-add-btn">+</button>
+              {popupPlaces.map((place) => (
+                <div 
+                  className={"popup-place-card" + (selectedPlaces.includes(place.name) ? ' selected' : '')} 
+                  key={place.name}
+                >
+                  <div className="popup-place-title">{place.name} {place.meta.includes('추천') && <span className="popup-place-badge">추천</span>}</div>
+                  <div className="popup-place-meta">{place.meta}</div>
+                  <button className="popup-place-add-btn" onClick={() => handleAddPlace(place.name)}>+</button>
                 <div className="popup-place-detail">상세보기 &gt;</div>
               </div>
-              <div className="popup-place-card selected">
-                <div className="popup-place-title">규카츠 모토무라 시부야점 <span className="popup-place-badge">추천</span></div>
-                <div className="popup-place-meta">맛집 | ₩8,811</div>
-                <button className="popup-place-add-btn">+</button>
-                <div className="popup-place-detail">상세보기 &gt;</div>
-              </div>
-              <div className="popup-place-card">
-                <div className="popup-place-title">센소지</div>
-                <div className="popup-place-meta">관광 | ₩1,980</div>
-                <button className="popup-place-add-btn">+</button>
-                <div className="popup-place-detail">상세보기 &gt;</div>
-              </div>
-              <div className="popup-place-card">
-                <div className="popup-place-title">도쿄타워</div>
-                <div className="popup-place-meta">관광 | ₩13,860</div>
-                <button className="popup-place-add-btn">+</button>
-                <div className="popup-place-detail">상세보기 &gt;</div>
-              </div>
-              <div className="popup-place-card">
-                <div className="popup-place-title">금각사</div>
-                <div className="popup-place-meta"></div>
-                <button className="popup-place-add-btn">+</button>
-                <div className="popup-place-detail">상세보기 &gt;</div>
-              </div>
+              ))}
             </div>
           </div>
         </>
