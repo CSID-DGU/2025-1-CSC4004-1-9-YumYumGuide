@@ -14,7 +14,7 @@ const Frame: NextPage = () => {
 
   const [smoking, setSmoking] = useState('');
   const [drinking, setDrinking] = useState('');
-  const [style, setStyle] = useState('');
+  const [pet, setPet] = useState('');
   const [likeFood, setLikeFood] = useState('');
   const [hateFood, setHateFood] = useState<string[]>([]);
   const [headcount, setHeadcount] = useState('');
@@ -88,12 +88,12 @@ const Frame: NextPage = () => {
           <div className={styles.smoking}>
             <div className={styles.div3}>애견 동반 유무</div>
             <div className={styles.r1} />
-            <div className={getClass('box4_1', style === '맛집 위주')} onClick={() => setStyle('맛집 위주')} />
-            <div className={getLabelClass('div4')} onClick={() => setStyle('맛집 위주')}>맛집 위주</div>
-            <div className={getClass('box4_2', style === '관광지 위주')} onClick={() => setStyle('관광지 위주')} />
-            <div className={getLabelClass('div13')} onClick={() => setStyle('관광지 위주')}>관광지 위주</div>
+            <div className={getClass('box4_1', pet === '애견 동반함')} onClick={() => setPet('애견 동반함')} />
+            <div className={getLabelClass('div4')} onClick={() => setPet('애견 동반함')}>애견 동반함</div>
+            <div className={getClass('box4_2', pet === '애견 동반 안 함')} onClick={() => setPet('애견 동반 안 함')} />
+            <div className={getLabelClass('div13')} onClick={() => setPet('애견 동반 안 함')}>애견 동반 안 함</div>
             <div className={styles.rrr11} />
-            <div className={styles.result}>{style}</div>
+            <div className={styles.result}>{pet}</div>
           </div>
 
           {/* 좋아하는 음식 */}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import './detail.css';
 
@@ -12,7 +12,7 @@ interface TripDetailProps {
 
 export default function TripDetailPage({ params }: TripDetailProps) {
   const router = useRouter();
-  const { id } = params;
+  const { id } = params; // URL 파라미터에서 id 가져오기
   const [tripDetail, setTripDetail] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -120,7 +120,7 @@ export default function TripDetailPage({ params }: TripDetailProps) {
 
         <h2 className="section-title">리뷰 키워드</h2>
         <div className="keyword-container">
-          {(mockData.keywords || []).map((keyword: string, index: number) => (
+          {mockData.keywords.map((keyword: string, index: number) => (
             <span key={index} className="keyword">
               {keyword}
             </span>

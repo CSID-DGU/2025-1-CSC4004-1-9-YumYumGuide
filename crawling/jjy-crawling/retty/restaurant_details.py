@@ -14,10 +14,10 @@ import requests
 import json
 import pickle
 from urllib.parse import quote
-# from tqdm import tqdm  # 진행률 표시용
+from tqdm import tqdm  # 진행률 표시용
 
 class RettyRestaurantCrawler:
-    def __init__(self, delay_min=0.04, delay_max=0.06, max_retries=2, headless=True, batch_translate=True):
+    def __init__(self, delay_min=0.01, delay_max=0.03, max_retries=2, headless=True, batch_translate=True):
         """
         retty.me 웹사이트의 식당 정보를 크롤링하는 클래스
         
@@ -36,89 +36,14 @@ class RettyRestaurantCrawler:
         
         # 지역 정보 맵핑
         self.area_info = {
-<<<<<<< HEAD
-
-            # "구다": {
-=======
-             # "구다": {
->>>>>>> ff902da808c5cf78eb62d2513944bbf5ec92e6f1
-            #     "selection_url": " https://retty.me/selection/area/sub1303/"
-            #  },
-            #  "나카메": {
-            #     "selection_url": "  https://retty.me/selection/area/sub703/"
-            #  },
-            #  "메구로": {
-            #     "selection_url": " https://retty.me/selection/area/sub704/"
-            #  },
-            #  "하마 마츠": {
-            #     "selection_url": " https://retty.me/selection/area/sub1602/"
-            #  },
-            #  "니혼 바시": {
-            #     "selection_url": "  https://retty.me/selection/area/sub1503/"
-            #  },
-            
-             
-            #  "아키하바라": {
-            #     "selection_url": "https://retty.me/selection/area/sub1102/"
-            #  },
-            #  "에비스": {
-            #     "selection_url": "https://retty.me/selection/area/sub701/"
-            #  },
-            #  "긴자": {
-            #     "selection_url": "https://retty.me/selection/area/sub201/"
-            #  },
-             
-            #  "신바시": {
-            #     "selection_url": "https://retty.me/selection/area/sub1601/"
-            #  },
-             
-             
-             
-             
-              "도쿄역 주변": {
-                "selection_url": "https://retty.me/selection/area/sub1501/"
-             },
-            
-            #  ,
-            # "시부야": {
-            #     "url": "https://retty.me/area/PRE13/ARE8/",
-            #     "selection_url": "https://retty.me/selection/area/are8/"
-            #  },
-            #  "신주쿠": {
-            #     "url": "https://retty.me/area/PRE13/ARE1/",
-            #     "selection_url": "https://retty.me/selection/area/are1/"
-            # },
-            # ,
-            # "우에노" : {
-            #      "selection_url" : "https://retty.me/selection/area/sub901/"
-            #  },
-            #  "아사쿠사": {
-            #     "selection_url": "https://retty.me/selection/area/sub902/"
-            # },
-            #  "이케부코로" : {
-            #      "selection_url" : "https://retty.me/selection/area/are662/"
-            #  }
-             
-            #  "타마 치": {
-            #     "selection_url": "https://retty.me/selection/area/sub1302/"
-            #  },
-            #    "마루노우치": {
-            #     "selection_url": "https://retty.me/selection/area/sub1504/"
-            #  },
-<<<<<<< HEAD
-            #    "칸다": {
-            #     "selection_url": "https://retty.me/selection/area/sub1101/"
-            #  },
-
-            #  "유라쿠초": {
-            #     "selection_url": "https://retty.me/selection/area/sub202/"
-            #  }    
-=======
-
-             "유라쿠초": {
-                "selection_url": "https://retty.me/selection/area/sub202/"
-             }
->>>>>>> ff902da808c5cf78eb62d2513944bbf5ec92e6f1
+            "신주쿠": {
+                "url": "https://retty.me/area/PRE13/ARE1/",
+                "selection_url": "https://retty.me/selection/area/are1/"
+            },
+            "시부야": {
+                "url": "https://retty.me/area/PRE13/ARE8/",
+                "selection_url": "https://retty.me/selection/area/are8/"
+            }
         }
         
         # 이미 수집한 식당 URL 추적 (지역별)
@@ -157,8 +82,8 @@ class RettyRestaurantCrawler:
 
         # WebDriver 초기화
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.set_page_load_timeout(5)  # 페이지 로드 타임아웃 설정
-        self.driver.implicitly_wait(0.5)  # 암시적 대기 시간 감소
+        self.driver.set_page_load_timeout(3)  # 페이지 로드 타임아웃 설정
+        self.driver.implicitly_wait(0.3)  # 암시적 대기 시간 감소
         
         # 번역 풀 생성
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
@@ -167,7 +92,7 @@ class RettyRestaurantCrawler:
     def _load_visited_restaurants(self):
         """이미 방문한 식당 URL 목록 로드"""
         visited = {}
-        data_dir = "crawling/jjy-crawling/retty/crawled_data"
+        data_dir = "crawled_data"
         visited_file = os.path.join(data_dir, "visited_restaurants.pkl")
         
         # 디렉토리 확인 및 생성
@@ -193,7 +118,7 @@ class RettyRestaurantCrawler:
 
     def _save_visited_restaurants(self):
         """방문한 식당 URL 목록 저장"""
-        data_dir = "crawling/jjy-crawling/retty/crawled_data"
+        data_dir = "crawled_data"
         visited_file = os.path.join(data_dir, "visited_restaurants.pkl")
         
         try:
@@ -242,7 +167,7 @@ class RettyRestaurantCrawler:
         print(f"{area_name} 지역에서 {max_restaurants}개의 새로운 식당 찾는 중...")
         
         # 진행 표시기 초기화
-        # pbar = tqdm(total=max_restaurants, desc=f"새로운 식당 링크 수집 중")
+        pbar = tqdm(total=max_restaurants, desc=f"새로운 식당 링크 수집 중")
         
         while len(restaurant_links) < max_restaurants and page <= max_pages:
             if page > 1:
@@ -258,7 +183,7 @@ class RettyRestaurantCrawler:
                 
                 # 페이지가 로드될 때까지 짧은 시간 대기
                 try:
-                    WebDriverWait(self.driver, 4).until(
+                    WebDriverWait(self.driver, 3).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, 'a.selection-restaurant__restaurant-link'))
                     )
                 except TimeoutException:
@@ -304,7 +229,7 @@ class RettyRestaurantCrawler:
                     print(f"페이지 {page}에서 {page_new_found}개의 새로운 식당을 찾았습니다.")
                     
                 # 진행 표시기 업데이트
-                # pbar.update(page_new_found)
+                pbar.update(page_new_found)
                 
                 # 다음 페이지로 이동
                 page += 1
@@ -317,7 +242,7 @@ class RettyRestaurantCrawler:
                 page += 1  # 다음 페이지로 이동
         
         # 진행 표시기 닫기
-        # pbar.close()
+        pbar.close()
         
         print(f"{area_name} 지역에서 총 {new_found}개의 새로운 식당 링크 수집 완료")
         
@@ -360,6 +285,7 @@ class RettyRestaurantCrawler:
             # 이미지 URL 처리 부분
             try:
                 if image_elements:
+                    print('이미지 발견')
                     image_url = image_elements[0].get_attribute("src")
                     
                     # URL이 S3 또는 다른 CDN을 사용하는지 체크
@@ -490,7 +416,7 @@ class RettyRestaurantCrawler:
     def _get_total_restaurant_count(self, area_name):
         """특정 지역에서 이미 수집한 식당 수 확인"""
         # 기존 파일에서 식당 수 확인
-        data_dir = "crawling/jjy-crawling/retty/crawled_data"
+        data_dir = "crawled_data"
         existing_count = 0
         
         # 디렉토리가 없으면 0 반환
@@ -536,7 +462,7 @@ class RettyRestaurantCrawler:
         print(f"{len(restaurants)}개의 새로운 식당에서 정보 수집 중...")
         
         # 진행 표시기 초기화
-        # pbar = tqdm(total=len(restaurants), desc="식당 정보 수집")
+        pbar = tqdm(total=len(restaurants), desc="식당 정보 수집")
         
         # 배치 처리
         for batch_start in range(0, len(restaurants), batch_size):
@@ -584,7 +510,7 @@ class RettyRestaurantCrawler:
                     continue
                 
                 # 진행 표시기 업데이트
-                # pbar.update(1)
+                pbar.update(1)
             
             # 2단계: 일괄 번역 작업 시작
             if self.batch_translate and all_texts_to_translate:
@@ -647,11 +573,11 @@ class RettyRestaurantCrawler:
         self._save_visited_restaurants()
         
         # 진행 표시기 닫기
-        # pbar.close()
+        pbar.close()
         
         return pd.DataFrame(results)
 
-    def save_to_csv(self, df, area_name, output_dir='crawling/jjy-crawling/retty/crawled_data'):
+    def save_to_csv(self, df, area_name, output_dir='crawled_data'):
         """DataFrame을 증분 CSV 파일로 저장"""
         if df.empty:
             print(f"저장할 데이터가 없습니다: {area_name}")
@@ -698,7 +624,7 @@ class RettyRestaurantCrawler:
             print("저장할 데이터가 없습니다.")
             return None
 
-    def crawl_all_areas(self, max_restaurants=250, output_dir='crawling/jjy-crawling/retty/crawled_data'):
+    def crawl_all_areas(self, max_restaurants=300, output_dir='crawled_data'):
         """모든 지역 크롤링 및 증분 CSV 파일 저장"""
         # 출력 디렉토리 생성
         os.makedirs(output_dir, exist_ok=True)
@@ -760,19 +686,18 @@ def main():
     parser = argparse.ArgumentParser(description='Retty.me 식당 정보 크롤러')
     parser.add_argument('--area', type=str, default='all',
                       help='크롤링할 지역 이름 (신주쿠, 시부야, all)')
-    
-    parser.add_argument('--max', type=int, default=500,
+    parser.add_argument('--max', type=int, default=10,
                       help='각 지역당 수집할 최대 식당 수')
     parser.add_argument('--headless', action='store_true', default=True,
                       help='헤드리스 모드 사용 여부')
-    parser.add_argument('--output', type=str, default='crawling/jjy-crawling/retty/crawled_data',
+    parser.add_argument('--output', type=str, default='crawled_data',
                       help='출력 디렉토리 경로')
     args = parser.parse_args()
     
     # 크롤러 초기화
     crawler = RettyRestaurantCrawler(
-        delay_min=0.02,
-        delay_max=0.04,
+        delay_min=0.01,
+        delay_max=0.03,
         max_retries=2,
         headless=args.headless,
         batch_translate=True

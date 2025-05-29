@@ -8,6 +8,7 @@ import styles from './profile.module.css';
 
 /** 디폴트 값 (최초 방문 또는 저장 전) */
 const DEFAULT_NICKNAME = 'LoveTrip';
+const DEFAULT_EMAIL    = 'LOVETRIP@naver.com';
 
 const Profile = () => {
   const router = useRouter();
@@ -49,6 +50,7 @@ const Profile = () => {
 
       {/* 닉네임 / 이메일 */}
       <div className={styles.lovetrip}>{nickname}</div>
+      <div className={styles.lovetripgmailcom}>{DEFAULT_EMAIL}</div>
 
       {/* 메뉴 3개 */}
       <div className={styles.menu}>

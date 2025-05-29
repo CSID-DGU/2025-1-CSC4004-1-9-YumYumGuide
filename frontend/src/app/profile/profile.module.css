@@ -23,6 +23,16 @@
   line-height: 34px;
   font-weight: 500;
 }
+.lovetripgmailcom {
+  position: absolute;
+  bottom: 680px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: lowercase;
+  color: #7d848d;
+}
 .divisonLineIcon {
   position: absolute;
   bottom: 573.5px;

@@ -15,7 +15,7 @@
 }
 
 .new-schedule-content {
-  padding: 16px 16px;
+  padding: 0 16px;
 }
 
 .date-section {
@@ -256,8 +256,8 @@
   font-size: 1.18rem;
   font-weight: 700;
   color: #222;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: 8px;
+  margin-top: 2px;
   text-align: left;
 }
 .calendar-table-cal {
@@ -271,7 +271,7 @@
   color: #b0b0b0;
   font-weight: 600;
   font-size: 0.97rem;
-  padding-bottom: 10px;
+  padding-bottom: 2px;
   letter-spacing: 0.02em;
 }
 .calendar-table-cal td {
@@ -406,24 +406,13 @@
   background: #19c37d; color: #fff;
 }
 .popup-place-title { font-size: 1.08rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; }
-.popup-place-badge { background: #fff; color: #19c37d; border-radius: 8px; font-size: 0.85rem; padding: 4px 8px; margin-left: 6px; font-weight: 600; }
+.popup-place-badge { background: #fff; color: #19c37d; border-radius: 8px; font-size: 0.85rem; padding: 2px 8px; margin-left: 6px; font-weight: 600; }
 .popup-place-card.selected .popup-place-badge { background: #fff; color: #19c37d; }
 .popup-place-meta { font-size: 0.97rem; opacity: 0.8; margin-bottom: 8px; }
 .popup-place-add-btn {
-  position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #f7f8fa;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  background: #f7f8fa; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
 }
 .popup-place-card.selected .popup-place-add-btn {
   background: #fff; color: #19c37d;

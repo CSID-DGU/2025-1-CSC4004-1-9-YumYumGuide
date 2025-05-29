@@ -8,7 +8,7 @@ import styles from './preferences.module.css';
 const DEFAULTS = {
   smoking:   '흡연 안 함',
   drinking:  '음주 안 함',
-  style:       '관광지 위주',
+  pet:       '애견 동반 안 함',
   likeFood:  '육류',
   avoidFood: [] as string[],
   headcount: '1인/2인',
@@ -23,7 +23,7 @@ const Preferences = () => {
   /* — state — */
   const [smoking,   setSmoking]   = useState(DEFAULTS.smoking);
   const [drinking,  setDrinking]  = useState(DEFAULTS.drinking);
-  const [style,       setStyle]       = useState(DEFAULTS.style);
+  const [pet,       setPet]       = useState(DEFAULTS.pet);
   const [likeFood,  setLikeFood]  = useState(DEFAULTS.likeFood);
   const [avoidFood, setAvoidFood] = useState<string[]>(DEFAULTS.avoidFood);
   const [headcount, setHeadcount] = useState(DEFAULTS.headcount);
@@ -38,7 +38,7 @@ const Preferences = () => {
       const p = JSON.parse(raw);
       setSmoking(p.smoking     ?? DEFAULTS.smoking);
       setDrinking(p.drinking   ?? DEFAULTS.drinking);
-      setStyle(p.style             ?? DEFAULTS.style);
+      setPet(p.pet             ?? DEFAULTS.pet);
       setLikeFood(p.likeFood   ?? DEFAULTS.likeFood);
       setAvoidFood(p.avoidFood ?? DEFAULTS.avoidFood);
       setHeadcount(p.headcount ?? DEFAULTS.headcount);
@@ -49,7 +49,7 @@ const Preferences = () => {
   /* — helpers — */
   const isSel = (cat: keyof typeof DEFAULTS, val: string) => {
     if (cat === 'avoidFood') return avoidFood.includes(val);
-    const single: Record<SingleKey, string> = { smoking, drinking, style, likeFood, headcount, theme } as const;
+    const single: Record<SingleKey, string> = { smoking, drinking, pet, likeFood, headcount, theme } as const;
     return single[cat as SingleKey] === val;
   };
 
@@ -57,7 +57,7 @@ const Preferences = () => {
     setAvoidFood(prev => prev.includes(f) ? prev.filter(x => x !== f) : [...prev, f]);
 
   const handleSave = () => {
-    localStorage.setItem('userPreferences', JSON.stringify({ smoking, drinking, style, likeFood, avoidFood, headcount, theme }));
+    localStorage.setItem('userPreferences', JSON.stringify({ smoking, drinking, pet, likeFood, avoidFood, headcount, theme }));
     setSaved(true);
     setTimeout(() => setSaved(false), 1000);
   };
@@ -110,20 +110,20 @@ const Preferences = () => {
             <div className={styles.rrr1}/><div className={styles.div5}>{drinking}</div>
           </div>
 
-          {/* === 3. 여행 스타일 === */}
+          {/* === 3. 애견 동반 유무 === */}
           <div className={styles.smoking}>
-            <div className={styles.div10}>여행 스타일</div><div className={styles.r1}/>
-            <div className={`${styles.box3_1} ${styles.pointer} ${isSel('style','맛집 위주') ? styles.selected : ''}`}
-                 onClick={()=>setStyle('맛집 위주')}/>
+            <div className={styles.div10}>애견 동반 유무</div><div className={styles.r1}/>
+            <div className={`${styles.box3_1} ${styles.pointer} ${isSel('pet','애견 동반함') ? styles.selected : ''}`}
+                 onClick={()=>setPet('애견 동반함')}/>
             <div className={`${styles.div3} ${styles.textLabel}`}
-                 onClick={()=>setStyle('맛집 위주')}>맛집 위주</div>
+                 onClick={()=>setPet('애견 동반함')}>애견 동반함</div>
 
-            <div className={`${styles.box3_2} ${styles.pointer} ${isSel('style','관광지 위주') ? styles.selected : ''}`}
-                 onClick={()=>setStyle('관광지 위주')}/>
+            <div className={`${styles.box3_2} ${styles.pointer} ${isSel('pet','애견 동반 안 함') ? styles.selected : ''}`}
+                 onClick={()=>setPet('애견 동반 안 함')}/>
             <div className={`${styles.div12} ${styles.textLabel}`}
-                 onClick={()=>setStyle('관광지 위주')}>관광지 위주</div>
+                 onClick={()=>setPet('애견 동반 안 함')}>애견 동반 안 함</div>
 
-            <div className={styles.rrr1}/><div className={styles.div13}>{style}</div>
+            <div className={styles.rrr1}/><div className={styles.div13}>{pet}</div>
           </div>
 
           {/* === 4. 좋아하는 음식 (단일) === */}

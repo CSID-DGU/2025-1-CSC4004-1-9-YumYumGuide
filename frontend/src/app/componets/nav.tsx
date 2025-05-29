@@ -18,15 +18,15 @@ const Navbar = () => {
       setActive("map");
     } else if (pathname === "/profile") {
       setActive("profile");
-    } else if (pathname === "/search") {
-      setActive("search");
+    } else if (pathname === "/newSchedule") {
+      setActive("newSchedule");
     }
   }, [pathname]);
 
   const navItems = [
     { name: "home", label: "홈", icon: "/icons/home.png", href: "/" },
     { name: "schedule", label: "일정", icon: "/icons/schedule.png", href: "/schedule" },
-    { name: "search", label: "", icon: "/icons/search.png", href: "/search" },
+    { name: "newSchedule", label: "", icon: "/icons/search.png", href: "/newSchedule" },
     { name: "map", label: "지도", icon: "/icons/Location.png", href: "/map" },
     { name: "profile", label: "프로필", icon: "/icons/profile.png", href: "/profile" },
   ];
