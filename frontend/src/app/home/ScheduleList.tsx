@@ -70,11 +70,11 @@ const ScheduleList = () => {
               className="rounded-lg object-cover"
             />
             <div className="flex flex-col flex-1">
-              <div className="font-bold text-base truncate">{schedule.title}</div>
-              <div className="text-gray-500 text-sm">
+              <div className="font-bold text-base truncate font-['Pretendard']">{schedule.title}</div>
+              <div className="text-gray-500 text-sm font-['Pretendard']">
                 ⭐ {schedule.rating} ({schedule.reviews})
               </div>
-              <div className="text-gray-400 text-xs truncate">🚩 {schedule.location}</div>
+              <div className="text-gray-400 text-xs truncate font-['Pretendard']">🚩 {schedule.location}</div>
             </div>
           </div>
           <Image src="/icons/arrow.svg" alt="arrow" width={24} height={24} className="mr-2" />

@@ -83,13 +83,13 @@ const EventList = () => {
           onClick={() => setSelectedEvent(null)}
         >
           <div
-            className="bg-white rounded-xl p-6 w-[350px] relative"
+            className="bg-white rounded-xl p-6 w-[400px] relative"
             onClick={e => e.stopPropagation()}
           >
             <img
               src={selectedEvent.image}
               alt={selectedEvent.attraction}
-              className="rounded-lg w-full h-48 object-cover"
+              className="rounded-lg w-full h-52 object-cover"
             />
             <h2 className="text-xl font-bold mt-4">{selectedEvent.attraction}</h2>
             {/* <p className="text-gray-500 mb-1">{selectedEvent.address}</p> */}
@@ -97,7 +97,9 @@ const EventList = () => {
               <span>{selectedEvent.date}</span>
               <span>{selectedEvent.price ? `${selectedEvent.price}원` : '무료'}</span>
             </div>
-            <p className="mt-2">{selectedEvent.description}</p>
+            <p className="mt-2 text-gray-600 leading-relaxed whitespace-pre-line break-words max-h-[200px] overflow-y-auto">
+              {selectedEvent.description}
+            </p>
           </div>
         </div>
       )}
