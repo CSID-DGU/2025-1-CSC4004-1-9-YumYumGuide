@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 # 1. MongoDB 연결
-client = MongoClient("mongodb+srv://jjy:1234@yumyum.ytfd9lu.mongodb.net/main?retryWrites=true&w=majority&appName=yumyum/main")  
+client = MongoClient("")  
 db = client["main"]
 restaurants_col = db["restaurants"]
 menus_col = db["menus"]
