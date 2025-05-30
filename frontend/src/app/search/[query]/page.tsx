@@ -38,7 +38,7 @@ export default function SearchResultPage({ params }: { params: Promise<{ query: 
                 setResults(response.data)
                 
             }
-            catch (error ) {console.error("에러야 에러")}
+            catch (error ) {console.error("Error")}
         }
         fetchData();
     },[])
@@ -49,14 +49,14 @@ export default function SearchResultPage({ params }: { params: Promise<{ query: 
                 <SearchResultCard key={e.data._id} title={e.data.restaurant_name} type="식당" description={e.data.genre} price={e.data.budget} recommended={true} onDetailClick={e.data._id}/>
                 <br />
             </div>)
-        ) : "로딩 중이거나 식당 검색결과가 없거나" }
+        ) : "로딩 중 or 식당 검색결과 없음" }
 
         {results ? results.attractions.map((e,i,a)=>  
             (<div>
                 <SearchResultCard key={e.data._id} title={e.data.attraction} type="관광" description={e.data.description} price={e.data.address} recommended={true} onDetailClick={e.data._id}/>
                 <br />
             </div>)
-        ) : "로딩 중이거나 관광지 검색결과가 없거나" }
+        ) : "로딩 중 or 관광지 검색결과 없음" }
     
     </>)
 
