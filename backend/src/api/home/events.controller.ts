@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
 
-@Controller('api/home/events')
+@Controller('home/events')
 export class EventsController {
   private readonly uri = process.env.MONGODB_URI;
 

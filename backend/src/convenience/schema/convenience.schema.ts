@@ -1,24 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
+import { StoreType } from '../dto/get-conveneience.dto';
 
 export type ConvenienceDocument = Convenience & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Convenience {
-
+  @Prop({ required: true })
   name: string;
 
-  price: string;
+  @Prop()
+  translatedName?: string;
 
-  category: string;
+  @Prop({ required: true, type: Number })
+  price: number;
 
-  store: string;
+  @Prop({ required: true, enum: StoreType })
+  category: StoreType;
 
-  translatedName: string;
-
+  @Prop()
   imageUrl: string;
-
 }
 
 export const ConvenienceSchema = SchemaFactory.createForClass(Convenience);

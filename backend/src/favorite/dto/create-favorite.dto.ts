@@ -1,34 +1,33 @@
-import { IsString, IsArray, IsEnum, IsNotEmpty, IsOptional, ArrayMinSize, ArrayMaxSize, IsIn } from 'class-validator';
+import { IsNumber, IsArray, IsEnum, IsNotEmpty, IsOptional, ArrayMinSize, ArrayMaxSize, IsIn, IsString } from 'class-validator';
 
 export class CreateFavoriteDto {
   // @IsString()  // userId 관련 필드 주석 처리 또는 삭제
   // @IsNotEmpty()
   // userId: string;
 
-  @IsEnum(['흡연함', '흡연 안 함'])
+  @IsEnum([1, 0])
   @IsNotEmpty()
-  smoking: string;
+  @IsNumber()
+  smoking: number;
 
-  @IsEnum(['음주함', '음주 안 함'])
+  @IsEnum([1, 0])
   @IsNotEmpty()
-  drinking: string;
+  @IsNumber()
+  drinking: number;
 
   @IsEnum(['맛집 위주', '관광지 위주'])
   @IsNotEmpty()
+  @IsString()
   travelStyle: string;
 
   @IsEnum(['육류', '해산물', '면류', '밥류'])
   @IsNotEmpty()
+  @IsString()
   favoriteFood: string;
-
-  @IsArray()
-  @IsString({ each: true })
-  @IsEnum(['견과류', '해산물', '유제품', '밀가루'], { each: true })
-  @IsOptional()
-  hateFood: string[];
 
   @IsEnum(['1인&2인', '3인 이상'])
   @IsNotEmpty()
+  @IsString()
   groupType: string;
 
   @IsArray()

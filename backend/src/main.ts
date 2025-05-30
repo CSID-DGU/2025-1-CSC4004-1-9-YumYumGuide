@@ -7,6 +7,8 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.setGlobalPrefix('api'); // 전역 API 접두사 설정
+
   const config = new DocumentBuilder()
     .setTitle('YumYumGuide') // 제목
     .setDescription('YumYumGuide API 문서') // 설명
@@ -38,7 +40,11 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
-    forbidNonWhitelisted: true
+    forbidNonWhitelisted: true,
+    transform: true,
+    transformOptions: {
+      enableImplicitConversion: true,
+    },
   }));
 
   console.log('Attempting to start server on port:', process.env.PORT || 5000); // 로그 추가

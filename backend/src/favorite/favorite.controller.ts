@@ -5,7 +5,7 @@ import { UpdateFavoriteDto } from './dto/update-favorite.dto';
 import { JwtAuthGuard } from 'src/auth/strategy/jwt.strategy';
 import { UserDocument } from 'src/user/schemas/user.schema';
 
-@Controller('api/favorite')
+@Controller('favorite')
 export class FavoriteController {
   constructor(private readonly favoriteService: FavoriteService) {}
 

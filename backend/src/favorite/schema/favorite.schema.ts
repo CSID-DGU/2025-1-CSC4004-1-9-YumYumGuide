@@ -10,25 +10,17 @@ export class Favorite {
   @Prop({ required: true, unique: true })
   userId: string;
 
-  @Prop({ enum: ['흡연함', '흡연 안 함'], required: true })
-  smoking: string;
+  @Prop({ type: Number, enum: [1, 0], required: true })
+  smoking: number;
 
-  @Prop({ enum: ['음주함', '음주 안 함'], required: true })
-  drinking: string;
+  @Prop({ type: Number, enum: [1, 0], required: true })
+  drinking: number;
 
   @Prop({ enum: ['맛집 위주', '관광지 위주'], required: true })
   travelStyle: string;
 
   @Prop({ enum: ['육류', '해산물', '면류', '밥류'], required: true })
   favoriteFood: string;
-
-  @Prop({
-    type: [String],
-    enum: ['견과류', '해산물', '유제품', '밀가루'],
-    default: [],
-    required: true
-  })
-  hateFood: string[];
 
   @Prop({ enum: ['1인&2인', '3인 이상'], required: true })
   groupType: string;

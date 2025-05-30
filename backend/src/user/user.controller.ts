@@ -6,7 +6,7 @@ import { UserDocument } from './schemas/user.schema';
 // import { CreateUserDto } from './dto/create-user-request.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('api/user')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
 

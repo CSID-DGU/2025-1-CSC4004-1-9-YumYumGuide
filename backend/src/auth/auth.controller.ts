@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
 import { UserDocument } from 'src/user/schemas/user.schema';
 
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
   private readonly logger = new Logger(AuthController.name); // Logger 인스턴스 생성
 

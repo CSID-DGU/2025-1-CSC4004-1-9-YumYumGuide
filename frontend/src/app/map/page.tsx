@@ -1,4 +1,4 @@
-// app/map.tsx
+// map.tsx
 'use client';
 
 import { useState } from 'react';
@@ -7,6 +7,25 @@ import PlaceCard from './components/placeCard';
 import DayCard from './components/dayCard';
 import GoogleMapComponent from './components/googleMap';
 import styles from './map.module.css';
+
+const placesByDay: Record<number, { name: string; category: string; price: number }[]> = {
+  1: [
+    { name: '남산타워', category: '관광', price: 12000 },
+    { name: '63빌딩', category: '관광', price: 22000 },
+    { name: '덕수궁', category: '관광', price: 15000 },
+  ],
+  2: [
+    { name: '한국의집', category: '맛집', price: 32000 },
+    { name: '남산골 한옥마을', category: '관광', price: 10000 },
+  ],
+  3: [
+    { name: '경복궁', category: '관광', price: 12000 },
+    { name: '필동면옥', category: '맛집', price: 20000 },
+  ],
+  4: [],
+  5: [],
+  6: [],
+};
 
 const Map: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<number>(1);
@@ -33,6 +52,11 @@ const Map: React.FC = () => {
         <GoogleMapComponent
           selectedPlaceName={selectedPlaceName}
           routeToPlaceName={routeToPlaceName}
+          placesForDay={
+            selectedPlaceName || routeToPlaceName
+              ? undefined
+              : placesByDay[selectedDay]?.map((place) => place.name)
+          }
         />
       </div>
 
@@ -42,18 +66,18 @@ const Map: React.FC = () => {
             key={day}
             day={day}
             selected={selectedDay === day}
-            onClick={() => setSelectedDay(day)}
+            onClick={() => {
+              setSelectedDay(day);
+              setSelectedPlaceName(null);
+              setRouteToPlaceName(null);
+              setActiveCard(null);
+            }}
           />
         ))}
       </div>
 
       <div className={styles.cardScrollWrapper}>
-        {[
-          { name: '남산타워', category: '관광', price: 12000 },
-          { name: '63빌딩', category: '관광', price: 22000 },
-          { name: '한국의집', category: '맛집', price: 32000 },
-          { name: '롯데월드', category: '관광', price: 40000 },
-        ].map((place) => (
+        {placesByDay[selectedDay]?.map((place) => (
           <PlaceCard
             key={place.name}
             name={place.name}

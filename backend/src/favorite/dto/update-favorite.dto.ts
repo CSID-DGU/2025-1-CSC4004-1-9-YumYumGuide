@@ -1,30 +1,29 @@
-import { IsString, IsArray, IsEnum, IsOptional, ArrayMinSize, ArrayMaxSize, IsIn } from 'class-validator';
+import { IsNumber, IsArray, IsEnum, IsOptional, ArrayMinSize, ArrayMaxSize, IsIn, IsString } from 'class-validator';
 
 export class UpdateFavoriteDto {
-  @IsEnum(['흡연함', '흡연 안 함'])
+  @IsEnum([1, 0])
   @IsOptional()
-  smoking?: string;
+  @IsNumber()
+  smoking?: number;
 
-  @IsEnum(['음주함', '음주 안 함'])
+  @IsEnum([1, 0])
   @IsOptional()
-  drinking?: string;
+  @IsNumber()
+  drinking?: number;
 
   @IsEnum(['맛집 위주', '관광지 위주'])
   @IsOptional()
+  @IsString()
   travelStyle?: string;
 
   @IsEnum(['육류', '해산물', '면류', '밥류'])
   @IsOptional()
+  @IsString()
   favoriteFood?: string;
-
-  @IsArray()
-  @IsString({ each: true })
-  @IsEnum(['견과류', '해산물', '유제품', '밀가루'], { each: true })
-  @IsOptional()
-  hateFood?: string[];
 
   @IsEnum(['1인&2인', '3인 이상'])
   @IsOptional()
+  @IsString()
   groupType?: string;
 
   @IsArray()
