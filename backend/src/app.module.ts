@@ -1,15 +1,25 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TestModule } from './test/test.module';
 import * as Joi from 'joi';
+import { EventsModule } from './api/home/events.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { AttractionModule } from './attraction/attraction.module';
+import { ConvenienceModule } from './convenience/convenience.module';
+import { ScheduleModule } from './schedule/schedule.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        ENV: Joi.string().valid('dev', 'prod').required(),
+        KAKAO_CLIENT_ID: Joi.string().required(),
+        KAKAO_CALLBACK_URL: Joi.string().required(),
+        MONGODB_URI: Joi.string().required(),
+        GOOGLE_MAPS_API_KEY: Joi.string().required(),
+        OPENAI_API_KEY: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
       })
     }),
     MongooseModule.forRootAsync({
@@ -19,7 +29,13 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
-    TestModule,
-  ]
+    AuthModule,
+    UserModule,
+    AttractionModule,
+    ConvenienceModule,
+    ScheduleModule,
+    EventsModule,
+  ],
+  providers: []
 })
 export class AppModule { }

@@ -1,0 +1,120 @@
+.menu {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    position: relative;
+    font-size: 13px;
+    color: #000;
+    font-family: var(--font-inter);
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+}
+
+.rectangle {
+    /* 이전에 흰색 박스 역할이었다면, 이제 .menu 자체에 배경색과 패딩이 있으므로
+       별도의 rectangle이 필요 없을 수 있습니다. 
+       만약 특정 디자인 요소였다면 유지하고, 아니라면 삭제하거나 주석 처리합니다.
+       여기서는 일단 주석 처리하고 .menu 자체 스타일로 대체합니다. */
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 100%; 
+    height: 100%;  */
+}
+
+.icon {
+    /* width: 53px; height: 53px; -> props로 전달되므로 CSS에서 고정 X */
+    border-radius: 6px;
+    object-fit: cover;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.div, .div1 {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    margin-bottom: 2px;
+}
+
+.div {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.div1 {
+    font-size: 12px;
+    color: #666;
+}
+
+.div2 {
+    margin-left: auto;
+    padding-left: 10px;
+    font-weight: 500;
+    color: #111;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* 기존 Menu.module.css 에 있던 다른 클래스 정의들... (예시) */
+/* .menu_item__2jXqY {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 340px;
+    height: 70px;
+} */
+
+/* .icon__2X8rS {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+} */
+
+/* .div__3vN7m {
+    position: absolute;
+    top: 16px;
+    left: 70px;
+    font-weight: 600;
+} */
+
+/* .div1__1bX4P {
+    position: absolute;
+    top: 35px;
+    left: 70px;
+    font-size: var(--font-size-xs);
+    color: var(--color-gray);
+} */
+
+/* .div2__3qW5R {
+    position: absolute;
+    top: 49px;
+    left: 291px;
+    font-weight: 500;
+    text-align: right;
+} */

@@ -5,35 +5,73 @@ import { useRouter } from 'next/navigation';
 import Nav from '../componets/nav';
 import Image from 'next/image';
 import styles from './profile.module.css';
+import Cookies from 'js-cookie';
 
-/** 디폴트 값 (최초 방문 또는 저장 전) */
-const DEFAULT_NICKNAME = 'LoveTrip';
-const DEFAULT_EMAIL    = 'LOVETRIP@naver.com';
+// const DEFAULT_NICKNAME = 'LoveTrip'; // 기본 닉네임 사용하지 않음
 
-const Profile = () => {
+const Profile: NextPage = () => {
   const router = useRouter();
+  const [nickname, setNickname] = useState<string>(''); // 초기값을 빈 문자열로
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
-  /* 상태 */
-  const [nickname, setNickname] = useState<string>(DEFAULT_NICKNAME);
-
-  /* 최초 마운트 시 localStorage → 상태 */
   useEffect(() => {
-    const stored = localStorage.getItem('nickname');
-    if (stored) setNickname(stored);
+    const fetchUser = async () => {
+      setIsLoading(true); // 로딩 시작
+      const token = Cookies.get('auth_token');
+      if (!token) {
+        console.error('[ProfilePage] No auth token found, redirecting to login.');
+        router.push('/login');
+        return;
+      }
+      console.log('[ProfilePage] Token found, fetching user...');
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/me`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        console.log('[ProfilePage] /api/user/me response status:', response.status);
+        const responseBody = await response.text();
+        console.log('[ProfilePage] /api/user/me response body:', responseBody);
 
-    /* 다른 탭에서 storage 변경될 때 실시간 반영 */
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === 'nickname') setNickname(e.newValue ?? DEFAULT_NICKNAME);
+        if (response.ok) {
+          const userData = JSON.parse(responseBody);
+          console.log('[ProfilePage] User data received:', userData);
+          if (userData && userData.username) {
+            setNickname(userData.username);
+          } else {
+            // setNickname(DEFAULT_NICKNAME); // 기본 닉네임 설정 제거
+            console.warn('[ProfilePage] User data received but username is missing. Data:', userData);
+            // 필요하다면 여기서 사용자에게 다른 메시지를 보여주거나 로그인 페이지로 리디렉션 할 수 있습니다.
+            setNickname('사용자명 없음'); // 또는 다른 적절한 메시지
+          }
+        } else if (response.status === 401) {
+          console.error('[ProfilePage] Unauthorized, redirecting to login.');
+          Cookies.remove('auth_token');
+          router.push('/login');
+        } else {
+          console.error('[ProfilePage] Failed to fetch user data. Status:', response.status, 'Body:', responseBody);
+          setNickname('정보 로드 실패'); // 오류 시 메시지
+        }
+      } catch (error) {
+        console.error('[ProfilePage] Error fetching user data:', error);
+        setNickname('정보 로드 오류'); // 오류 시 메시지
+      } finally {
+        setIsLoading(false); // 로딩 완료
+      }
     };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
+
+    fetchUser();
+  }, [router]);
 
   /* 네비게이션 함수 */
   const handleSettingClick   = () => router.push('/profile/edit');
   const handleFavorClick     = () => router.push('/profile/preferences');
-  /* const handleLogoutClick    = () => console.log('로그아웃 클릭됨'); */
-  const handleLogoutClick    = () => router.push('/login');
+  const handleLogoutClick    = () => {
+    Cookies.remove('auth_token');
+    router.push('/login');
+  };
 
   /* UI */
   return (
@@ -49,8 +87,9 @@ const Profile = () => {
       />
 
       {/* 닉네임 / 이메일 */}
-      <div className={styles.lovetrip}>{nickname}</div>
-      <div className={styles.lovetripgmailcom}>{DEFAULT_EMAIL}</div>
+      <div className={styles.lovetrip}>
+        {isLoading ? '로딩 중...' : nickname}
+      </div>
 
       {/* 메뉴 3개 */}
       <div className={styles.menu}>
