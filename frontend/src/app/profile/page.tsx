@@ -37,7 +37,7 @@ const Profile: NextPage = () => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/me`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         console.log('[ProfilePage] /api/user/me response status:', response.status);

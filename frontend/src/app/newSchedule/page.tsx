@@ -1,7 +1,7 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Nav from '../componets/nav';
 import './newSchedule.css';
 import dayjs from 'dayjs';
@@ -22,7 +22,7 @@ const NewSchedule = () => {
   const router = useRouter();
   const [flightDeparture, setFlightDeparture] = useState('morning');
   const [flightArrival, setFlightArrival] = useState('morning');
-  
+
   // 팝업에서 선택 가능한 명소 목록 (예시)
   const popupPlaces = [
     { name: '스카이트리', meta: '관광 | ₩14,949' },
@@ -96,7 +96,7 @@ const NewSchedule = () => {
   const handleDeletePlace = (index: number) => {
     setSelectedPlaces(selectedPlaces.filter((_, i) => i !== index));
   };
-  
+
   const regionData = [
     { name: '스기나미구', icon: '/icons/tokyo/1_Suginami.svg' },
     { name: '네리마구', icon: '/icons/tokyo/2_Nerima.svg' },
@@ -144,9 +144,12 @@ const NewSchedule = () => {
       {/* 비행기 출발/도착 시간 선택 UI */}
       <div className="flight-time-section">
         <div className="flight-time-block">
-          <span className="flight-time-title"><img src="/icons/clock.png" alt="clock" className="flight-time-icon" /> 비행기 출발 시간</span>
+          <span className="flight-time-title">
+            <Image src="/icons/clock.png" alt="clock" width={20} height={20} className="flight-time-icon" /> 비행기 출발
+            시간
+          </span>
           <div className="flight-time-list">
-            {flightTimes.map(t => (
+            {flightTimes.map((t) => (
               <div
                 key={t.value}
                 className={`flight-time-item${flightDeparture === t.value ? ' flight-time-selected' : ''}`}
@@ -158,9 +161,12 @@ const NewSchedule = () => {
           </div>
         </div>
         <div className="flight-time-block">
-          <span className="flight-time-title"><img src="/icons/clock.png" alt="clock" className="flight-time-icon" /> 비행기 도착 시간</span>
+          <span className="flight-time-title">
+            <Image src="/icons/clock.png" alt="clock" width={20} height={20} className="flight-time-icon" /> 비행기 도착
+            시간
+          </span>
           <div className="flight-time-list">
-            {flightTimes.map(t => (
+            {flightTimes.map((t) => (
               <div
                 key={t.value}
                 className={`flight-time-item${flightArrival === t.value ? ' flight-time-selected' : ''}`}
@@ -177,35 +183,59 @@ const NewSchedule = () => {
         <div className="date-section-cal">
           <div className="date-block-cal">
             <div className="date-title-cal">
-              <img src="/icons/airplane.png" alt="airplane" className="date-icon-cal" />
+              <Image src="/icons/airplane.png" alt="airplane" width={20} height={20} className="date-icon-cal" />
               <span>시작 일자</span>
             </div>
             <div className="calendar-header-cal">
-              <button onClick={() => {
-                let m = startCalendar.month - 1, y = startCalendar.year;
-                if (m < 0) { m = 11; y--; }
-                const newCal = { ...startCalendar, year: y, month: m };
-                setStartCalendar(newCal);
-                const duration = calculateTripDuration();
-                if (selectedRegions.length > duration) {
-                  setSelectedRegions([]);
-                }
-              }}>{'<'}</button>
+              <button
+                onClick={() => {
+                  let m = startCalendar.month - 1,
+                    y = startCalendar.year;
+                  if (m < 0) {
+                    m = 11;
+                    y--;
+                  }
+                  const newCal = { ...startCalendar, year: y, month: m };
+                  setStartCalendar(newCal);
+                  const duration = calculateTripDuration();
+                  if (selectedRegions.length > duration) {
+                    setSelectedRegions([]);
+                  }
+                }}
+              >
+                {'<'}
+              </button>
               {` ${startCalendar.year}년 ${startCalendar.month + 1}월 `}
-              <button onClick={() => {
-                let m = startCalendar.month + 1, y = startCalendar.year;
-                if (m > 11) { m = 0; y++; }
-                const newCal = { ...startCalendar, year: y, month: m };
-                setStartCalendar(newCal);
-                const duration = calculateTripDuration();
-                if (selectedRegions.length > duration) {
-                  setSelectedRegions([]);
-                }
-              }}>{'>'}</button>
+              <button
+                onClick={() => {
+                  let m = startCalendar.month + 1,
+                    y = startCalendar.year;
+                  if (m > 11) {
+                    m = 0;
+                    y++;
+                  }
+                  const newCal = { ...startCalendar, year: y, month: m };
+                  setStartCalendar(newCal);
+                  const duration = calculateTripDuration();
+                  if (selectedRegions.length > duration) {
+                    setSelectedRegions([]);
+                  }
+                }}
+              >
+                {'>'}
+              </button>
             </div>
             <table className="calendar-table-cal">
               <thead>
-                <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
+                <tr>
+                  <th>S</th>
+                  <th>M</th>
+                  <th>T</th>
+                  <th>W</th>
+                  <th>T</th>
+                  <th>F</th>
+                  <th>S</th>
+                </tr>
               </thead>
               <tbody>
                 {getCalendarMatrix(startCalendar.year, startCalendar.month).map((week, i) => (
@@ -214,13 +244,19 @@ const NewSchedule = () => {
                       <td
                         key={j}
                         className={
-                          d === null ? '' :
-                          d === startCalendar.selected ? 'calendar-selected-cal' :
-                          (startCalendar.year === today.year() && startCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
+                          d === null
+                            ? ''
+                            : d === startCalendar.selected
+                            ? 'calendar-selected-cal'
+                            : startCalendar.year === today.year() &&
+                              startCalendar.month === today.month() &&
+                              d === today.date()
+                            ? 'calendar-today-cal'
+                            : ''
                         }
                         onClick={() => {
                           if (d) {
-                            setStartCalendar(cal => ({ ...cal, selected: d }));
+                            setStartCalendar((cal) => ({ ...cal, selected: d }));
                             const duration = calculateTripDuration();
                             if (selectedRegions.length > duration) {
                               setSelectedRegions([]);
@@ -240,35 +276,59 @@ const NewSchedule = () => {
           <div className="calendar-divider-cal"></div>
           <div className="date-block-cal">
             <div className="date-title-cal">
-              <img src="/icons/comebackhome.png" alt="home" className="date-icon-cal" />
+              <Image src="/icons/comebackhome.png" alt="home" width={20} height={20} className="date-icon-cal" />
               <span>종료 일자</span>
             </div>
             <div className="calendar-header-cal">
-              <button onClick={() => {
-                let m = endCalendar.month - 1, y = endCalendar.year;
-                if (m < 0) { m = 11; y--; }
-                const newCal = { ...endCalendar, year: y, month: m };
-                setEndCalendar(newCal);
-                const duration = calculateTripDuration();
-                if (selectedRegions.length > duration) {
-                  setSelectedRegions([]);
-                }
-              }}>{'<'}</button>
+              <button
+                onClick={() => {
+                  let m = endCalendar.month - 1,
+                    y = endCalendar.year;
+                  if (m < 0) {
+                    m = 11;
+                    y--;
+                  }
+                  const newCal = { ...endCalendar, year: y, month: m };
+                  setEndCalendar(newCal);
+                  const duration = calculateTripDuration();
+                  if (selectedRegions.length > duration) {
+                    setSelectedRegions([]);
+                  }
+                }}
+              >
+                {'<'}
+              </button>
               {` ${endCalendar.year}년 ${endCalendar.month + 1}월 `}
-              <button onClick={() => {
-                let m = endCalendar.month + 1, y = endCalendar.year;
-                if (m > 11) { m = 0; y++; }
-                const newCal = { ...endCalendar, year: y, month: m };
-                setEndCalendar(newCal);
-                const duration = calculateTripDuration();
-                if (selectedRegions.length > duration) {
-                  setSelectedRegions([]);
-                }
-              }}>{'>'}</button>
+              <button
+                onClick={() => {
+                  let m = endCalendar.month + 1,
+                    y = endCalendar.year;
+                  if (m > 11) {
+                    m = 0;
+                    y++;
+                  }
+                  const newCal = { ...endCalendar, year: y, month: m };
+                  setEndCalendar(newCal);
+                  const duration = calculateTripDuration();
+                  if (selectedRegions.length > duration) {
+                    setSelectedRegions([]);
+                  }
+                }}
+              >
+                {'>'}
+              </button>
             </div>
             <table className="calendar-table-cal">
               <thead>
-                <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
+                <tr>
+                  <th>S</th>
+                  <th>M</th>
+                  <th>T</th>
+                  <th>W</th>
+                  <th>T</th>
+                  <th>F</th>
+                  <th>S</th>
+                </tr>
               </thead>
               <tbody>
                 {getCalendarMatrix(endCalendar.year, endCalendar.month).map((week, i) => (
@@ -277,13 +337,19 @@ const NewSchedule = () => {
                       <td
                         key={j}
                         className={
-                          d === null ? '' :
-                          d === endCalendar.selected ? 'calendar-selected-cal' :
-                          (endCalendar.year === today.year() && endCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
+                          d === null
+                            ? ''
+                            : d === endCalendar.selected
+                            ? 'calendar-selected-cal'
+                            : endCalendar.year === today.year() &&
+                              endCalendar.month === today.month() &&
+                              d === today.date()
+                            ? 'calendar-today-cal'
+                            : ''
                         }
                         onClick={() => {
                           if (d) {
-                            setEndCalendar(cal => ({ ...cal, selected: d }));
+                            setEndCalendar((cal) => ({ ...cal, selected: d }));
                             const duration = calculateTripDuration();
                             if (selectedRegions.length > duration) {
                               setSelectedRegions([]);
@@ -303,27 +369,25 @@ const NewSchedule = () => {
         </div>
         {/* 여행 지역 */}
         <div className="region-section">
-          <div className="region-title">여행 지역 ({selectedRegions.length}/{calculateTripDuration()}개 선택 가능)</div>
+          <div className="region-title">
+            여행 지역 ({selectedRegions.length}/{calculateTripDuration()}개 선택 가능)
+          </div>
           <div className="region-list">
-            {regionData.map(region => (
+            {regionData.map((region) => (
               <div
                 key={region.name}
                 className={`region-item ${selectedRegions.includes(region.name) ? 'region-selected' : ''}`}
                 onClick={() => {
                   const duration = calculateTripDuration();
                   if (selectedRegions.includes(region.name)) {
-                    setSelectedRegions(selectedRegions.filter(r => r !== region.name));
+                    setSelectedRegions(selectedRegions.filter((r) => r !== region.name));
                   } else if (selectedRegions.length < duration) {
                     setSelectedRegions([...selectedRegions, region.name]);
                   }
                 }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
-                <img
-                  src={region.icon}
-                  alt={region.name}
-                  style={{ width: 40, height: 40, marginBottom: 4 }}
-                />
+                <Image src={region.icon} alt={region.name} width={40} height={40} style={{ marginBottom: 4 }} />
                 <div>{region.name}</div>
               </div>
             ))}
@@ -334,21 +398,19 @@ const NewSchedule = () => {
           <div className="place-title">꼭 가고 싶은 명소</div>
           <div className="place-list">
             {selectedPlaces.map((place, idx) => (
-              <div 
-                key={place} 
-                className="place-item place-selected"
-              >
-                <span className="place-name" onClick={() => handleEditPlace(idx)}>{place}</span>
-                <button 
-                  className="place-delete-btn"
-                  onClick={() => handleDeletePlace(idx)}
-                >
+              <div key={place} className="place-item place-selected">
+                <span className="place-name" onClick={() => handleEditPlace(idx)}>
+                  {place}
+                </span>
+                <button className="place-delete-btn" onClick={() => handleDeletePlace(idx)}>
                   ×
                 </button>
               </div>
             ))}
             {editingPlaceIndex === null && selectedPlaces.length < 5 && (
-            <div className="place-item place-add" onClick={handleAddPlaceClick}>+</div>
+              <div className="place-item place-add" onClick={handleAddPlaceClick}>
+                +
+              </div>
             )}
           </div>
         </div>
@@ -357,35 +419,54 @@ const NewSchedule = () => {
           <div className="budget-title-ui">$ 여행 예산</div>
           <div className="budget-value-ui">{budget.toLocaleString()}원</div>
           <div className="budget-btns-ui">
-            <button onClick={() => setBudget(budget + 1000000)} className="budget-btn-ui">+ 1,000,000</button>
-            <button onClick={() => setBudget(budget + 500000)} className="budget-btn-ui">+ 500,000</button>
-            <button onClick={() => setBudget(budget + 100000)} className="budget-btn-ui">+ 100,000</button>
+            <button onClick={() => setBudget(budget + 1000000)} className="budget-btn-ui">
+              + 1,000,000
+            </button>
+            <button onClick={() => setBudget(budget + 500000)} className="budget-btn-ui">
+              + 500,000
+            </button>
+            <button onClick={() => setBudget(budget + 100000)} className="budget-btn-ui">
+              + 100,000
+            </button>
           </div>
-          <button onClick={() => setBudget(0)} className="budget-reset-ui">초기화</button>
+          <button onClick={() => setBudget(0)} className="budget-reset-ui">
+            초기화
+          </button>
         </div>
         {/* 일정 생성하기 버튼 */}
-        <button className="create-schedule-btn" onClick={() => router.push('/schedule/result')}>일정 생성하기</button>
+        <button className="create-schedule-btn" onClick={() => router.push('/schedule/result')}>
+          일정 생성하기
+        </button>
       </div>
       {isPlacePopupOpen && (
         <>
           <div className="popup-overlay" onClick={() => setIsPlacePopupOpen(false)} />
           <div className="place-popup">
-            <button className="popup-close-btn" onClick={() => {
-              setIsPlacePopupOpen(false);
-              setEditingPlaceIndex(null);
-            }}>←</button>
+            <button
+              className="popup-close-btn"
+              onClick={() => {
+                setIsPlacePopupOpen(false);
+                setEditingPlaceIndex(null);
+              }}
+            >
+              ←
+            </button>
             <input className="popup-search" placeholder="검색하기..." />
             <div className="popup-place-list">
               {popupPlaces.map((place) => (
-                <div 
-                  className={"popup-place-card" + (selectedPlaces.includes(place.name) ? ' selected' : '')} 
+                <div
+                  className={'popup-place-card' + (selectedPlaces.includes(place.name) ? ' selected' : '')}
                   key={place.name}
                 >
-                  <div className="popup-place-title">{place.name} {place.meta.includes('추천') && <span className="popup-place-badge">추천</span>}</div>
+                  <div className="popup-place-title">
+                    {place.name} {place.meta.includes('추천') && <span className="popup-place-badge">추천</span>}
+                  </div>
                   <div className="popup-place-meta">{place.meta}</div>
-                  <button className="popup-place-add-btn" onClick={() => handleAddPlace(place.name)}>+</button>
-                <div className="popup-place-detail">상세보기 &gt;</div>
-              </div>
+                  <button className="popup-place-add-btn" onClick={() => handleAddPlace(place.name)}>
+                    +
+                  </button>
+                  <div className="popup-place-detail">상세보기 &gt;</div>
+                </div>
               ))}
             </div>
           </div>
