@@ -11,6 +11,9 @@ export class Restaurant {
   @Prop({ required: true })
   restaurant_name: string;
 
+  @Prop({require: true})
+  translated_restaurant_name: string;
+
   @Prop({ required: true })
   tel: string;
 
@@ -35,7 +38,7 @@ export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);
 
 // 텍스트 검색을 위한 인덱스 생성
 RestaurantSchema.index({ 
-  name: 'text', 
+  restaurant_name: 'text', 
   genre: 'text',
 });
 

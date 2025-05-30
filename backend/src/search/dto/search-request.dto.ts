@@ -2,18 +2,14 @@ import { IsString, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SearchRequestDto {
-  @ApiProperty({ 
-    example: '맛집', 
-    description: '검색할 키워드' 
-  })
+  //맛집
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   query: string;
 
-  @ApiProperty({ 
-    example: '서울', 
-    description: '검색할 지역' 
-  })
+  //관광지
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   region: string;

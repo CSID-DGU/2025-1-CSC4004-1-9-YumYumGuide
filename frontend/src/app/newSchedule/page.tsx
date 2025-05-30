@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Nav from '../componets/nav';
 import './newSchedule.css';
 import dayjs from 'dayjs';
+import axios from 'axios';
 
 const flightTimes = [
   { label: '오전', value: 'morning' },
@@ -12,6 +13,20 @@ const flightTimes = [
   { label: '저녁', value: 'evening' },
   { label: '새벽', value: 'dawn' },
 ];
+
+type SearchResult = {
+  "restaurants": any[],
+  "attractions": any[],
+  "totalCount": {
+    "restaurants": number;
+    "attractions": number;
+  },
+  "searchInfo": {
+    "query": string;
+    "region": string;
+    "searchTime": number;
+  }
+}
 
 const NewSchedule = () => {
   const [budget, setBudget] = useState(0);
@@ -22,16 +37,11 @@ const NewSchedule = () => {
   const router = useRouter();
   const [flightDeparture, setFlightDeparture] = useState('morning');
   const [flightArrival, setFlightArrival] = useState('morning');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchResult | null>(null);
   
-  // 팝업에서 선택 가능한 명소 목록 (예시)
-  const popupPlaces = [
-    { name: '스카이트리', meta: '관광 | ₩14,949' },
-    { name: '규카츠 모토무라 시부야점', meta: '맛집 | ₩8,811' },
-    { name: '센소지', meta: '관광 | ₩1,980' },
-    { name: '도쿄타워', meta: '관광 | ₩13,860' },
-    { name: '금각사', meta: '' },
-  ];
-
+  
   // 캘린더 상태 추가
   const today = dayjs();
   const [startCalendar, setStartCalendar] = useState({
@@ -44,6 +54,25 @@ const NewSchedule = () => {
     month: today.month(),
     selected: today.date() + 2,
   });
+
+  // 검색 함수
+  const searchPlaces = async (query: string) => {
+    if (!query.trim() || selectedRegions.length === 0) return;
+    
+    setLoading(true);
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/search`, {
+        "query": query,
+        "region": selectedRegions[0]
+      });
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error("검색 오류:", error);
+      setSearchResults(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 달력 날짜 배열 생성 함수
   const getCalendarMatrix = (year: number, month: number) => {
@@ -96,6 +125,15 @@ const NewSchedule = () => {
   const handleDeletePlace = (index: number) => {
     setSelectedPlaces(selectedPlaces.filter((_, i) => i !== index));
   };
+
+  // 검색 입력 처리
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: any) => {
+    searchPlaces(searchQuery);
+  };
   
   const regionData = [
     { name: '스기나미구', icon: '/icons/tokyo/1_Suginami.svg' },
@@ -137,6 +175,10 @@ const NewSchedule = () => {
       setSelectedRegions([]);
     }
   }, [startCalendar, endCalendar]);
+
+  useEffect(()=> {
+    searchPlaces(searchQuery)
+  }, [searchQuery])
 
   return (
     <div className="new-schedule-container">
@@ -276,7 +318,7 @@ const NewSchedule = () => {
                     {week.map((d, j) => (
                       <td
                         key={j}
-                        className={
+                                                className={
                           d === null ? '' :
                           d === endCalendar.selected ? 'calendar-selected-cal' :
                           (endCalendar.year === today.year() && endCalendar.month === today.month() && d === today.date()) ? 'calendar-today-cal' : ''
@@ -374,19 +416,62 @@ const NewSchedule = () => {
               setIsPlacePopupOpen(false);
               setEditingPlaceIndex(null);
             }}>←</button>
-            <input className="popup-search" placeholder="검색하기..." />
+            <input 
+              className="popup-search" 
+              placeholder="검색하기..." 
+              value={searchQuery}
+              onChange={(e) => {setSearchQuery(e.target.value)}}
+              onKeyDown={(e) => {console.log(searchQuery); searchPlaces(searchQuery)}}
+            />
             <div className="popup-place-list">
-              {popupPlaces.map((place) => (
-                <div 
-                  className={"popup-place-card" + (selectedPlaces.includes(place.name) ? ' selected' : '')} 
-                  key={place.name}
-                >
-                  <div className="popup-place-title">{place.name} {place.meta.includes('추천') && <span className="popup-place-badge">추천</span>}</div>
-                  <div className="popup-place-meta">{place.meta}</div>
-                  <button className="popup-place-add-btn" onClick={() => handleAddPlace(place.name)}>+</button>
-                <div className="popup-place-detail">상세보기 &gt;</div>
-              </div>
-              ))}
+              {loading && <div>검색 중...</div>}
+              {searchResults ? (
+                <>
+                  {searchResults.restaurants.map((restaurant) => (
+                    <div 
+                      className={"popup-place-card" + (selectedPlaces.includes(restaurant.data.translated_restaurant_name) ? ' selected' : '')} 
+                      key={restaurant.data._id}
+                    >
+                      <div className="popup-place-title">
+                        {restaurant.data.translated_restaurant_name} 
+                        <span className="popup-place-badge">식당</span>
+                      </div>
+                      <div className="popup-place-meta">{restaurant.data.genre} | {restaurant.data.budget}</div>
+                      <button 
+                        className="popup-place-add-btn" 
+                        onClick={() => handleAddPlace(restaurant.data.translated_restaurant_name)}
+                      >
+                        +
+                      </button>
+                      <div className="popup-place-detail">상세보기 &gt;</div>
+                    </div>
+                  ))}
+                  {searchResults.attractions.map((attraction) => (
+                    <div 
+                      className={"popup-place-card" + (selectedPlaces.includes(attraction.data.attraction) ? ' selected' : '')} 
+                      key={attraction.data._id}
+                    >
+                      <div className="popup-place-title">
+                        {attraction.data.attraction} 
+                        <span className="popup-place-badge">관광</span>
+                      </div>
+                      <div className="popup-place-meta">{attraction.data.description}</div>
+                      <button 
+                        className="popup-place-add-btn" 
+                        onClick={() => handleAddPlace(attraction.data.attraction)}
+                      >
+                        +
+                      </button>
+                      <div className="popup-place-detail">상세보기 &gt;</div>
+                    </div>
+                  ))}
+                  {searchResults.totalCount.restaurants === 0 && searchResults.totalCount.attractions === 0 && (
+                    <div>검색 결과가 없습니다.</div>
+                  )}
+                </>
+              ) : (
+                !loading && <div>검색어를 입력하세요.</div>
+              )}
             </div>
           </div>
         </>

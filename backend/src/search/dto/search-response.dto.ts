@@ -19,13 +19,13 @@ export class RestaurantSearchResultDto {
   // address: string;
   
   // @ApiProperty()
-  // lunchBudget: string; // 이거 비어있을 수도 있는데 어카지
+  // lunchBudget: string;
 
   // @ApiProperty()
-  // dinnerBudget: string; // Budget을 trim()?같은 거 해서 토큰화해갖고 숫자로 바꾸고 싶다
+  // dinnerBudget: string;
 
   // @ApiProperty()
-  // budget: string; // budget을 lunch/dinner로 나누고 싶다ㅜ
+  // budget: string;
 
   // @ApiProperty()
   // wifi: boolean;
@@ -36,8 +36,7 @@ export class RestaurantSearchResultDto {
 
   @ApiProperty({
     description: '검색 정확도 점수 (내부 로직에 의해 부여)',
-    example: 0.92,
-    required: false, // 이 필드는 보통 검색 결과에 동적으로 할당됩니다.
+    required: false,
   })
   sort?: number;
 
@@ -66,7 +65,7 @@ export class AttractionSearchResultDto {
   @ApiProperty({
     description: '검색 정확도 점수 (내부 로직에 의해 부여)',
     example: 0.92,
-    required: false, // 이 필드는 보통 검색 결과에 동적으로 할당됩니다.
+    required: false,
   })
   sort?: number;
 

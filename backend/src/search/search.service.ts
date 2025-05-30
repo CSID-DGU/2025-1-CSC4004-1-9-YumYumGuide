@@ -22,12 +22,13 @@ export class SearchService {
     const { query, region } = searchDto;
 
     // MongoDB 텍스트 검색 쿼리 구성
-    const searchQuery = this.buildSearchQuery(query, region);
+    const searchQueryR = this.buildSearchQueryRestaurant(query, region);
+    const searchQueryA = this.buildSearchQueryAttraction(query, region);
 
     // 병렬로 음식점과 관광지 검색 실행
     const [restaurantResults, attractionResults] = await Promise.all([
-      this.searchRestaurants(searchQuery),
-      this.searchAttractions(searchQuery),
+      this.searchRestaurants(searchQueryR),
+      this.searchAttractions(searchQueryA),
     ]);
 
     // console.log(restaurantResults)
@@ -53,24 +54,33 @@ export class SearchService {
     };
   }
 
-  private buildSearchQuery(query: string, region: string) {
+  private buildSearchQueryRestaurant(query: string, region: string) {
     const mongoQuery: any = {
-        // { region: { $regex: region, $options: 'i' } },
-        // isActive: true,
-        $text: { $search: query }
+        genre: { $regex: query }
     };
 
     console.log(mongoQuery);
+    return mongoQuery;
+  }
 
+  private buildSearchQueryAttraction(query: string, region: string) {
+    const mongoQuery: any = {
+        // { region: { $regex: region, $options: 'i' } },
+        // isActive: true,
+        // $text: { $search: query },
+        description: { $regex: query }
+    };
+
+    console.log(mongoQuery);
     return mongoQuery;
   }
 
   private async searchRestaurants(query: any): Promise<RestaurantDocument[]> {
     return this.restaurantModel
       .find(query, {
-        score: { $meta: 'textScore' }
+        // score: { $meta: 'textScore' }
       })
-      .sort({ score: { $meta: 'textScore' }, rating: -1 })
+      // .sort({ score: { $meta: 'textScore' }, rating: -1 })
       .limit(10)
       .exec();
   }
@@ -78,14 +88,14 @@ export class SearchService {
   private async searchAttractions(query: any): Promise<AttractionDocument[]> {
     return this.attractionModel
       .find(query, {
-        score: { $meta: 'textScore' }
+        // score: { $meta: 'textScore' }
       })
-      .sort({ score: { $meta: 'textScore' }, rating: -1 })
+      // .sort({ score: { $meta: 'textScore' }, rating: -1 })
       .limit(10)
       .exec();
   }
 
-  private sortByRelevanceRestaurant<T extends { restaurant_name: string; genre: string }>(
+  private sortByRelevanceRestaurant<T extends { restaurant_name: string; genre: string; translated_restaurant_name: string }>(
     results: T[], 
     keyword: string
   ): (T & { calculatedScore: number })[] {
@@ -123,11 +133,7 @@ export class SearchService {
 
     // 이름에 키워드가 포함된 경우 높은 점수
     if (lowerName.includes(lowerKeyword)) {
-      score += 100;
-      // 이름이 키워드로 시작하는 경우 추가 점수
-      if (lowerName.startsWith(lowerKeyword)) {
-        score += 50;
-      }
+      score += 50;
       // 이름과 키워드가 정확히 일치하는 경우 최고 점수
       if (lowerName === lowerKeyword) {
         score += 100;
@@ -136,11 +142,8 @@ export class SearchService {
 
     // 설명에 키워드가 포함된 경우
     if (lowerDescription.includes(lowerKeyword)) {
-      score += 30;
+      score += 50;
     }
-
-    // 평점을 점수에 반영 (최대 25점)
-    // score += (item.rating || 0) * 5;
 
     return score;
   }
@@ -158,25 +161,12 @@ export class SearchService {
     let score = 0;
 
     // 이름에 키워드가 포함된 경우 높은 점수
-    if (lowerName.includes(lowerKeyword)) {
+    if (lowerName.includes(lowerKeyword))
       score += 100;
-      // 이름이 키워드로 시작하는 경우 추가 점수
-      if (lowerName.startsWith(lowerKeyword)) {
-        score += 50;
-      }
-      // 이름과 키워드가 정확히 일치하는 경우 최고 점수
-      if (lowerName === lowerKeyword) {
-        score += 100;
-      }
-    }
 
     // 설명에 키워드가 포함된 경우
-    if (lowerDescription.includes(lowerKeyword)) {
+    if (lowerDescription.includes(lowerKeyword))
       score += 30;
-    }
-
-    // 평점을 점수에 반영 (최대 25점)
-    // score += (item.rating || 0) * 5;
 
     return score;
   }
@@ -184,7 +174,7 @@ export class SearchService {
   private mapToRestaurantDto(restaurant): RestaurantSearchResultDto {
     return {
       // _id: d_restaurant._id.toString(),
-      // name: d_restaurant.restaurant_name,
+      // name: d_restaurant.translated_restaurant_name,
       // genre: d_restaurant.genre,
       // lunchBudget: d_restaurant.lunchBudget,
       // dinnerBudget: d_restaurant.dinnerBudget,
@@ -204,16 +194,72 @@ export class SearchService {
     };
   }
 
-  // 지역별 인기 검색어 조회
-  async getPopularKeywordsByRegion(region: string): Promise<string[]> {
-    // 실제로는 검색 로그를 분석해서 인기 키워드를 반환
-    // 여기서는 예시 데이터 반환
-    const popularKeywords = {
-      '서울': ['맛집', '카페', '박물관', '공원', '쇼핑'],
-      '부산': ['해변', '횟집', '시장', '온천', '전망대'],
-      '제주': ['흑돼지', '카페', '해변', '박물관', '오름'],
-    };
+   async getAutocompleteSuggestions(query: string, limit: number = 10): Promise<string[]> {
+    if (query.length < 2) {
+      return [];
+    }
 
-    return popularKeywords[region] || ['맛집', '관광지', '카페'];
+    const suggestions = new Set<string>();
+
+    // 음식점 이름에서 검색
+    const restaurantSuggestions = await this.restaurantModel
+      .find({
+        restaurant_name: { $regex: query, $options: 'i' }
+      })
+      .select('translated_restaurant_name')
+      .limit(limit / 2)
+      .exec();
+
+    // 관광지 이름에서 검색
+    const attractionSuggestions = await this.attractionModel
+      .find({
+        attraction: { $regex: query, $options: 'i' }
+      })
+      .select('attraction')
+      .limit(limit / 2)
+      .exec();
+
+    // 결과를 Set에 추가 (중복 제거)
+    restaurantSuggestions.forEach(item => {
+      if (item.restaurant_name) {
+        suggestions.add(item.restaurant_name);
+      }
+    });
+
+    attractionSuggestions.forEach(item => {
+      if (item.attraction) {
+        suggestions.add(item.attraction);
+      }
+    });
+
+    // 관련성 순으로 정렬
+    const sortedSuggestions = Array.from(suggestions)
+      .sort((a, b) => {
+        const aStartsWith = a.toLowerCase().startsWith(query.toLowerCase());
+        const bStartsWith = b.toLowerCase().startsWith(query.toLowerCase());
+        
+        if (aStartsWith && !bStartsWith) return -1;
+        if (!aStartsWith && bStartsWith) return 1;
+        return a.length - b.length;
+      })
+      .slice(0, limit);
+
+    return sortedSuggestions;
+  }
+
+  // 장르/카테고리 기반 검색어 추천
+  async getGenreSuggestions(query: string, limit: number = 5): Promise<string[]> {
+    if (query.length < 2) {
+      return [];
+    }
+
+    const genreSuggestions = await this.restaurantModel
+      .distinct('genre', {
+        genre: { $regex: query, $options: 'i' }
+      })
+      .limit(limit)
+      .exec();
+
+    return genreSuggestions.filter(genre => genre?.toLowerCase().includes(query.toLowerCase()));
   }
 }
