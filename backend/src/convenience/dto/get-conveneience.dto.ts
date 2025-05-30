@@ -1,11 +1,11 @@
 import { IsEnum, IsOptional, IsString } from "class-validator";
 import { ConvenienceCategory } from "../enums/convenience-category.enum";
-import { PaginationDto } from "src/common/dto/pagination.dto";
+import { PaginationDto } from "src/common/response/pagination.dto";
 
 // 편의점 종류를 위한 Enum (키와 값을 모두 소문자로 통일)
 export enum StoreType {
-  familymart = 'familymart', 
-  seveneleven = 'seveneleven', 
+  familymart = 'familymart',
+  seveneleven = 'seveneleven',
   lawson = 'lawson', // 로손 추가
   // cu = 'cu', 
   // gs25 = 'gs25',

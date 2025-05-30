@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 
 export type ScheduleDocument = Schedule & Document;
@@ -7,11 +7,14 @@ export type ScheduleDocument = Schedule & Document;
 @Schema({ timestamps: true })
 export class Schedule {
 
-  @Prop({ required: true })
-  startDate: Date;
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  userId: Types.ObjectId;
 
   @Prop({ required: true })
-  endDate: Date;
+  startDate: String;
+
+  @Prop({ required: true })
+  endDate: String;
 
   @Prop({ required: true })
   days: Day[];
@@ -25,6 +28,9 @@ class Event {
 
   @Prop({ required: true })
   refId: string; // ObjectId (string)
+
+  @Prop({ required: true })
+  name: string; // 장소 이름
 }
 
 class Day {

@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/user/schemas/user.schema';
-import { ApiResponseDto } from 'src/common/dto/api.response.dto';
+import { ApiResponseDto } from 'src/common/response/api.response.dto';
 import { UserResponseDto } from 'src/user/dto/update-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Authorization } from './custom-guards-decorators/get-user.decorators';
@@ -50,26 +50,26 @@ export class AuthController {
       }
 
       const user = req.user as UserDocument;
-      
+
       // 이전 토큰이 있다면 삭제
       await this.authService.invalidateExistingTokens(user.id);
-      
+
       // 새로운 JWT 토큰 생성
       const jwtToken = await this.authService.generateJwtToken(user);
       const userResponseDto = new UserResponseDto(user);
-    
+
       this.logger.verbose(`User signed in successfully: ${JSON.stringify(userResponseDto)}`);
-    
+
       const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
-      
+
       // 사용자 취향 정보 확인
       const hasPreferences = await this.userService.checkIfUserHasPreferences(user.id);
 
       res.cookie('auth_token', jwtToken, {
-        httpOnly: false, 
-        secure: false,   
-        sameSite: 'lax', 
-        maxAge: 24 * 60 * 60 * 1000 
+        httpOnly: false,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000
       });
 
       if (hasPreferences) {
