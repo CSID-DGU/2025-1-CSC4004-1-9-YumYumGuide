@@ -26,17 +26,18 @@ async function bootstrap() {
   // CORS 설정 통합
   app.enableCors({
     origin: [
-      'http://localhost:3000',  // 프론트엔드 주소
-      'http://localhost:3001',  // 다른 프론트엔드 주소
-      'https://kauth.kakao.com', // 카카오 인증 서버
-      'https://kapi.kakao.com',   // 카카오 API 서버
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://kauth.kakao.com',
+      'https://kapi.kakao.com',
       'https://accounts.kakao.com',
       process.env.FRONTEND_URL
-    ].filter(Boolean),
+    ].filter((origin): origin is string => typeof origin === 'string'),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,  // 쿠키 전송을 위해 필요
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
+  
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
