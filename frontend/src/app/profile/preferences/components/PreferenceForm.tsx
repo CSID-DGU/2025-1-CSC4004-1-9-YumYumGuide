@@ -181,7 +181,7 @@ const PreferenceForm: FC = () => {
         src="/icons/back.svg" width={44} height={44} alt="back" onClick={() => router.back()}
       />
 
-      <Image className={styles.profileIcon} src="/icons/profile_icon.svg" width={49} height={49} alt="profile" />
+      {/* <Image className={styles.profileIcon} src="/icons/profile_icon.svg" width={49} height={49} alt="profile" /> */}
 
       {/* 본문 */}
       <div className={styles.inner}>
