@@ -28,7 +28,7 @@ const Profile: NextPage = () => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/me`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         console.log('[ProfilePage] /api/user/me response status:', response.status);
@@ -66,9 +66,9 @@ const Profile: NextPage = () => {
   }, [router]);
 
   /* 네비게이션 함수 */
-  const handleSettingClick   = () => router.push('/profile/edit');
-  const handleFavorClick     = () => router.push('/profile/preferences');
-  const handleLogoutClick    = () => {
+  const handleSettingClick = () => router.push('/profile/edit');
+  const handleFavorClick = () => router.push('/profile/preferences');
+  const handleLogoutClick = () => {
     Cookies.remove('auth_token');
     router.push('/login');
   };
@@ -78,18 +78,10 @@ const Profile: NextPage = () => {
     <div className={styles.div}>
       <div className={styles.div1}>프로필</div>
 
-      <Image
-        className={styles.profileIcon}
-        width={64}
-        height={64}
-        alt="프로필 이미지"
-        src="/icons/profile_icon.svg"
-      />
+      <Image className={styles.profileIcon} width={64} height={64} alt="프로필 이미지" src="/icons/profile_icon.svg" />
 
       {/* 닉네임 / 이메일 */}
-      <div className={styles.lovetrip}>
-        {isLoading ? '로딩 중...' : nickname}
-      </div>
+      <div className={styles.lovetrip}>{isLoading ? '로딩 중...' : nickname}</div>
 
       {/* 메뉴 3개 */}
       <div className={styles.menu}>
@@ -125,7 +117,7 @@ const Profile: NextPage = () => {
       </div>
 
       {/* 구분선 */}
-      <Image className={styles.divisonLineIcon}  width={335} height={2} alt="" src="/icons/division_line.svg" />
+      <Image className={styles.divisonLineIcon} width={335} height={2} alt="" src="/icons/division_line.svg" />
       <Image className={styles.divisonLine2Icon} width={335} height={2} alt="" src="/icons/division_line.svg" />
 
       <Nav />
