@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
-    "@types/js-cookie": "^3.0.6"
+    "@types/js-cookie": "^3.0.6",
+    "cross-env": "^7.0.3"
   }
 }
