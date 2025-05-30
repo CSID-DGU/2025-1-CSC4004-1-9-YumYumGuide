@@ -19,16 +19,16 @@ export class AttractionController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.attractionService.findOne(+id);
+    return this.attractionService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAttractionDto: UpdateAttractionDto) {
-    return this.attractionService.update(+id, updateAttractionDto);
-  }
+    return this.attractionService.update(id, updateAttractionDto);
+  }ㅋ
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.attractionService.remove(+id);
+    return this.attractionService.remove(id);
   }
 }
