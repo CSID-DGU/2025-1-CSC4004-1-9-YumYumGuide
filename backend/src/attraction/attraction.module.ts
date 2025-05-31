@@ -7,11 +7,11 @@ import { Attraction, AttractionSchema } from './schema/attraction.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Attraction.name, schema: AttractionSchema },
-    ]),
+      { name: Attraction.name, schema: AttractionSchema }
+    ])
   ],
   controllers: [AttractionController],
   providers: [AttractionService],
-  exports: [AttractionService],
+  exports: [AttractionService]
 })
-export class AttractionModule { }
+export class AttractionModule {}

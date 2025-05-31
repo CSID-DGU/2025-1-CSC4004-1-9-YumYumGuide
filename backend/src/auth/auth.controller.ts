@@ -2,15 +2,15 @@ import { Body, Controller, Get, Logger, Post, Query, Req, Res, UseGuards, Intern
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/user/schemas/user.schema';
-import { ApiResponseDto } from 'src/common/response/api.response.dto';
+import { User, UserDocument } from 'src/user/schemas/user.schema';
+import { ApiResponseDto } from 'src/common/dto/api.response.dto';
 import { UserResponseDto } from 'src/user/dto/update-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Authorization } from './custom-guards-decorators/get-user.decorators';
 import { JwtAuthGuard } from './strategy/jwt.strategy';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
-import { UserDocument } from 'src/user/schemas/user.schema';
+import { FavoriteService } from 'src/favorite/favorite.service';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +20,7 @@ export class AuthController {
     private authService: AuthService,
     private configService: ConfigService,
     private userService: UserService,
+    private favoriteService: FavoriteService,
   ) { }
 
   // 인증된 회원이 들어갈 수 있는 테스트 URL 경로
@@ -31,6 +32,45 @@ export class AuthController {
     this.logger.verbose(`Authenticated user accessing test route: ${user.email}`);
     const userResponseDto = new UserResponseDto(user);
     return new ApiResponseDto(true, 200, 'You are authenticated', userResponseDto);
+  }
+
+  @Get('/me')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async getCurrentUser(@Authorization() user: UserDocument, @Req() req: any): Promise<ApiResponseDto<any>> {
+    try {
+      this.logger.verbose(`Getting current user information for user: ${JSON.stringify(user)}`);
+      
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // 사용자 정보에 _id를 userId로 추가
+      const userData = {
+        ...user.toObject(),
+        userId: user._id?.toString() || '' // MongoDB의 _id를 userId로 사용
+      };
+
+      // password와 __v 필드 제거
+      delete userData.password;
+      delete userData.__v;
+
+      // 사용자의 선호도 정보 가져오기
+      const preferences = await this.favoriteService.findByUserId(userData.userId);
+      this.logger.verbose(`User preferences: ${JSON.stringify(preferences)}`);
+
+      // 사용자 정보와 선호도 정보를 함께 반환
+      const responseData = {
+        ...userData,
+        preferences: preferences || null
+      };
+
+      console.log(responseData, 'userData with preferences');
+      return new ApiResponseDto(true, 200, 'Current user information retrieved successfully', responseData);
+    } catch (error) {
+      this.logger.error(`Error in getCurrentUser: ${error.message}`);
+      throw error;
+    }
   }
 
   // 카카오 로그인 페이지 요청

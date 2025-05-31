@@ -1,62 +1,40 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Attraction } from './schema/attraction.schema';
 import { CreateAttractionDto } from './dto/create-attraction.dto';
 import { UpdateAttractionDto } from './dto/update-attraction.dto';
+import { Attraction, AttractionDocument } from './schema/attraction.schema';
 
 @Injectable()
 export class AttractionService {
   constructor(
-    @InjectModel(Attraction.name) private readonly attractionModel: Model<Attraction>,
-  ) { }
+    @InjectModel(Attraction.name) private attractionModel: Model<AttractionDocument>,
+  ) {}
 
-  async create(createAttractionDto: CreateAttractionDto): Promise<Attraction> {
+  async create(createAttractionDto: CreateAttractionDto) {
     const createdAttraction = new this.attractionModel(createAttractionDto);
     return createdAttraction.save();
   }
 
-  async findAll(): Promise<Attraction[]> {
+  async findAll() {
     return this.attractionModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Attraction> {
-    const attraction = await this.attractionModel.findById(id).exec();
-    if (!attraction) {
-      throw new NotFoundException(`Attraction with ID ${id} not found`);
-    }
-    return attraction;
+  async findByType(type: string): Promise<any[]> {
+    const collectionName = type === 'restaurant' ? 'restaurants' : 'attractions';
+    // @ts-ignore: client는 실제로 존재함
+    return (this.attractionModel.db as any).client.db('main').collection(collectionName).find().toArray();
   }
 
-  async findByCategory(category: string): Promise<Attraction[]> {
-    return this.attractionModel.find({ category }).exec();
+  async findOne(id: string) {
+    return this.attractionModel.findById(id).exec();
   }
 
-  async search(query: string): Promise<Attraction[]> {
-    return this.attractionModel.find({
-      $or: [
-        { attraction_fuzzy: { $regex: query, $options: 'i' } },
-        { category_fuzzy: { $regex: query, $options: 'i' } },
-        { description_fuzzy: { $regex: query, $options: 'i' } }
-      ]
-    }).exec();
+  async update(id: string, updateAttractionDto: UpdateAttractionDto) {
+    return this.attractionModel.findByIdAndUpdate(id, updateAttractionDto, { new: true }).exec();
   }
 
-  async update(id: string, updateAttractionDto: UpdateAttractionDto): Promise<Attraction> {
-    const updatedAttraction = await this.attractionModel
-      .findByIdAndUpdate(id, updateAttractionDto, { new: true })
-      .exec();
-    if (!updatedAttraction) {
-      throw new NotFoundException(`Attraction with ID ${id} not found`);
-    }
-    return updatedAttraction;
-  }
-
-  async remove(id: string): Promise<Attraction> {
-    const deletedAttraction = await this.attractionModel.findByIdAndDelete(id).exec();
-    if (!deletedAttraction) {
-      throw new NotFoundException(`Attraction with ID ${id} not found`);
-    }
-    return deletedAttraction;
+  async remove(id: string) {
+    return this.attractionModel.findByIdAndDelete(id).exec();
   }
 }

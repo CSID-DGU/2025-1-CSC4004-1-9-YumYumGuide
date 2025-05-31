@@ -14,20 +14,23 @@ export class ScheduleController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  find(
-    @Req() req,
-    @Query('startDate') startDate: string,
-    @Query('endDate') endDate: string
-  ) {
-    const userId = req.user._doc._id;
-    return this.scheduleService.findSchedule(userId, startDate, endDate);
+  findAll() {
+    return this.scheduleService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.scheduleService.findOne(id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateScheduleDto: UpdateScheduleDto) {
+    return this.scheduleService.update(id, updateScheduleDto);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
-  async deleteSchedule(@Param('id') id: string) {
-    return await this.scheduleService.deleteSchedule(id);
+  remove(@Param('id') id: string) {
+    return this.scheduleService.remove(id);
   }
 
   @Post('sample')

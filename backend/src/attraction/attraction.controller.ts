@@ -18,15 +18,18 @@ export class AttractionController {
     return this.attractionService.findAll();
   }
 
-  @Get('search')
-  search(@Query('q') query: string): Promise<Attraction[]> {
-    return this.attractionService.search(query);
-  }
-
-
-  @Get('detail/:id')
-  findOne(@Param('id') id: string): Promise<Attraction> {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
     return this.attractionService.findOne(id);
   }
 
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateAttractionDto: UpdateAttractionDto) {
+    return this.attractionService.update(id, updateAttractionDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.attractionService.remove(id);
+  }
 }

@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KakaoStrategy } from './strategy/kakao.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { UserModule } from 'src/user/user.module';
+import { FavoriteModule } from 'src/favorite/favorite.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserModule } from 'src/user/user.module';
       inject: [ConfigService],
     }),
     HttpModule,
+    FavoriteModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, KakaoStrategy, JwtStrategy],

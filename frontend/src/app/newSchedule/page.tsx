@@ -22,7 +22,9 @@ const NewSchedule = () => {
   const router = useRouter();
   const [flightDeparture, setFlightDeparture] = useState('morning');
   const [flightArrival, setFlightArrival] = useState('morning');
-
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userPreferences, setUserPreferences] = useState<any>(null);
+  
   // 팝업에서 선택 가능한 명소 목록 (예시)
   const popupPlaces = [
     { name: '스카이트리', meta: '관광 | ₩14,949' },
@@ -62,6 +64,46 @@ const NewSchedule = () => {
     return matrix;
   };
 
+  // 날짜 유효성 검사 함수
+  const isValidDate = (year: number, month: number, day: number) => {
+    const date = dayjs(`${year}-${month + 1}-${day}`);
+    return date.isValid();
+  };
+
+  // 시작일자 선택 핸들러
+  const handleStartDateSelect = (day: number | null) => {
+    if (!day) return;
+    
+    const newStartDate = dayjs(`${startCalendar.year}-${startCalendar.month + 1}-${day}`);
+    const currentEndDate = dayjs(`${endCalendar.year}-${endCalendar.month + 1}-${endCalendar.selected}`);
+    
+    if (newStartDate.isAfter(currentEndDate)) {
+      // 시작일자가 종료일자보다 늦으면 종료일자를 시작일자로 설정
+      setEndCalendar({
+        year: startCalendar.year,
+        month: startCalendar.month,
+        selected: day
+      });
+    }
+    
+    setStartCalendar(cal => ({ ...cal, selected: day }));
+  };
+
+  // 종료일자 선택 핸들러
+  const handleEndDateSelect = (day: number | null) => {
+    if (!day) return;
+    
+    const currentStartDate = dayjs(`${startCalendar.year}-${startCalendar.month + 1}-${startCalendar.selected}`);
+    const newEndDate = dayjs(`${endCalendar.year}-${endCalendar.month + 1}-${day}`);
+    
+    if (newEndDate.isBefore(currentStartDate)) {
+      alert('종료일자는 시작일자보다 이전일 수 없습니다.');
+      return;
+    }
+    
+    setEndCalendar(cal => ({ ...cal, selected: day }));
+  };
+
   const handleAddPlace = (placeName: string) => {
     if (editingPlaceIndex !== null) {
       const newPlaces = [...selectedPlaces];
@@ -98,29 +140,25 @@ const NewSchedule = () => {
   };
 
   const regionData = [
-    { name: '스기나미구', icon: '/icons/tokyo/1_Suginami.svg' },
-    { name: '네리마구', icon: '/icons/tokyo/2_Nerima.svg' },
-    { name: '이타바시구', icon: '/icons/tokyo/3_Itabashi.svg' },
-    { name: '나카노구', icon: '/icons/tokyo/4_Nakano.svg' },
-    { name: '도시마구', icon: '/icons/tokyo/5_Toshima.svg' },
-    { name: '키타구', icon: '/icons/tokyo/6_Kita.svg' },
-    { name: '아다치구', icon: '/icons/tokyo/7_Adachi.svg' },
-    { name: '신주쿠구', icon: '/icons/tokyo/8_Shinjuku.svg' },
-    { name: '분쿄구', icon: '/icons/tokyo/9_Bunkyo.svg' },
-    { name: '다이토구', icon: '/icons/tokyo/10_Taito.svg' },
-    { name: '아라카와구', icon: '/icons/tokyo/11_Arakawa.svg' },
-    { name: '세타가야구', icon: '/icons/tokyo/12_Setagaya.svg' },
-    { name: '메구로구', icon: '/icons/tokyo/13_Meguro.svg' },
-    { name: '시부야구', icon: '/icons/tokyo/14_Shibuya.svg' },
-    { name: '치요다구', icon: '/icons/tokyo/15_Chiyoda.svg' },
-    { name: '미나토구', icon: '/icons/tokyo/16_Minato.svg' },
-    { name: '주오구', icon: '/icons/tokyo/17_Chuo.svg' },
-    { name: '스미다구', icon: '/icons/tokyo/18_Sumida.svg' },
-    { name: '카츠시카구', icon: '/icons/tokyo/19_Katsushika.svg' },
-    { name: '오타구', icon: '/icons/tokyo/20_Ota.svg' },
-    { name: '시나가와구', icon: '/icons/tokyo/21_Shinagawa.svg' },
-    { name: '고토구', icon: '/icons/tokyo/22_Koto.svg' },
-    { name: '에도가와구', icon: '/icons/tokyo/23_Edogawa.svg' },
+    { name: '고탄다' },
+    { name: '긴자' },
+    { name: '나카메' },
+    { name: '니혼바시' },
+    { name: '도쿄역 주변' },
+    { name: '마루노우치' },
+    { name: '메구로' },
+    { name: '시부야' },
+    { name: '신바시' },
+    { name: '신주쿠' },
+    { name: '아사쿠사' },
+    { name: '아키하바라' },
+    { name: '에비스' },
+    { name: '우에노' },
+    { name: '유라쿠초' },
+    { name: '이케부코로' },
+    { name: '칸다' },
+    { name: '타마 치' },
+    { name: '하마 마츠' },
   ];
 
   // Calculate trip duration
@@ -137,6 +175,144 @@ const NewSchedule = () => {
       setSelectedRegions([]);
     }
   }, [startCalendar, endCalendar]);
+
+  // 사용자 정보 가져오기
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        console.log('사용자 정보 요청 시작');
+        const response = await fetch('http://localhost:5000/api/auth/me', {
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+        
+        console.log('응답 상태:', response.status);
+        const responseData = await response.json();
+        console.log('응답 데이터:', responseData);
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            console.log('인증되지 않은 사용자');
+            router.push('/login');
+            return;
+          }
+          throw new Error(responseData.message || '사용자 정보를 가져오는데 실패했습니다.');
+        }
+
+        if (!responseData.data) {
+          throw new Error('사용자 데이터가 없습니다.');
+        }
+
+        const userData = responseData.data;
+        console.log('사용자 데이터:', userData);
+        console.log('사용자 데이터:ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ', userData.preferences.attractionType.join(', '));
+        setUserId(userData._id);
+        // preferences가 없는 경우 기본값 설정
+        setUserPreferences({
+          smoking: userData.preferences.smoking,
+          drinking: userData.preferences.drinking,
+          travelStyle: userData.preferences.travelStyle,
+          favoriteFood: userData.preferences.favoriteFood,
+          groupType: userData.preferences.groupType,
+          attractionTypes: userData.preferences.attractionType,
+          ...userData.preferences
+        });
+
+        console.log('사용자 정보 설정 완료:', {
+          userId: userData._id,
+          preferences: userData.preferences
+        });
+      } catch (error) {
+        console.error('사용자 정보 조회 중 상세 오류:', error);
+        if (error instanceof Error) {
+          alert(error.message);
+        } else {
+          alert('사용자 정보를 가져오는데 실패했습니다. 다시 로그인해주세요.');
+        }
+        router.push('/login');
+      }
+    };
+
+    fetchUserInfo();
+  }, [router]);
+
+  const handleCreateSchedule = async () => {
+    try {
+      if (!userId || !userPreferences) {
+        alert('로그인이 필요합니다.');
+        router.push('/login');
+        return;
+      }
+
+      console.log('일정 생성 시작');
+      
+      const scheduleData = {
+        userId,
+        flightDeparture,
+        flightArrival,
+        startDate: new Date(startCalendar.year, startCalendar.month, startCalendar.selected),
+        endDate: new Date(endCalendar.year, endCalendar.month, endCalendar.selected),
+        selectedRegions,
+        selectedPlaces,
+        budget,
+        smoking: userPreferences.smoking === 1,
+        drinking: userPreferences.drinking === 1,
+        travelStyle: userPreferences.travelStyle === '맛집 위주' ? 'food' : 'sightseeing',
+        foodPreference: userPreferences.favoriteFood || 0,
+        groupSize: userPreferences.groupType === '1인&2인' ? 0 : 1,
+        attractionTypes: userPreferences.attractionTypes
+      };
+
+      console.log('전송할 데이터:', {
+        ...scheduleData,
+        startDate: scheduleData.startDate.toISOString(),
+        endDate: scheduleData.endDate.toISOString()
+      });
+
+      console.log('백엔드 API 호출 시작');
+      const response = await fetch('http://localhost:5000/api/schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(scheduleData),
+      });
+
+      console.log('API 응답 상태:', response.status, response.statusText);
+
+      if (!response.ok) {
+        let errorMessage = '일정 생성에 실패했습니다.';
+        try {
+          const errorData = await response.json();
+          console.error('API 응답 에러:', {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorData
+          });
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          console.error('에러 응답 파싱 실패:', e);
+          const text = await response.text();
+          console.error('원본 응답:', text);
+        }
+        throw new Error(errorMessage);
+      }
+
+      const result = await response.json();
+      console.log('일정 생성 성공:', result);
+      
+      console.log('결과 페이지로 이동');
+      router.push(`/schedule/result?id=${result._id}`);
+    } catch (error) {
+      console.error('일정 생성 중 오류 발생:', error);
+      alert(error instanceof Error ? error.message : '일정 생성 중 오류가 발생했습니다.');
+    }
+  };
+
 
   return (
     <div className="new-schedule-container">
@@ -254,15 +430,7 @@ const NewSchedule = () => {
                             ? 'calendar-today-cal'
                             : ''
                         }
-                        onClick={() => {
-                          if (d) {
-                            setStartCalendar((cal) => ({ ...cal, selected: d }));
-                            const duration = calculateTripDuration();
-                            if (selectedRegions.length > duration) {
-                              setSelectedRegions([]);
-                            }
-                          }
-                        }}
+                        onClick={() => handleStartDateSelect(d)}
                         style={{ cursor: d ? 'pointer' : 'default' }}
                       >
                         {d || ''}
@@ -337,25 +505,11 @@ const NewSchedule = () => {
                       <td
                         key={j}
                         className={
-                          d === null
-                            ? ''
-                            : d === endCalendar.selected
-                            ? 'calendar-selected-cal'
-                            : endCalendar.year === today.year() &&
-                              endCalendar.month === today.month() &&
-                              d === today.date()
-                            ? 'calendar-today-cal'
-                            : ''
+                          d === null ? '' :
+                          d === endCalendar.selected ? 'calendar-selected-cal' :
+                          (endCalendar.year === today.year() && endCalendar.month === endCalendar.month && d === today.date()) ? 'calendar-today-cal' : ''
                         }
-                        onClick={() => {
-                          if (d) {
-                            setEndCalendar((cal) => ({ ...cal, selected: d }));
-                            const duration = calculateTripDuration();
-                            if (selectedRegions.length > duration) {
-                              setSelectedRegions([]);
-                            }
-                          }
-                        }}
+                        onClick={() => handleEndDateSelect(d)}
                         style={{ cursor: d ? 'pointer' : 'default' }}
                       >
                         {d || ''}
@@ -387,7 +541,10 @@ const NewSchedule = () => {
                 }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
-                <Image src={region.icon} alt={region.name} width={40} height={40} style={{ marginBottom: 4 }} />
+                <img
+                  alt={region.name}
+                  style={{ width: 40, height: 40, marginBottom: 4 }}
+                />
                 <div>{region.name}</div>
               </div>
             ))}
@@ -434,9 +591,7 @@ const NewSchedule = () => {
           </button>
         </div>
         {/* 일정 생성하기 버튼 */}
-        <button className="create-schedule-btn" onClick={() => router.push('/schedule/result')}>
-          일정 생성하기
-        </button>
+        <button className="create-schedule-btn" onClick={handleCreateSchedule}>일정 생성하기</button>
       </div>
       {isPlacePopupOpen && (
         <>
