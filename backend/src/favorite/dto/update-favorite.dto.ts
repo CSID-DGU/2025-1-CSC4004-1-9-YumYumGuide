@@ -11,20 +11,20 @@ export class UpdateFavoriteDto {
   @IsNumber()
   drinking?: number;
 
-  @IsEnum(['맛집 위주', '관광지 위주'])
+  @IsEnum([0, 1])
   @IsOptional()
-  @IsString()
-  travelStyle?: string;
+  @IsNumber()
+  travelStyle?: number;
 
-  @IsEnum(['육류', '해산물', '면류', '밥류'])
+  @IsEnum([0, 1, 2, 3])
   @IsOptional()
-  @IsString()
-  favoriteFood?: string;
+  @IsNumber()
+  favoriteFood?: number;
 
-  @IsEnum(['1인&2인', '3인 이상'])
+  @IsEnum([0, 1])
   @IsOptional()
-  @IsString()
-  groupType?: string;
+  @IsNumber()
+  groupType?: number;
 
   @IsArray()
   @ArrayMinSize(1, { message: '관광지 유형은 최소 1개 선택해야 합니다.' })

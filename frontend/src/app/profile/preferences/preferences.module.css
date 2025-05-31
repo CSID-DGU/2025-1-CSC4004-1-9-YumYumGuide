@@ -1,6 +1,6 @@
 .div1 {
   position: absolute;
-  top: 67px;
+  top: 41px;
   left: 186px;
   line-height: 22px;
   font-weight: 700;
@@ -9,14 +9,14 @@
 }
 .saveIcon {
   position: absolute;
-  top: 56px;
+  top: 30px;
   left: 419px;
   width: 44px;
   height: 44px;
 }
 .backIcon {
   position: absolute;
-  top: 56px;
+  top: 30px;
   left: 30px;
   width: 44px;
   height: 44px;
@@ -43,56 +43,55 @@
 }
 .r1 {
   position: absolute;
-  top: 35px;
+  top: 0px;
   left: 0px;
-  box-shadow: 0px 6px 16px rgba(180, 188, 201, 0.12);
-  border-radius: 16px;
-  background-color: #fff;
+  box-shadow: none;
+  background-color: transparent;
   width: 382px;
-  height: 84px;
+  height: 0px;
 }
 .box1_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 173.3px;
-  height: 64px;
+  height: 40px;
 }
 .box2_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 173.3px;
-  height: 64px;
+  height: 40px;
 }
 .box3_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 173.3px;
-  height: 64px;
+  height: 40px;
 }
 .box6_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 173.3px;
-  height: 64px;
+  height: 40px;
 }
 .div3 {
   position: absolute;
-  top: 70px;
+  top: 39px;
   left: 57.02px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   color: #000;
   text-align: center;
@@ -102,46 +101,46 @@
 }
 .box1_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 196.13px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 174.5px;
-  height: 64px;
+  height: 40px;
 }
 .box2_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 196.13px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 174.5px;
-  height: 64px;
+  height: 40px;
 }
 .box3_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 196.13px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 174.5px;
-  height: 64px;
+  height: 40px;
 }
 .box6_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 196.13px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 174.5px;
-  height: 64px;
+  height: 40px;
 }
 .div4 {
   position: absolute;
-  top: 70px;
+  top: 39px;
   left: 245.01px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   color: #000;
   text-align: center;
@@ -151,16 +150,17 @@
 }
 .rrr1 {
   position: absolute;
-  top: 131px;
-  left: 0px;
-  border-radius: 16px;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 12px;
   background-color: #f7f7f9;
-  width: 382px;
-  height: 48px;
+  width: 362px;
+  height: 32px;
 }
 .div5 {
   position: absolute;
-  top: 148px;
+  top: 83px;
   left: 18.25px;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -171,15 +171,15 @@
 .smoking {
   width: 382px;
   position: relative;
-  height: 179px;
+  height: 106px;
   flex-shrink: 0;
 }
 .div8 {
   position: absolute;
-  top: 70px;
+  top: 39px;
   left: 243.25px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   color: #000;
   text-align: center;
@@ -200,10 +200,10 @@
 }
 .div12 {
   position: absolute;
-  top: 70px;
+  top: 39px;
   left: 232.62px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   color: #000;
   text-align: center;
@@ -213,7 +213,7 @@
 }
 .div13 {
   position: absolute;
-  top: 148px;
+  top: 83px;
   left: 18.25px;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -236,28 +236,28 @@
 }
 .box4_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .box5_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .div15 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 29.65px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 42.2px;
@@ -265,28 +265,28 @@
 }
 .box4_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 104.91px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .box5_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 104.91px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .div16 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 123.15px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 42.2px;
@@ -294,28 +294,28 @@
 }
 .box4_3 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 198.41px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .box5_3 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 198.41px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .div17 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 223.5px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 28.5px;
@@ -323,36 +323,37 @@
 }
 .box4_4 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 291.92px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .box5_4 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 291.92px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 78.7px;
-  height: 64px;
+  height: 40px;
 }
 .div18 {
   position: absolute;
-  top: 71px;
-  left: 317px;
+  top: 39px;
+  left: 294px;
+  width: 74px;
+  text-align: center;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
-  width: 28.5px;
   height: 18px;
 }
 .div19 {
   position: absolute;
-  top: 148px;
+  top: 83px;
   left: 18.25px;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -360,12 +361,12 @@
   color: #1b1e28;
   text-align: left;
   display: inline-block;
-  width: 54.2px;
+  width: 94.2px;
 }
 .likeFood {
   width: 382px;
   position: relative;
-  height: 179px;
+  height: 106px;
   flex-shrink: 0;
   text-align: center;
   color: #000;
@@ -385,10 +386,10 @@
 }
 .div23 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 213.24px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 49px;
@@ -396,10 +397,10 @@
 }
 .div24 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 310.16px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 42.2px;
@@ -407,7 +408,7 @@
 }
 .div25 {
   position: absolute;
-  top: 148px;
+  top: 82px;
   left: 18.25px;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -431,16 +432,17 @@
 
 .rrr14 {
   position: absolute;
-  top: 132px;
-  left: 0px;
-  border-radius: 16px;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 12px;
   background-color: #f7f7f9;
-  width: 382px;
-  height: 48px;
+  width: 362px;
+  height: 32px;
 }
 .div29 {
   position: absolute;
-  top: 149px;
+  top: 83px;
   left: 18.25px;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -451,7 +453,7 @@
 .headcount {
   width: 382px;
   position: relative;
-  height: 180px;
+  height: 106px;
   flex-shrink: 0;
 }
 .div30 {
@@ -468,19 +470,19 @@
 }
 .box7_1 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 11.4px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 62.7px;
-  height: 64px;
+  height: 40px;
 }
 .div31 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 28.51px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 28.5px;
@@ -488,19 +490,19 @@
 }
 .box7_2 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 85.52px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 62.7px;
-  height: 64px;
+  height: 40px;
 }
 .div32 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 102.63px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 28.5px;
@@ -508,19 +510,19 @@
 }
 .box7_3 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 159.64px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 62.7px;
-  height: 64px;
+  height: 40px;
 }
 .div33 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 176.75px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 28.5px;
@@ -528,19 +530,19 @@
 }
 .box7_4 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 233.76px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 62.7px;
-  height: 64px;
+  height: 40px;
 }
 .div34 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 237.32px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 56.5px;
@@ -548,19 +550,19 @@
 }
 .box7_5 {
   position: absolute;
-  top: 45px;
+  top: 28px;
   left: 307.88px;
   border-radius: 16px;
   background-color: #f8f8f8;
   width: 62.7px;
-  height: 64px;
+  height: 40px;
 }
 .div35 {
   position: absolute;
-  top: 71px;
+  top: 39px;
   left: 309.66px;
   letter-spacing: 0.3px;
-  line-height: 16px;
+  line-height: 18px;
   font-weight: 600;
   display: inline-block;
   width: 59.1px;
@@ -568,16 +570,17 @@
 }
 .rrr15 {
   position: absolute;
-  top: 130px;
-  left: 0px;
-  border-radius: 16px;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 12px;
   background-color: #f7f7f9;
-  width: 382px;
-  height: 48px;
+  width: 362px;
+  height: 32px;
 }
 .div36 {
   position: absolute;
-  top: 147px;
+  top: 83px;
   left: 18.25px;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -595,30 +598,30 @@
 .theme {
   width: 382px;
   position: relative;
-  height: 178px;
+  height: 106px;
   flex-shrink: 0;
   text-align: center;
   color: #000;
 }
 .smokingParent {
-  position: absolute;
   top: 0px;
   left: 0px;
-  width: 399px;
-  height: 663px;
+  width: 382px;
+  height: 730px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 15px;
 }
 .inner {
-  position: absolute;
-  top: 254px;
-  left: 53px;
-  width: 399px;
-  height: 1349px;
+  position: relative;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 382px;
+  height: 720px;
   text-align: left;
   font-size: 13px;
 }
@@ -645,15 +648,15 @@
 }
 .box {
   width: 173px;
-  height: 64px;
+  height: 48px;
 }
 .boxSmall {
   width: 78px;
-  height: 64px;
+  height: 48px;
 }
 .boxXSmall {
   width: 62px;
-  height: 64px;
+  height: 48px;
 }
 /* 선택 박스 & 저장 아이콘에 커서 */
 .selectBox,

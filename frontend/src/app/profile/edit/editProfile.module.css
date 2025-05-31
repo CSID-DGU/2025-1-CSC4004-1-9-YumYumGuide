@@ -1,6 +1,6 @@
 .div1 {
   position: absolute;
-  top: 67px;
+  top: 41px;
   left: 50%;
   transform: translateX(-50%);
   font-weight: 700;
@@ -9,7 +9,7 @@
 .backIcon,
 .saveIcon {
   position: absolute;
-  top: 56px;
+  top: 30px;
   width: 44px;
   height: 44px;
   background: none;
