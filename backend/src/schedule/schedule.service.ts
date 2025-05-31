@@ -12,7 +12,6 @@ function yyyymmddStringToUtcDate(dateStr: string): Date {
   return new Date(Date.UTC(year, month, day));
 }
 
-// Helper: Date 객체를 YYYYMMDD 형식의 숫자로 변환
 function dateToYYYYMMDDNumber(date: Date): number {
   const year = date.getUTCFullYear();
   const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
