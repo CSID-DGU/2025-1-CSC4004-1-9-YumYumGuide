@@ -373,4 +373,21 @@ export class ScheduleService {
   remove(id: string) {
     return this.scheduleModel.findByIdAndDelete(id).exec();
   }
+
+  async createSampleData(userId: string) {
+    const sampleSchedule = new this.scheduleModel({
+      userId,
+      title: '샘플 일정',
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2일 후
+      budget: 500000,
+      selectedRegions: ['시부야', '신주쿠'],
+      attractionTypes: ['문화', '자연'],
+      travelStyle: '일반',
+      flightDeparture: '09:00',
+      flightArrival: '18:00'
+    });
+
+    return await sampleSchedule.save();
+  }
 }
