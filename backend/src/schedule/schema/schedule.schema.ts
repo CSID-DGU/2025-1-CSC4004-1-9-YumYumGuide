@@ -28,6 +28,9 @@ export class Event {
 
   @Prop()
   description: string;
+
+  @Prop()
+  address: string;
 }
 
 @Schema()

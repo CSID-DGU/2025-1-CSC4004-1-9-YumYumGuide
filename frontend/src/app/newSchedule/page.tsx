@@ -313,6 +313,7 @@ const NewSchedule = () => {
     }
   };
 
+
   return (
     <div className="new-schedule-container">
       <div className="text-center p-6 font-bold text-[24px]">새로운 일정</div>

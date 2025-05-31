@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Schedule, ScheduleSchema } from './schema/schedule.schema';
 import { AttractionModule } from '../attraction/attraction.module';
 import { FavoriteModule } from '../favorite/favorite.module';
+import { RestaurantModule } from '../restaurant/restaurant.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { FavoriteModule } from '../favorite/favorite.module';
       { name: Schedule.name, schema: ScheduleSchema },
     ]),
     AttractionModule,
-    FavoriteModule
+    FavoriteModule,
+    RestaurantModule
   ],
   controllers: [ScheduleController],
   providers: [ScheduleService],

@@ -7,6 +7,7 @@ import { Schedule, ScheduleDocument, Day, Event } from './schema/schedule.schema
 import * as dayjs from 'dayjs';
 import { AttractionService } from '../attraction/attraction.service';
 import { FavoriteService } from '../favorite/favorite.service';
+import { Restaurant } from '../restaurant/schema/restaurant.schema';
 
 interface DailyBudget {
   total: number;
@@ -17,29 +18,25 @@ interface DailyBudget {
 
 // 지역명 한글-영어 매핑
 const regionNameMap: { [key: string]: string } = {
-  '스기나미구': 'Suginami',
-  '네리마구': 'Nerima',
-  '이타바시구': 'Itabashi',
-  '나카노구': 'Nakano',
-  '도시마구': 'Toshima',
-  '키타구': 'Kita',
-  '아다치구': 'Adachi',
-  '신주쿠구': 'Shinjuku',
-  '분쿄구': 'Bunkyo',
-  '다이토구': 'Taito',
-  '아라카와구': 'Arakawa',
-  '세타가야구': 'Setagaya',
-  '메구로구': 'Meguro',
-  '시부야구': 'Shibuya',
-  '치요다구': 'Chiyoda',
-  '미나토구': 'Minato',
-  '주오구': 'Chuo',
-  '스미다구': 'Sumida',
-  '카츠시카구': 'Katsushika',
-  '오타구': 'Ota',
-  '시나가와구': 'Shinagawa',
-  '고토구': 'Koto',
-  '에도가와구': 'Edogawa'
+  '고탄다': 'Gotanda',
+    '긴자': 'Ginza',
+    '나카메': 'Nakame',
+    '니혼바시': 'Nihonbashi',
+    '도쿄역 주변': 'tokyo_station',
+    '마루노우치': 'Marunouchi',
+    '메구로': 'Meguro',
+    '시부야': 'Shibuya',
+    '신바시': 'Shimbashi',
+    '신주쿠': 'Shinjuku',
+    '아사쿠사': 'Asakusa',
+    '아키하바라': 'Akihabara',
+    '에비스': 'Ebisu',
+    '우에노': 'Ueno',
+    '유라쿠초': 'Yurakucho',
+    '이케부코로': 'Ikebukuro',
+    '칸다': 'Kanda',
+    '타마 치': 'Tamachi',
+    '하마 마츠': 'Hamamatsu',
 };
 
 @Injectable()
@@ -50,6 +47,7 @@ export class ScheduleService {
     @InjectModel(Schedule.name) private scheduleModel: Model<ScheduleDocument>,
     private readonly attractionService: AttractionService,
     private readonly favoriteService: FavoriteService,
+    @InjectModel(Restaurant.name) private restaurantModel: Model<Restaurant>,
   ) {}
 
   private selectRegion(locations: string[]): string {
@@ -74,6 +72,13 @@ export class ScheduleService {
     }
     this.logger.log('사용자 취향 정보:', JSON.stringify(userPreferences, null, 2));
 
+    const selectedRegions = createScheduleDto.selectedRegions;
+    // 각 지역명이 5글자 이하인지 검증
+    const invalidRegions = selectedRegions.filter(region => region.length > 5);
+    if (invalidRegions.length > 0) {
+      this.logger.warn(`다음 지역명이 5글자를 초과합니다: ${invalidRegions.join(', ')}`);
+    }
+
     const schedule = new this.scheduleModel(createScheduleDto);
     
     // 여행 일수 계산
@@ -92,30 +97,34 @@ export class ScheduleService {
     );
     this.logger.log('일별 예산 계산 완료:', JSON.stringify(dailyBudgets, null, 2));
 
-    // 레스토랑 목록 가져오기
-    const restaurants = await this.attractionService.findByType('restaurant');
+    // 레스토랑 목록 가져오기 (MongoDB restaurants 컬렉션 직접 조회)
+    const restaurants = await this.restaurantModel.find({}).lean();
     this.logger.log(`가능한 레스토랑 수: ${restaurants.length}`);
 
     // 관광지 목록 가져오기
     const attractions = await this.attractionService.findByType('attraction');
-    this.logger.log(`가능한 관광지 수: ${attractions.length}`);
+    this.logger.log(`main DB attractions 컬렉션에서 조회된 관광지 수: ${attractions.length}`);
 
     // 사용자 선호도에 따른 일일 추천 개수 설정
     const dailyRecommendations = this.calculateDailyRecommendations(createScheduleDto.travelStyle);
     this.logger.log('일일 추천 개수:', JSON.stringify(dailyRecommendations, null, 2));
 
-    // 일별 일정 생성
+    // 일별 일정 생성 
+    // 여기 부터 작동이 원하는대로 안됨....
     const days: Day[] = [];
     for (let i = 0; i < duration; i++) {
       const currentDate = startDate.add(i, 'day');
       const dailyBudget = dailyBudgets[i];
 
-      // 해당 날짜의 지역 선택 (영어로 변환)
-      const selectedRegion = this.selectRegion(createScheduleDto.selectedRegions);
-      this.logger.log(`Day ${i + 1} 선택된 지역: ${selectedRegion}`);
+      // 순환 방식으로 지역 배정
+      const selectedRegionKorean = selectedRegions[i % selectedRegions.length];
+      const selectedRegion = regionNameMap[selectedRegionKorean] || selectedRegionKorean;
+      this.logger.log(`Day ${i + 1} 순환 배정된 지역: ${selectedRegion}`);
 
-      // 해당 지역의 레스토랑 필터링
-      const regionRestaurants = restaurants.filter(r => r.location === selectedRegion);
+      // 해당 지역의 레스토랑 필터링 (부분일치, 대소문자 무시)
+      const regionRestaurants = restaurants.filter(r =>
+        r.location && r.location.toLowerCase().includes(selectedRegion.toLowerCase()) && (r.dinner_budget ? r.dinner_budget * 10 <= 120000 : true)
+      );
       this.logger.log(`Day ${i + 1} 지역 레스토랑 수: ${regionRestaurants.length}`);
 
       // 사용자 선호도에 맞는 레스토랑 선택
@@ -133,14 +142,6 @@ export class ScheduleService {
       );
       this.logger.log(`Day ${i + 1} 지역 관광지 수: ${regionAttractions.length}`);
 
-      // 사용자 선호도에 맞는 관광지 선택
-      const selectedAttractions = this.selectAttractionsByPreference(
-        regionAttractions,
-        userPreferences,
-        dailyRecommendations.attractions
-      );
-      this.logger.log(`Day ${i + 1} 선택된 관광지 수: ${selectedAttractions.length}`);
-
       // 일정 구성
       const day: Day = {
         day: i + 1,
@@ -157,48 +158,81 @@ export class ScheduleService {
         const mealEvent: Event = {
           type: 'meal',
           refId: restaurant._id.toString(),
-          name: restaurant.name,
+          name: restaurant.translated_restaurant_name || restaurant.restaurant_name || restaurant.name,
           location: restaurant.location,
+          address: restaurant.address || '',
           startTime: this.generateRandomTime(9, 21), // 9시부터 21시 사이
           endTime: this.generateRandomTime(9, 21),
-          budget: restaurant.price,
-          description: `${restaurant.cuisine} | 평점: ${restaurant.rating} | ${restaurant.address}`
+          budget: (restaurant.menuAvgPrice != null ? restaurant.menuAvgPrice * 10 : (restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0)) || restaurant.budget || 0,
+          description: `${restaurant.cuisine || ''} | 평점: ${restaurant.rating || ''} | ${restaurant.address || ''}`
         };
         day.events.push(mealEvent);
       });
 
       // 관광 일정 추가
+      const filteredAttractions = attractions.filter(attraction => 
+        createScheduleDto.attractionTypes.includes(attraction.category as AttractionType)
+      );
+      const selectedAttractions = this.selectAttractionsByPreference(filteredAttractions, userPreferences, dailyRecommendations.attractions);
       selectedAttractions.forEach(attraction => {
         const attractionEvent: Event = {
           type: 'attraction',
           refId: attraction._id.toString(),
-          name: attraction.name,
+          name: attraction.attraction,
           location: attraction.location,
+          address: attraction.address || '',
           startTime: this.generateRandomTime(9, 18), // 9시부터 18시 사이
           endTime: this.generateRandomTime(9, 18),
-          budget: attraction.price,
-          description: `${attraction.category} | 평점: ${attraction.rating} | ${attraction.address}`
+          budget: attraction.price || attraction.budget || 0,
+          description: `${attraction.category} | 평점: ${attraction.rating} | ${attraction.address || ''}`
         };
         day.events.push(attractionEvent);
       });
 
       days.push(day);
+      // 예산 초과 확인
+      const totalEventBudget = day.events.reduce((sum, event) => sum + event.budget, 0);
+      const totalDailyBudget = day.foodBudget + day.activityBudget;
+      if (totalEventBudget > totalDailyBudget) {
+        this.logger.warn(`Day ${i + 1}의 총 이벤트 예산(${totalEventBudget})이 일일 예산(${totalDailyBudget})을 초과합니다. (foodBudget: ${day.foodBudget}, activityBudget: ${day.activityBudget})`);
+        // 마지막 추가된 식사 이벤트 제거
+        const lastMealEventIndex = day.events.findIndex(event => event.type === 'meal');
+        if (lastMealEventIndex !== -1) {
+          day.events.splice(lastMealEventIndex, 1);
+        }
+        // 새로운 레스토랑 선택
+        const newRestaurant = this.selectRestaurantsByPreference(regionRestaurants, userPreferences, 1)[0];
+        if (newRestaurant) {
+          const newMealEvent: Event = {
+            type: 'meal',
+            refId: newRestaurant._id.toString(),
+            name: newRestaurant.translated_restaurant_name || newRestaurant.restaurant_name || newRestaurant.name,
+            location: newRestaurant.location,
+            address: newRestaurant.address || '',
+            startTime: this.generateRandomTime(9, 21),
+            endTime: this.generateRandomTime(9, 21),
+            budget: (newRestaurant.menuAvgPrice != null ? newRestaurant.menuAvgPrice : (newRestaurant.dinner_budget ? newRestaurant.dinner_budget * 10 : 0)) || newRestaurant.budget || 0,
+            description: `${newRestaurant.cuisine || ''} | 평점: ${newRestaurant.rating || ''} | ${newRestaurant.address || ''}`
+          };
+          day.events.push(newMealEvent);
+        }
+      }
     }
 
     schedule.days = days;
     return schedule.save();
   }
 
-  private calculateDailyRecommendations(travelStyle: TravelStyle): { restaurants: number; attractions: number } {
-    if (travelStyle === TravelStyle.FOOD) {
+  private calculateDailyRecommendations(travelStyle: TravelStyle | string | number): { restaurants: number; attractions: number } {
+    if (travelStyle === TravelStyle.FOOD || travelStyle === 'food' || travelStyle === 0) {
       return {
-        restaurants: Math.floor(Math.random() * 4) + 4, // 4-7개
-        attractions: 2 // 2개
+        restaurants: 6, // 맛집 위주(0)일 때 음식점 6개
+        attractions: 4  // 맛집 위주(0)일 때 관광지 4개
       };
-    } else { // TravelStyle.SIGHTSEEING
+    } else {
       return {
-        restaurants: Math.floor(Math.random() * 3) + 3, // 3-5개
-        attractions: Math.floor(Math.random() * 3) + 3 // 3-5개
+        restaurants: 4, // 관광 위주(1)일 때 음식점 4개
+        attractions: 5  // 관광 위주(1)일 때 관광지 5개
       };
     }
   }
@@ -221,10 +255,10 @@ export class ScheduleService {
       }
 
       // 흡연/음주 취향 매칭
-      if (preferences.smoking === 1 && restaurant.smoking === true) {
+      if (preferences.smoking === 1 && restaurant.smoking === '가능') {
         score += 2;
       }
-      if (preferences.drinking === 1 && restaurant.drinking === true) {
+      if (preferences.drinking === 1 && restaurant.drinking === '가능') {
         score += 2;
       }
 
@@ -248,7 +282,7 @@ export class ScheduleService {
       }
 
       // 여행 스타일 매칭
-      if (preferences.travelStyle === TravelStyle.SIGHTSEEING && attraction.category !== '맛집 위주') {
+      if (preferences.travelStyle === TravelStyle.SIGHTSEEING && attraction.category !== 0) {
         score += 2;
       }
 

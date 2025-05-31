@@ -31,12 +31,10 @@ export class CreateScheduleDto {
 
   @IsArray()
   @IsString({ each: true })
-  @MaxLength(5, { each: true })
   selectedRegions: string[]; // 최대 5개
 
   @IsArray()
   @IsString({ each: true })
-  @MaxLength(5, { each: true })
   selectedPlaces: string[]; // 최대 5개
 
   @IsNumber()
