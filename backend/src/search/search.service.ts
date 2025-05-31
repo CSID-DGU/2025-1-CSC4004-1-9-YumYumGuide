@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Restaurant, RestaurantDocument } from './schemas/restaurant.schema';
-import { Attraction, AttractionDocument } from './schemas/attraction.schema';
+import { Restaurant, RestaurantDocument, RestaurantModelType } from './schemas/restaurant.schema';
+import { Attraction, AttractionDocument, AttractionModelType } from './schemas/attraction.schema';
 import { SearchRequestDto } from './dto/search-request.dto';
 import { 
   SearchResponseDto, 
@@ -13,13 +13,24 @@ import {
 @Injectable()
 export class SearchService {
   constructor(
-    @InjectModel(Restaurant.name) private restaurantModel: Model<RestaurantDocument>,
-    @InjectModel(Attraction.name) private attractionModel: Model<AttractionDocument>,
+    @InjectModel(Restaurant.name) 
+    private restaurantModel: RestaurantModelType,
+    @InjectModel(Attraction.name) private attractionModel: AttractionModelType,
   ) {}
+
+  async fixFuzzyTokens() {
+  const documents = await this.attractionModel.find({});
+  for (const doc of documents) {
+    await doc.save();
+  }
+}
 
   async search(searchDto: SearchRequestDto): Promise<SearchResponseDto> {
     const startTime = Date.now();
     const { query, region } = searchDto;
+
+    // await this.fixFuzzyTokens();
+    // await this.attractionModel.collection.dropIndexes();
 
     // MongoDB 텍스트 검색 쿼리 구성
     const searchQueryR = this.buildSearchQueryRestaurant(query, region);
@@ -55,8 +66,9 @@ export class SearchService {
   }
 
   private buildSearchQueryRestaurant(query: string, region: string) {
+    return {query, region};
     const mongoQuery: any = {
-        genre: { $regex: query }
+       $text: { $search: query },
     };
 
     console.log(mongoQuery);
@@ -64,6 +76,7 @@ export class SearchService {
   }
 
   private buildSearchQueryAttraction(query: string, region: string) {
+    return {query, region};
     const mongoQuery: any = {
         // { region: { $regex: region, $options: 'i' } },
         // isActive: true,
@@ -76,20 +89,17 @@ export class SearchService {
   }
 
   private async searchRestaurants(query: any): Promise<RestaurantDocument[]> {
+    console.log(query)
     return this.restaurantModel
-      .find(query, {
-        // score: { $meta: 'textScore' }
-      })
-      // .sort({ score: { $meta: 'textScore' }, rating: -1 })
+      .fuzzySearch(query.query, {location: query.region})
       .limit(10)
       .exec();
   }
 
   private async searchAttractions(query: any): Promise<AttractionDocument[]> {
+    console.log(query)
     return this.attractionModel
-      .find(query, {
-        // score: { $meta: 'textScore' }
-      })
+      .fuzzySearch(query.query)
       // .sort({ score: { $meta: 'textScore' }, rating: -1 })
       .limit(10)
       .exec();

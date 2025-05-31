@@ -135,30 +135,26 @@ const NewSchedule = () => {
     searchPlaces(searchQuery);
   };
   
-  const regionData = [
-    { name: '스기나미구', icon: '/icons/tokyo/1_Suginami.svg' },
-    { name: '네리마구', icon: '/icons/tokyo/2_Nerima.svg' },
-    { name: '이타바시구', icon: '/icons/tokyo/3_Itabashi.svg' },
-    { name: '나카노구', icon: '/icons/tokyo/4_Nakano.svg' },
-    { name: '도시마구', icon: '/icons/tokyo/5_Toshima.svg' },
-    { name: '키타구', icon: '/icons/tokyo/6_Kita.svg' },
-    { name: '아다치구', icon: '/icons/tokyo/7_Adachi.svg' },
-    { name: '신주쿠구', icon: '/icons/tokyo/8_Shinjuku.svg' },
-    { name: '분쿄구', icon: '/icons/tokyo/9_Bunkyo.svg' },
-    { name: '다이토구', icon: '/icons/tokyo/10_Taito.svg' },
-    { name: '아라카와구', icon: '/icons/tokyo/11_Arakawa.svg' },
-    { name: '세타가야구', icon: '/icons/tokyo/12_Setagaya.svg' },
-    { name: '메구로구', icon: '/icons/tokyo/13_Meguro.svg' },
-    { name: '시부야구', icon: '/icons/tokyo/14_Shibuya.svg' },
-    { name: '치요다구', icon: '/icons/tokyo/15_Chiyoda.svg' },
-    { name: '미나토구', icon: '/icons/tokyo/16_Minato.svg' },
-    { name: '주오구', icon: '/icons/tokyo/17_Chuo.svg' },
-    { name: '스미다구', icon: '/icons/tokyo/18_Sumida.svg' },
-    { name: '카츠시카구', icon: '/icons/tokyo/19_Katsushika.svg' },
-    { name: '오타구', icon: '/icons/tokyo/20_Ota.svg' },
-    { name: '시나가와구', icon: '/icons/tokyo/21_Shinagawa.svg' },
-    { name: '고토구', icon: '/icons/tokyo/22_Koto.svg' },
-    { name: '에도가와구', icon: '/icons/tokyo/23_Edogawa.svg' },
+    const regionData = [
+    { name: '고탄다', region: 'gotanda' },
+    { name: '긴자', region: 'ginza' },
+    { name: '나카메', region: 'nakame' },
+    { name: '니혼바시', region: 'nihonbashi' },
+    { name: '도쿄역 주변', region: 'tokyo_station' },
+    { name: '마루노우치', region: 'marunouchi' },
+    { name: '메구로', region: 'meguro' },
+    { name: '시부야', region: 'shibuya' },
+    { name: '신바시', region: 'shimbashi' },
+    { name: '신주쿠', region: 'shinjuku' },
+    { name: '아사쿠사', region: 'asakusa' },
+    { name: '아키하바라', region: 'akihabara' },
+    { name: '에비스', region: 'ebisu' },
+    { name: '우에노', region: 'ueno' },
+    { name: '유라쿠초', region: 'yurakucho' },
+    { name: '이케부코로', region: 'ikebukuro' },
+    { name: '칸다', region: 'kanda' },
+    { name: '타마 치', region: 'tamachi' },
+    { name: '하마 마츠', region: 'hamamatsu' },
   ];
 
   // Calculate trip duration
@@ -349,23 +345,18 @@ const NewSchedule = () => {
           <div className="region-list">
             {regionData.map(region => (
               <div
-                key={region.name}
-                className={`region-item ${selectedRegions.includes(region.name) ? 'region-selected' : ''}`}
+                key={region.region}
+                className={`region-item ${selectedRegions.includes(region.region) ? 'region-selected' : ''}`}
                 onClick={() => {
                   const duration = calculateTripDuration();
-                  if (selectedRegions.includes(region.name)) {
-                    setSelectedRegions(selectedRegions.filter(r => r !== region.name));
+                  if (selectedRegions.includes(region.region)) {
+                    setSelectedRegions(selectedRegions.filter(r => r !== region.region));
                   } else if (selectedRegions.length < duration) {
-                    setSelectedRegions([...selectedRegions, region.name]);
+                    setSelectedRegions([...selectedRegions, region.region]);
                   }
                 }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
-                <img
-                  src={region.icon}
-                  alt={region.name}
-                  style={{ width: 40, height: 40, marginBottom: 4 }}
-                />
                 <div>{region.name}</div>
               </div>
             ))}
