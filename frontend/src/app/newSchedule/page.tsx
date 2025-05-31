@@ -211,16 +211,16 @@ const NewSchedule = () => {
 
         const userData = responseData.data;
         console.log('사용자 데이터:', userData);
-
+        console.log('사용자 데이터:ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ', userData.preferences.attractionType.join(', '));
         setUserId(userData._id);
         // preferences가 없는 경우 기본값 설정
         setUserPreferences({
-          smoking: 0,
-          drinking: 0,
-          travelStyle: 'sightseeing',
-          favoriteFood: 0,
-          groupType: '1인&2인',
-          attractionTypes: ['랜드마크'],
+          smoking: userData.preferences.smoking,
+          drinking: userData.preferences.drinking,
+          travelStyle: userData.preferences.travelStyle,
+          favoriteFood: userData.preferences.favoriteFood,
+          groupType: userData.preferences.groupType,
+          attractionTypes: userData.preferences.attractionType,
           ...userData.preferences
         });
 

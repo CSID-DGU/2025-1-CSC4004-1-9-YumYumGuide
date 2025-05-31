@@ -7,7 +7,9 @@ import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'debug', 'log', 'verbose'], // 모든 로그 레벨 활성화
+  });
 
   app.setGlobalPrefix('api'); // 전역 API 접두사 설정
 

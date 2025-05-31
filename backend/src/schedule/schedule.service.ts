@@ -214,9 +214,9 @@ export class ScheduleService {
       }
       
       // 그룹 타입 매칭
-      if (preferences.groupType === '1인&2인' && restaurant.seats <= 50) {
+      if (preferences.groupType === '0' && restaurant.seats <= 50) {
         score += 2;
-      } else if (preferences.groupType === '3인 이상' && restaurant.seats > 50) {
+      } else if (preferences.groupType === '1' && restaurant.seats > 50) {
         score += 2;
       }
 
@@ -248,7 +248,7 @@ export class ScheduleService {
       }
 
       // 여행 스타일 매칭
-      if (preferences.travelStyle === TravelStyle.SIGHTSEEING && attraction.category !== '맛집') {
+      if (preferences.travelStyle === TravelStyle.SIGHTSEEING && attraction.category !== '맛집 위주') {
         score += 2;
       }
 
