@@ -140,29 +140,25 @@ const NewSchedule = () => {
   };
   
   const regionData = [
-    { name: '스기나미구', icon: '/icons/tokyo/1_Suginami.svg' },
-    { name: '네리마구', icon: '/icons/tokyo/2_Nerima.svg' },
-    { name: '이타바시구', icon: '/icons/tokyo/3_Itabashi.svg' },
-    { name: '나카노구', icon: '/icons/tokyo/4_Nakano.svg' },
-    { name: '도시마구', icon: '/icons/tokyo/5_Toshima.svg' },
-    { name: '키타구', icon: '/icons/tokyo/6_Kita.svg' },
-    { name: '아다치구', icon: '/icons/tokyo/7_Adachi.svg' },
-    { name: '신주쿠구', icon: '/icons/tokyo/8_Shinjuku.svg' },
-    { name: '분쿄구', icon: '/icons/tokyo/9_Bunkyo.svg' },
-    { name: '다이토구', icon: '/icons/tokyo/10_Taito.svg' },
-    { name: '아라카와구', icon: '/icons/tokyo/11_Arakawa.svg' },
-    { name: '세타가야구', icon: '/icons/tokyo/12_Setagaya.svg' },
-    { name: '메구로구', icon: '/icons/tokyo/13_Meguro.svg' },
-    { name: '시부야구', icon: '/icons/tokyo/14_Shibuya.svg' },
-    { name: '치요다구', icon: '/icons/tokyo/15_Chiyoda.svg' },
-    { name: '미나토구', icon: '/icons/tokyo/16_Minato.svg' },
-    { name: '주오구', icon: '/icons/tokyo/17_Chuo.svg' },
-    { name: '스미다구', icon: '/icons/tokyo/18_Sumida.svg' },
-    { name: '카츠시카구', icon: '/icons/tokyo/19_Katsushika.svg' },
-    { name: '오타구', icon: '/icons/tokyo/20_Ota.svg' },
-    { name: '시나가와구', icon: '/icons/tokyo/21_Shinagawa.svg' },
-    { name: '고토구', icon: '/icons/tokyo/22_Koto.svg' },
-    { name: '에도가와구', icon: '/icons/tokyo/23_Edogawa.svg' },
+    { name: '고탄다' },
+    { name: '긴자' },
+    { name: '나카메' },
+    { name: '니혼바시' },
+    { name: '도쿄역 주변' },
+    { name: '마루노우치' },
+    { name: '메구로' },
+    { name: '시부야' },
+    { name: '신바시' },
+    { name: '신주쿠' },
+    { name: '아사쿠사' },
+    { name: '아키하바라' },
+    { name: '에비스' },
+    { name: '우에노' },
+    { name: '유라쿠초' },
+    { name: '이케부코로' },
+    { name: '칸다' },
+    { name: '타마 치' },
+    { name: '하마 마츠' },
   ];
 
   // Calculate trip duration
@@ -483,7 +479,6 @@ const NewSchedule = () => {
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
                 <img
-                  src={region.icon}
                   alt={region.name}
                   style={{ width: 40, height: 40, marginBottom: 4 }}
                 />
