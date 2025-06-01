@@ -9,7 +9,7 @@ export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) { }
 
   @Get('detail/:id')
-  findOne(@Param('id') id: string): Promise<Restaurant> {
+  findOne(@Param('id') id: string) {
     return this.restaurantService.findOne(id);
   }
 

@@ -1,22 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Restaurant } from './schema/restaurant.schema';
-import { CreateRestaurantDto } from './dto/create-restaurant.dto';
-import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
+import mongoose, { Model } from 'mongoose';
+import { Restaurant, RestaurantDocument } from './schema/restaurant.schema';
+import { ApiResponseDto } from 'src/common/dto/api.response.dto';
 
 @Injectable()
 export class RestaurantService {
   constructor(
-    @InjectModel(Restaurant.name) private readonly restaurantModel: Model<Restaurant>,
+    @InjectModel(Restaurant.name) private readonly restaurantModel: Model<RestaurantDocument>,
   ) { }
 
 
-  async findOne(id: string): Promise<Restaurant> {
-    const restaurant = await this.restaurantModel.findById(id).exec();
+  async findOne(_id: string) {
+
+    const ObjectId = mongoose.Types.ObjectId;
+    const restaurant = await this.restaurantModel.findOne({ _id: new ObjectId(_id) }).lean();
     if (!restaurant) {
-      throw new NotFoundException(`Restaurant with ID ${id} not found`);
+      return new NotFoundException()
     }
-    return restaurant;
+    return new ApiResponseDto(true, 200, 'success', restaurant);
   }
 } 

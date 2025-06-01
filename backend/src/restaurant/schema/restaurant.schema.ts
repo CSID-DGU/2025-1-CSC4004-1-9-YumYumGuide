@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
-export class Restaurant extends Document {
+export class Restaurant {
   @Prop({ required: true })
   restaurant_name: string;
 
@@ -72,5 +72,5 @@ export class Restaurant extends Document {
   @Prop([String])
   translated_restaurant_name_fuzzy: string[];
 }
-
+export type RestaurantDocument = Restaurant & Document;
 export const RestaurantSchema = SchemaFactory.createForClass(Restaurant); 

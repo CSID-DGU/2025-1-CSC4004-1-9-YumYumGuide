@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import './schedule.css';
 import { useQuerySchedule } from '@/api/schedule';
-import Image from 'next/image';
 
 interface PlanListProps {
   dateRange: {
@@ -29,7 +28,6 @@ function formatDateToDisplay(date: Date): string {
 
 export default function PlanList({ dateRange }: PlanListProps) {
   const { data: scheduleAPIResponse, isLoading, isError, refetch } = useQuerySchedule(dateRange);
-
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       refetch();
@@ -45,7 +43,6 @@ export default function PlanList({ dateRange }: PlanListProps) {
   }
 
   const schedules = scheduleAPIResponse?.data || [];
-
   return (
     <div className="schedule-list px-4 mt-6">
       <h3 className="list-title text-lg font-bold mb-4">나의 일정</h3>
@@ -90,12 +87,12 @@ export default function PlanList({ dateRange }: PlanListProps) {
                             {day.events.length > 0 ? (
                               day.events.map((event, eventIndex) => (
                                 <Link
-                                  href={`/detail/${schedule._id}`}
+                                  href={`/detail/${event.refId}`}
                                   key={`${event.refId}-${eventIndex}`}
                                   className="block mb-3 group"
                                 >
                                   <div className="event-card bg-gray-50 p-3 rounded-lg shadow-sm flex items-center hover:bg-gray-100 transition-colors duration-150">
-                                    <Image
+                                    <img
                                       src={
                                         event?.image ||
                                         (event.type === 'attraction'
@@ -104,9 +101,9 @@ export default function PlanList({ dateRange }: PlanListProps) {
                                           ? '/restaurant.png'
                                           : '/default-event.png')
                                       }
-                                      alt={event.name}
-                                      width={64}
-                                      height={64}
+                                      alt={'img'}
+                                      width={80}
+                                      height={80}
                                       className="rounded-md object-cover mr-4 flex-shrink-0"
                                     />
                                     <div className="event-details flex-1 min-w-0">

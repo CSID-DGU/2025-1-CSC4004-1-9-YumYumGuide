@@ -4,6 +4,9 @@ import { Model } from 'mongoose';
 import { CreateAttractionDto } from './dto/create-attraction.dto';
 import { UpdateAttractionDto } from './dto/update-attraction.dto';
 import { Attraction, AttractionDocument } from './schema/attraction.schema';
+import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponseDto } from 'src/common/dto/api.response.dto';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class AttractionService {
@@ -26,12 +29,14 @@ export class AttractionService {
     return (this.attractionModel.db as any).client.db('main').collection(collectionName).find().toArray();
   }
 
-  async findOne(id: string): Promise<Attraction> {
-    const attraction = await this.attractionModel.findById(id).exec();
+  async findOne(_id: string) {
+    const ObjectId = mongoose.Types.ObjectId;
+    const attraction = await this.attractionModel.findOne({ _id: new ObjectId(_id) }).lean();
     if (!attraction) {
-      throw new NotFoundException(`Attraction with ID ${id} not found`);
+      return new NotFoundException()
     }
-    return attraction;
+    // const result = attraction?._doc;
+    return new ApiResponseDto(true, 200, 'success', attraction);
   }
 
   async update(id: string, updateAttractionDto: UpdateAttractionDto) {

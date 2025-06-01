@@ -15,6 +15,9 @@ export class Event {
   startTime: string;
 
   @Prop({ required: true })
+  image: string;
+
+  @Prop({ required: true })
   endTime: string;
 
   @Prop({ required: true })
@@ -59,8 +62,12 @@ export class Day {
 
 @Schema({ timestamps: true })
 export class Schedule {
+
   @Prop({ required: true })
-  startDate: Date;
+  userId: string;
+
+  @Prop({ required: true })
+  startDate: String;
 
   @Prop({ required: true })
   endDate: String;

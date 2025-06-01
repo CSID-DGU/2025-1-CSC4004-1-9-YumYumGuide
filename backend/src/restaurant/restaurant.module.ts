@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Restaurant, RestaurantSchema } from './schema/restaurant.schema';
+import { RestaurantService } from './restaurant.service';
+import { RestaurantController } from './restaurant.controller';
 
 @Module({
   imports: [
@@ -8,6 +10,8 @@ import { Restaurant, RestaurantSchema } from './schema/restaurant.schema';
       { name: Restaurant.name, schema: RestaurantSchema },
     ]),
   ],
-  exports: [MongooseModule],
+  controllers: [RestaurantController],
+  providers: [RestaurantService],
+  exports: [RestaurantService, MongooseModule]
 })
-export class RestaurantModule {} 
+export class RestaurantModule { } 

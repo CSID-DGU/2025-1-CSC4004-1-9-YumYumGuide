@@ -19,7 +19,7 @@ export class AttractionController {
   }
 
   @Get('detail/:id')
-  findOne(@Param('id') id: string): Promise<Attraction> {
+  findOne(@Param('id') id: string) {
     return this.attractionService.findOne(id);
   }
 

@@ -7,7 +7,7 @@ import { Schedule, ScheduleDocument, Day, Event } from './schema/schedule.schema
 import * as dayjs from 'dayjs';
 import { AttractionService } from '../attraction/attraction.service';
 import { FavoriteService } from '../favorite/favorite.service';
-import { Restaurant } from '../restaurant/schema/restaurant.schema';
+import { Restaurant, RestaurantDocument } from '../restaurant/schema/restaurant.schema';
 import { ApiResponseDto } from 'src/common/response/api.response.dto';
 import { OpenAIClient } from '../client/openai.client';
 
@@ -62,7 +62,7 @@ export class ScheduleService {
     @InjectModel(Schedule.name) private scheduleModel: Model<ScheduleDocument>,
     private readonly attractionService: AttractionService,
     private readonly favoriteService: FavoriteService,
-    @InjectModel(Restaurant.name) private restaurantModel: Model<Restaurant>,
+    @InjectModel(Restaurant.name) private restaurantModel: Model<RestaurantDocument>,
     private readonly openAIClient: OpenAIClient,
   ) { }
 
@@ -147,6 +147,7 @@ export class ScheduleService {
   }
 
   async create(createScheduleDto: CreateScheduleDto) {
+
     this.logger.log('=== 일정 생성 시작 ===');
     this.logger.log('입력 데이터:', JSON.stringify(createScheduleDto, null, 2));
 
@@ -165,12 +166,24 @@ export class ScheduleService {
     }
 
     const schedule = new this.scheduleModel(createScheduleDto);
+    this.logger.log('Schedule object created initially:', JSON.stringify({ startDate: schedule.startDate, endDate: schedule.endDate }, null, 2));
 
     // 여행 일수 계산
     const startDate = dayjs(createScheduleDto.startDate);
     const endDate = dayjs(createScheduleDto.endDate);
     const duration = endDate.diff(startDate, 'day') + 1;
     this.logger.log(`여행 기간: ${duration}일 (${startDate.format('YYYY-MM-DD')} ~ ${endDate.format('YYYY-MM-DD')})`);
+
+    // Ensure endDate on the schedule object is in YYYYMMDD string format before saving
+    // startDate is expected to be a Date object casted by Mongoose from the DTO based on schema
+    schedule.endDate = endDate.format('YYYYMMDD'); // Schema expects String, format as YYYYMMDD
+    // Ensure dates on the schedule object are in the desired format before saving
+    // Note: Schema defines startDate as Date and endDate as String (YYYYMMDD)
+    // Assigning dayjs Date object to startDate (Schema expects Date)
+    schedule.startDate = startDate.format('YYYYMMDD');
+    // Assigning formatted string to endDate (Schema expects String)
+    schedule.endDate = endDate.format('YYYYMMDD');
+    this.logger.log('Schedule object after setting date formats:', JSON.stringify({ startDate: schedule.startDate, endDate: schedule.endDate }, null, 2));
 
     // 일별 예산 계산
     const dailyBudgets = this.calculateDailyBudgets(
@@ -244,6 +257,7 @@ export class ScheduleService {
           type: 'meal',
           refId: restaurant._id.toString(),
           name: restaurant.translated_restaurant_name || restaurant.restaurant_name || restaurant.name,
+          image: restaurant.video,
           location: restaurant.location,
           address: restaurant.address || '',
           startTime: this.generateRandomTime(9, 21), // 9시부터 21시 사이
@@ -264,6 +278,7 @@ export class ScheduleService {
           type: 'attraction',
           refId: attraction._id.toString(),
           name: attraction.attraction,
+          image: attraction.image,
           location: attraction.location,
           address: attraction.address || '',
           startTime: this.generateRandomTime(9, 18), // 9시부터 18시 사이
@@ -292,6 +307,7 @@ export class ScheduleService {
             type: 'meal',
             refId: newRestaurant._id.toString(),
             name: newRestaurant.translated_restaurant_name || newRestaurant.restaurant_name || newRestaurant.name,
+            image: newRestaurant.video,
             location: newRestaurant.location,
             address: newRestaurant.address || '',
             startTime: this.generateRandomTime(9, 21),

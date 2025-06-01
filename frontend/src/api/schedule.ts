@@ -5,6 +5,7 @@ interface Event {
   type: 'attraction' | 'restaurant';
   refId: string;
   name: string;
+  image?: string;
 }
 
 interface Day {

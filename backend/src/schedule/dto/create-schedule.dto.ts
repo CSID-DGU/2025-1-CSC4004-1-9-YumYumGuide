@@ -23,11 +23,11 @@ export class CreateScheduleDto {
   @IsString()
   flightArrival: string; // 'morning' | 'afternoon' | 'evening' | 'dawn'
 
-  @IsDate()
-  startDate: Date;
+  @IsString()
+  startDate: string;
 
-  @IsDate()
-  endDate: Date;
+  @IsString()
+  endDate: string;
 
   @IsArray()
   @IsString({ each: true })
