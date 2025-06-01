@@ -92,20 +92,21 @@ export default function PlanList({ dateRange }: PlanListProps) {
                                   className="block mb-3 group"
                                 >
                                   <div className="event-card bg-gray-50 p-3 rounded-lg shadow-sm flex items-center hover:bg-gray-100 transition-colors duration-150">
-                                    <img
-                                      src={
-                                        event?.image ||
-                                        (event.type === 'attraction'
-                                          ? '/attraction.png'
-                                          : event.type === 'restaurant'
-                                          ? '/restaurant.png'
-                                          : '/default-event.png')
-                                      }
-                                      alt={'img'}
-                                      width={80}
-                                      height={80}
-                                      className="rounded-md object-cover mr-4 flex-shrink-0"
-                                    />
+                                    {/* Image container to maintain size even if image fails to load */}
+                                    <div className="image-container w-[80px] h-[80px] rounded-md mr-4 flex-shrink-0 overflow-hidden">
+                                      <img
+                                        src={
+                                          event?.image ||
+                                          (event.type === 'attraction'
+                                            ? '/attraction.png'
+                                            : event.type === 'restaurant'
+                                            ? '/restaurant.png'
+                                            : '/default-event.png')
+                                        }
+                                        alt={'img'}
+                                        className="custom-image w-full h-full object-cover"
+                                      />
+                                    </div>
                                     <div className="event-details flex-1 min-w-0">
                                       <div className="text-xs text-gray-400 mb-0.5">
                                         <span className="mr-1">🗓️</span>
