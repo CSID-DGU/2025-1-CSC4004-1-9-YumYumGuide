@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Nav from '../componets/nav';
+import TripDetailModal from '../map/components/TripDetailModal';
 import './newSchedule.css';
 import dayjs from 'dayjs';
 import axios from 'axios';
@@ -40,7 +41,9 @@ const NewSchedule = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult | null>(null);
-  
+  const [detailId, setDetailId] = useState<string | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
   
   // 캘린더 상태 추가
   const today = dayjs();
@@ -419,8 +422,8 @@ const NewSchedule = () => {
               {searchResults ? (
                 <>
                   {searchResults.restaurants.map((restaurant) => (
-                    <div 
-                      className={"popup-place-card" + (selectedPlaces.includes(restaurant.data.translated_restaurant_name) ? ' selected' : '')} 
+                    <div
+                      className={"popup-place-card" + (selectedPlaces.includes(restaurant.data.translated_restaurant_name) ? ' selected' : '')}
                       key={restaurant.data._id}
                     >
                       <div className="popup-place-title">
@@ -434,9 +437,19 @@ const NewSchedule = () => {
                       >
                         +
                       </button>
-                      <div className="popup-place-detail">상세보기 &gt;</div>
+                      <div 
+                        className="popup-place-detail" 
+                        onClick={() => {
+                          const id = restaurant.data._id;
+                          setDetailId(restaurant.data._id);
+                          setIsPlacePopupOpen(false);
+                        }}
+                      >
+                        상세보기 &gt;
+                      </div>
                     </div>
                   ))}
+
                   {searchResults.attractions.map((attraction) => (
                     <div 
                       className={"popup-place-card" + (selectedPlaces.includes(attraction.data.attraction) ? ' selected' : '')} 
@@ -453,7 +466,7 @@ const NewSchedule = () => {
                       >
                         +
                       </button>
-                      <div className="popup-place-detail">상세보기 &gt;</div>
+                      <div className="popup-place-detail" onClick={() => {setDetailId(attraction.data._id);setIsPlacePopupOpen(false);}}>상세보기 &gt;</div>
                     </div>
                   ))}
                   {searchResults.totalCount.restaurants === 0 && searchResults.totalCount.attractions === 0 && (
@@ -467,6 +480,13 @@ const NewSchedule = () => {
           </div>
         </>
       )}
+      {detailId && (
+        <TripDetailModal
+          id={detailId}
+          onClose={() => setDetailId(null)}
+        />
+      )}
+
       <Nav />
     </div>
   );
