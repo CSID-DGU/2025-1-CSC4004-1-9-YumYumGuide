@@ -113,7 +113,7 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
                     {detail.menus.map((menu) => (
                       <div key={menu._id} className="menu-item">
                         <span className="menu-name">{menu.menu}</span>
-                        <span className="menu-price">¥{menu.price.toLocaleString()}</span>
+                        <span className="menu-price">¥{menu.price.toLocaleString()} </span>
                       </div>
                     ))}
                   </div>
@@ -216,7 +216,7 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
           <>
             <div className="divider"></div>
             <h2 className="section-title">가격 정보</h2>
-            <p className="price-info">{detail.price}</p>
+            <p className="price-info">{detail.price} ￥</p>
           </>
         )}
       </div>
