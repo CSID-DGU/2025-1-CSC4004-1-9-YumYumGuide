@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateScheduleDto, AttractionType, TravelStyle } from './dto/create-schedule.dto';
@@ -8,6 +8,8 @@ import * as dayjs from 'dayjs';
 import { AttractionService } from '../attraction/attraction.service';
 import { FavoriteService } from '../favorite/favorite.service';
 import { Restaurant } from '../restaurant/schema/restaurant.schema';
+import { ApiResponseDto } from 'src/common/response/api.response.dto';
+import { OpenAIClient } from '../client/openai.client';
 
 interface DailyBudget {
   total: number;
@@ -19,26 +21,39 @@ interface DailyBudget {
 // 지역명 한글-영어 매핑
 const regionNameMap: { [key: string]: string } = {
   '고탄다': 'Gotanda',
-    '긴자': 'Ginza',
-    '나카메': 'Nakame',
-    '니혼바시': 'Nihonbashi',
-    '도쿄역 주변': 'tokyo_station',
-    '마루노우치': 'Marunouchi',
-    '메구로': 'Meguro',
-    '시부야': 'Shibuya',
-    '신바시': 'Shimbashi',
-    '신주쿠': 'Shinjuku',
-    '아사쿠사': 'Asakusa',
-    '아키하바라': 'Akihabara',
-    '에비스': 'Ebisu',
-    '우에노': 'Ueno',
-    '유라쿠초': 'Yurakucho',
-    '이케부코로': 'Ikebukuro',
-    '칸다': 'Kanda',
-    '타마 치': 'Tamachi',
-    '하마 마츠': 'Hamamatsu',
+  '긴자': 'Ginza',
+  '나카메': 'Nakame',
+  '니혼바시': 'Nihonbashi',
+  '도쿄역 주변': 'tokyo_station',
+  '마루노우치': 'Marunouchi',
+  '메구로': 'Meguro',
+  '시부야': 'Shibuya',
+  '신바시': 'Shimbashi',
+  '신주쿠': 'Shinjuku',
+  '아사쿠사': 'Asakusa',
+  '아키하바라': 'Akihabara',
+  '에비스': 'Ebisu',
+  '우에노': 'Ueno',
+  '유라쿠초': 'Yurakucho',
+  '이케부코로': 'Ikebukuro',
+  '칸다': 'Kanda',
+  '타마 치': 'Tamachi',
+  '하마 마츠': 'Hamamatsu',
 };
+function yyyymmddStringToUtcDate(dateStr: string): Date {
+  const year = parseInt(dateStr.substring(0, 4));
+  const month = parseInt(dateStr.substring(4, 6)) - 1; // JavaScript의 month는 0부터 시작
+  const day = parseInt(dateStr.substring(6, 8));
+  return new Date(Date.UTC(year, month, day));
+}
 
+// Helper: Date 객체를 YYYYMMDD 형식의 숫자로 변환
+function dateToYYYYMMDDNumber(date: Date): number {
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  const dayOfMonth = date.getUTCDate().toString().padStart(2, '0');
+  return parseInt(`${year}${month}${dayOfMonth}`);
+}
 @Injectable()
 export class ScheduleService {
   private readonly logger = new Logger(ScheduleService.name);
@@ -48,11 +63,81 @@ export class ScheduleService {
     private readonly attractionService: AttractionService,
     private readonly favoriteService: FavoriteService,
     @InjectModel(Restaurant.name) private restaurantModel: Model<Restaurant>,
-  ) {}
+    private readonly openAIClient: OpenAIClient,
+  ) { }
 
-  private selectRegion(locations: string[]): string {
-    const selectedKoreanRegion = locations[Math.floor(Math.random() * locations.length)];
-    return regionNameMap[selectedKoreanRegion] || selectedKoreanRegion;
+  async findSchedule(
+    userId: string,
+    startDate?: string, // 사용자 요청 시작일 "YYYYMMDD"
+    endDate?: string,   // 사용자 요청 종료일 "YYYYMMDD"
+  ): Promise<ApiResponseDto<Schedule[]>> {
+    // Logger 인스턴스 생성 (선택 사항, 디버깅에 유용)
+    const logger = new Logger('ScheduleService');
+
+    try {
+      const allSchedulesForUser = await this.scheduleModel
+        .find({ userId })
+        .lean()
+        .exec() as Schedule[];
+
+      if (!startDate || !endDate) {
+        return new ApiResponseDto<Schedule[]>(
+          true,
+          200,
+          'Schedules retrieved successfully (no date range filter applied)',
+          allSchedulesForUser,
+        );
+      }
+
+      if (!/^\d{8}$/.test(startDate) || !/^\d{8}$/.test(endDate)) {
+        throw new BadRequestException('Invalid date format. Dates must be in YYYYMMDD format.');
+      }
+
+      const queryStartDateNum = parseInt(startDate);
+      const queryEndDateNum = parseInt(endDate);
+
+      if (queryStartDateNum > queryEndDateNum) {
+        throw new BadRequestException('Start date cannot be later than end date.');
+      }
+
+      const overlappingSchedules = allSchedulesForUser.filter(schedule => {
+        // .toString()을 사용하여 명시적으로 문자열로 변환
+        const scheduleOwnStartDateNum = parseInt(schedule.startDate.toString());
+        const scheduleOwnEndDateNum = parseInt(schedule.endDate.toString());
+        console.log(scheduleOwnStartDateNum <= queryEndDateNum);
+        console.log(scheduleOwnEndDateNum >= queryStartDateNum);
+        return scheduleOwnStartDateNum <= queryEndDateNum && scheduleOwnEndDateNum >= queryStartDateNum;
+      });
+
+      const finalSchedules = overlappingSchedules.map(schedule => {
+        // .toString()을 사용하여 명시적으로 문자열로 변환
+        const scheduleBaseDate = yyyymmddStringToUtcDate(schedule.startDate.toString());
+
+        const filteredDays = schedule.days.filter(dayObj => {
+          const currentDayDate = new Date(scheduleBaseDate.getTime());
+          currentDayDate.setUTCDate(scheduleBaseDate.getUTCDate() + (dayObj.day - 1));
+          const dayActualDateNum = dateToYYYYMMDDNumber(currentDayDate);
+          return dayActualDateNum >= queryStartDateNum && dayActualDateNum <= queryEndDateNum;
+        });
+
+        return { ...schedule, days: filteredDays };
+      });
+
+      return new ApiResponseDto<Schedule[]>(
+        true,
+        200,
+        'Schedules retrieved and days filtered successfully',
+        finalSchedules,
+      );
+
+    } catch (error) {
+      logger.error(`Failed to find schedules for user ${userId}: ${error.message}`, error.stack);
+      if (error instanceof BadRequestException) {
+        // 이미 BadRequestException인 경우 그대로 throw
+        throw error;
+      }
+      throw new InternalServerErrorException('An unexpected error occurred while processing schedules.');
+    }
   }
 
   private generateRandomTime(startHour: number, endHour: number): string {
@@ -80,7 +165,7 @@ export class ScheduleService {
     }
 
     const schedule = new this.scheduleModel(createScheduleDto);
-    
+
     // 여행 일수 계산
     const startDate = dayjs(createScheduleDto.startDate);
     const endDate = dayjs(createScheduleDto.endDate);
@@ -136,8 +221,8 @@ export class ScheduleService {
       this.logger.log(`Day ${i + 1} 선택된 레스토랑 수: ${selectedRestaurants.length}`);
 
       // 해당 지역의 관광지 필터링
-      const regionAttractions = attractions.filter(a => 
-        a.location === selectedRegion && 
+      const regionAttractions = attractions.filter(a =>
+        a.location === selectedRegion &&
         createScheduleDto.attractionTypes.includes(a.category as AttractionType)
       );
       this.logger.log(`Day ${i + 1} 지역 관광지 수: ${regionAttractions.length}`);
@@ -170,7 +255,7 @@ export class ScheduleService {
       });
 
       // 관광 일정 추가
-      const filteredAttractions = attractions.filter(attraction => 
+      const filteredAttractions = attractions.filter(attraction =>
         createScheduleDto.attractionTypes.includes(attraction.category as AttractionType)
       );
       const selectedAttractions = this.selectAttractionsByPreference(filteredAttractions, userPreferences, dailyRecommendations.attractions);
@@ -219,7 +304,10 @@ export class ScheduleService {
       }
     }
 
-    schedule.days = days;
+    // 일정 최적화 days에 대해 schedule.days 말고
+    const optimizedDays = await this.openAIClient.optimizeSchedule(days);
+    schedule.days = optimizedDays;
+
     return schedule.save();
   }
 
@@ -241,12 +329,12 @@ export class ScheduleService {
     // 취향에 따라 레스토랑 점수 계산
     const scoredRestaurants = restaurants.map(restaurant => {
       let score = 0;
-      
+
       // 음식 취향 매칭
       if (restaurant.cuisine === preferences.favoriteFood) {
         score += 3;
       }
-      
+
       // 그룹 타입 매칭
       if (preferences.groupType === '0' && restaurant.seats <= 50) {
         score += 2;
@@ -275,7 +363,7 @@ export class ScheduleService {
     // 취향에 따라 관광지 점수 계산
     const scoredAttractions = attractions.map(attraction => {
       let score = 0;
-      
+
       // 관광지 유형 매칭
       if (preferences.attractionType.includes(attraction.category)) {
         score += 3;
@@ -315,7 +403,7 @@ export class ScheduleService {
     const activityRatio = travelStyle === TravelStyle.FOOD ? 0.24 : 0.27;
     const foodBudget = remainingBudget * foodRatio;
     const activityBudget = remainingBudget * activityRatio;
-    
+
     this.logger.debug(`식비 비율: ${foodRatio}, 활동비 비율: ${activityRatio}`);
     this.logger.debug(`총 식비: ${foodBudget.toLocaleString()}원, 총 활동비: ${activityBudget.toLocaleString()}원`);
 

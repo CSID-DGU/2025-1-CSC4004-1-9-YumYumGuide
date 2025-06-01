@@ -18,8 +18,8 @@ export class AttractionController {
     return this.attractionService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('detail/:id')
+  findOne(@Param('id') id: string): Promise<Attraction> {
     return this.attractionService.findOne(id);
   }
 

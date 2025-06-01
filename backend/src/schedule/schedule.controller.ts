@@ -15,8 +15,14 @@ export class ScheduleController {
   }
 
   @Get()
-  findAll() {
-    return this.scheduleService.findAll();
+  @UseGuards(JwtAuthGuard)
+  find(
+    @Req() req,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string
+  ) {
+    const userId = req.user._doc._id;
+    return this.scheduleService.findSchedule(userId, startDate, endDate);
   }
 
   @Get(':id')

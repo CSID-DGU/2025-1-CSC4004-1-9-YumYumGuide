@@ -29,7 +29,7 @@ const ProfileEdit: NextPage = () => {
       console.log('[ProfileEditPage] Token found, fetching user...');
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/me`, {
-          headers: { 'Authorization': `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         console.log('[ProfileEditPage] /api/user/me response status:', response.status);
         const responseBody = await response.text();
@@ -89,7 +89,7 @@ const ProfileEdit: NextPage = () => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ nickname: nickname.trim() }),
       });
@@ -130,21 +130,8 @@ const ProfileEdit: NextPage = () => {
         src="/icons/save.svg"
         onClick={handleSave}
       />
-      <Image
-        className={styles.backIcon}
-        width={44}
-        height={44}
-        alt="뒤로"
-        src="/icons/back.svg"
-        onClick={handleBack}
-      />
-      <Image
-        className={styles.profileIcon}
-        width={64}
-        height={64}
-        alt="프로필 아이콘"
-        src="/icons/profile_icon.svg"
-      />
+      <Image className={styles.backIcon} width={44} height={44} alt="뒤로" src="/icons/back.svg" onClick={handleBack} />
+      <Image className={styles.profileIcon} width={64} height={64} alt="프로필 아이콘" src="/icons/profile_icon.svg" />
       <div className={styles.div2}>닉네임</div>
       <div className={styles.box1} />
       <input

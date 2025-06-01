@@ -6,6 +6,7 @@ import { Schedule, ScheduleSchema } from './schema/schedule.schema';
 import { AttractionModule } from '../attraction/attraction.module';
 import { FavoriteModule } from '../favorite/favorite.module';
 import { RestaurantModule } from '../restaurant/restaurant.module';
+import { OpenAIClient } from '../client/openai.client';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { RestaurantModule } from '../restaurant/restaurant.module';
     RestaurantModule
   ],
   controllers: [ScheduleController],
-  providers: [ScheduleService],
+  providers: [ScheduleService, OpenAIClient],
   exports: [ScheduleService]
 })
 export class ScheduleModule { }

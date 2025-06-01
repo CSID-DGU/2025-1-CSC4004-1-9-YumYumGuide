@@ -9,7 +9,7 @@ import { Attraction, AttractionDocument } from './schema/attraction.schema';
 export class AttractionService {
   constructor(
     @InjectModel(Attraction.name) private attractionModel: Model<AttractionDocument>,
-  ) {}
+  ) { }
 
   async create(createAttractionDto: CreateAttractionDto) {
     const createdAttraction = new this.attractionModel(createAttractionDto);
@@ -26,8 +26,12 @@ export class AttractionService {
     return (this.attractionModel.db as any).client.db('main').collection(collectionName).find().toArray();
   }
 
-  async findOne(id: string) {
-    return this.attractionModel.findById(id).exec();
+  async findOne(id: string): Promise<Attraction> {
+    const attraction = await this.attractionModel.findById(id).exec();
+    if (!attraction) {
+      throw new NotFoundException(`Attraction with ID ${id} not found`);
+    }
+    return attraction;
   }
 
   async update(id: string, updateAttractionDto: UpdateAttractionDto) {
