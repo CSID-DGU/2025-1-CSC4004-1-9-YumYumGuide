@@ -173,7 +173,7 @@ const Schedule = () => {
           <button onClick={handleNextMonth} className="text-2xl px-2">{'>'}</button>
         </div>
         <div className="w-full">
-          <table className="calendar-table-cal w-full text-center border-separate border-spacing-3">
+          <table className="calendar-table-cal w-full text-center border-separate border-spacing-5">
             <thead>
               <tr>
                 {weekDays.map((day, i) => (
@@ -195,17 +195,17 @@ const Schedule = () => {
                         className={
                           date
                             ? isSelected(date)
-                              ? 'calendar-selected-cal bg-[#4CC88A] text-white font-bold rounded-lg transition-all duration-150 cursor-pointer w-8 h-8 md:w-9 md:h-9'
+                              ? 'calendar-selected-cal bg-[#4CC88A] text-white font-bold rounded-lg transition-all duration-150 cursor-pointer w-7 h-8 md:w-8 md:h-9'
                               : scheduleDates.includes(dateStr)
-                                ? 'calendar-has-schedule transition-all duration-150 cursor-pointer w-8 h-8 md:w-9 md:h-9'
-                                : 'cursor-pointer w-8 h-8 md:w-9 md:h-9 transition-all duration-150'
+                                ? 'calendar-has-schedule transition-all duration-150 cursor-pointer w-7 h-8 md:w-8 md:h-9'
+                                : 'cursor-pointer w-7 h-8 md:w-8 md:h-9 transition-all duration-150'
                             : ''
                         }
                         onClick={() => {
                           if (!date) return;
                           handleDateClick(date);
                         }}
-                        style={{ minWidth: 32, minHeight: 32, verticalAlign: 'middle' }}
+                        style={{ minWidth: 28, minHeight: 32, verticalAlign: 'middle' }}
                       >
                         {date || ''}
                       </td>
