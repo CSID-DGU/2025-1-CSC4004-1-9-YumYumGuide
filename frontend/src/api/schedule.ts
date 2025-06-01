@@ -6,6 +6,7 @@ interface Event {
   refId: string;
   name: string;
   image?: string;
+  budget?: number;
 }
 
 interface Day {

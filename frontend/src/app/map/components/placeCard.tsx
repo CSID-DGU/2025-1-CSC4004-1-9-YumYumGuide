@@ -35,7 +35,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
     switch (category) {
       case 'attraction':
         return '/icons/tour.svg';
-      case 'restaurant':
+      case 'meal':
         return '/icons/food.svg';
       default:
         return '/icons/default.svg';

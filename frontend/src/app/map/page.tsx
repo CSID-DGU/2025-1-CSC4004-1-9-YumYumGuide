@@ -52,7 +52,7 @@ const Map: React.FC<MapPageProps> = () => {
       places[dayData.day] = dayData.events.map((event) => ({
         name: event.name,
         category: event.type,
-        price: 'N/A', // 백엔드 Event 타입에 price가 없으므로 'N/A' 또는 다른 기본값
+        price: event.budget,
         // location: event.location,
         // image: event.image,
       }));
@@ -112,7 +112,7 @@ const Map: React.FC<MapPageProps> = () => {
   }
 
   const placesForSelectedDay = transformedPlacesByDay[selectedDay] || [];
-
+  console.log('placesForSelectedDay', scheduleAPIResponse);
   return (
     <div className={styles.div}>
       <div className={styles.child}>
