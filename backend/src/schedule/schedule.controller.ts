@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, NotFoundException } from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { JwtAuthGuard } from 'src/auth/strategy/jwt.strategy';
 import { FindScheduleDto } from './dto/find-schedule.dto';
+import { ApiResponseDto } from 'src/common/dto/api.response.dto';
+import mongoose from 'mongoose';
 
 @Controller('schedule')
 export class ScheduleController {

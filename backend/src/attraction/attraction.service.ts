@@ -35,7 +35,6 @@ export class AttractionService {
     if (!attraction) {
       return new NotFoundException()
     }
-    // const result = attraction?._doc;
     return new ApiResponseDto(true, 200, 'success', attraction);
   }
 

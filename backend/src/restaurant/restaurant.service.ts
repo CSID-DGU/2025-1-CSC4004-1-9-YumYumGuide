@@ -15,6 +15,7 @@ export class RestaurantService {
 
     const ObjectId = mongoose.Types.ObjectId;
     const restaurant = await this.restaurantModel.findOne({ _id: new ObjectId(_id) }).lean();
+
     if (!restaurant) {
       return new NotFoundException()
     }

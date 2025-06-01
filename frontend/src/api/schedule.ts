@@ -78,4 +78,25 @@ export const useQuerySchedule = (params?: ScheduleParams) => {
     queryKey: ['schedule', params?.startDate, params?.endDate],
     queryFn: () => fetchSchedule(params),
   });
+};
+
+export const useQueryScheduleById = (id: string) => {
+  return useQuery({
+    queryKey: ['schedule', id],
+    queryFn: async () => {
+      const response = await fetch(`http://localhost:5000/api/schedule/${id}`, {
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch schedule');
+      }
+
+      return response.json();
+    },
+    enabled: !!id, // id가 있을 때만 쿼리 실행
+  });
 }; 
