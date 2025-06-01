@@ -1,5 +1,5 @@
 'use client';
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import './detail.css';
@@ -9,7 +9,7 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
   const router = useRouter();
   const { id } = use(params);
   const { data, isLoading, error } = useQueryDetail(id);
-
+  const [showMenu, setShowMenu] = useState(false);
   const goBack = () => {
     router.back();
   };
@@ -46,6 +46,7 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
 
   const detail = data.data;
 
+  console.log(detail);
   if (detail.type === 'restaurant') {
     return (
       <div className="detail-container">
@@ -53,14 +54,11 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
           ←
         </button>
         <div className="detail-image-container">
-          <Image
-            src={detail.image || '/restaurant.png'}
+          <img
+            src={detail.video || '/restaurant.png'}
             alt={detail.restaurant_name}
-            fill
             sizes="(max-width: 768px) 100vw, 600px"
-            priority
-            quality={90}
-            className="detail-image"
+            className="detail-image "
           />
         </div>
 
@@ -101,6 +99,28 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
               <span className="info-value">{detail.seats}석</span>
             </div>
           </div>
+
+          {detail.menus && detail.menus.length > 0 && (
+            <>
+              <div className="divider"></div>
+              <div className="menu-section">
+                <div className="menu-header" onClick={() => setShowMenu(!showMenu)}>
+                  <h2 className="section-title">메뉴</h2>
+                  <span className="toggle-icon">{showMenu ? '▼' : '▶'}</span>
+                </div>
+                {showMenu && (
+                  <div className="menu-list">
+                    {detail.menus.map((menu) => (
+                      <div key={menu._id} className="menu-item">
+                        <span className="menu-name">{menu.menu}</span>
+                        <span className="menu-price">¥{menu.price.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
 
           <div className="divider"></div>
 

@@ -9,6 +9,7 @@ import { AttractionModule } from './attraction/attraction.module';
 import { ConvenienceModule } from './convenience/convenience.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     ConvenienceModule,
     ScheduleModule,
     EventsModule,
-    RestaurantModule
+    RestaurantModule,
+    MenuModule
   ],
   providers: []
 })
