@@ -19,12 +19,13 @@ const NewSchedule = () => {
   const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
   const [editingPlaceIndex, setEditingPlaceIndex] = useState<number | null>(null);
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [flightDeparture, setFlightDeparture] = useState('morning');
   const [flightArrival, setFlightArrival] = useState('morning');
   const [userId, setUserId] = useState<string | null>(null);
   const [userPreferences, setUserPreferences] = useState<any>(null);
-  
+
   // 팝업에서 선택 가능한 명소 목록 (예시)
   const popupPlaces = [
     { name: '스카이트리', meta: '관광 | ₩14,949' },
@@ -64,44 +65,38 @@ const NewSchedule = () => {
     return matrix;
   };
 
-  // 날짜 유효성 검사 함수
-  const isValidDate = (year: number, month: number, day: number) => {
-    const date = dayjs(`${year}-${month + 1}-${day}`);
-    return date.isValid();
-  };
-
   // 시작일자 선택 핸들러
   const handleStartDateSelect = (day: number | null) => {
     if (!day) return;
-    
+
     const newStartDate = dayjs(`${startCalendar.year}-${startCalendar.month + 1}-${day}`);
     const currentEndDate = dayjs(`${endCalendar.year}-${endCalendar.month + 1}-${endCalendar.selected}`);
-    
+
     if (newStartDate.isAfter(currentEndDate)) {
       // 시작일자가 종료일자보다 늦으면 종료일자를 시작일자로 설정
       setEndCalendar({
         year: startCalendar.year,
         month: startCalendar.month,
-        selected: day
+        selected: day,
       });
     }
-    
-    setStartCalendar(cal => ({ ...cal, selected: day }));
+
+    setStartCalendar((cal) => ({ ...cal, selected: day }));
   };
 
   // 종료일자 선택 핸들러
   const handleEndDateSelect = (day: number | null) => {
     if (!day) return;
-    
+
     const currentStartDate = dayjs(`${startCalendar.year}-${startCalendar.month + 1}-${startCalendar.selected}`);
     const newEndDate = dayjs(`${endCalendar.year}-${endCalendar.month + 1}-${day}`);
-    
+
     if (newEndDate.isBefore(currentStartDate)) {
       alert('종료일자는 시작일자보다 이전일 수 없습니다.');
       return;
     }
-    
-    setEndCalendar(cal => ({ ...cal, selected: day }));
+
+    setEndCalendar((cal) => ({ ...cal, selected: day }));
   };
 
   const handleAddPlace = (placeName: string) => {
@@ -184,10 +179,10 @@ const NewSchedule = () => {
         const response = await fetch('http://localhost:5000/api/auth/me', {
           credentials: 'include',
           headers: {
-            'Accept': 'application/json',
-          }
+            Accept: 'application/json',
+          },
         });
-        
+
         console.log('응답 상태:', response.status);
         const responseData = await response.json();
         console.log('응답 데이터:', responseData);
@@ -217,12 +212,12 @@ const NewSchedule = () => {
           favoriteFood: userData.preferences.favoriteFood,
           groupType: userData.preferences.groupType,
           attractionTypes: userData.preferences.attractionType,
-          ...userData.preferences
+          ...userData.preferences,
         });
 
         console.log('사용자 정보 설정 완료:', {
           userId: userData._id,
-          preferences: userData.preferences
+          preferences: userData.preferences,
         });
       } catch (error) {
         console.error('사용자 정보 조회 중 상세 오류:', error);
@@ -240,6 +235,7 @@ const NewSchedule = () => {
 
   const handleCreateSchedule = async () => {
     try {
+      setIsLoading(true);
       if (!userId || !userPreferences) {
         alert('로그인이 필요합니다.');
         router.push('/login');
@@ -247,7 +243,7 @@ const NewSchedule = () => {
       }
 
       console.log('일정 생성 시작');
-      
+
       const scheduleData = {
         userId,
         flightDeparture,
@@ -262,13 +258,13 @@ const NewSchedule = () => {
         travelStyle: userPreferences.travelStyle === '맛집 위주' ? 'food' : 'sightseeing',
         foodPreference: userPreferences.favoriteFood || 0,
         groupSize: userPreferences.groupType === '1인&2인' ? 0 : 1,
-        attractionTypes: userPreferences.attractionTypes
+        attractionTypes: userPreferences.attractionTypes,
       };
 
       console.log('전송할 데이터:', {
         ...scheduleData,
         startDate: scheduleData.startDate.toISOString(),
-        endDate: scheduleData.endDate.toISOString()
+        endDate: scheduleData.endDate.toISOString(),
       });
 
       console.log('백엔드 API 호출 시작');
@@ -276,7 +272,7 @@ const NewSchedule = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify(scheduleData),
@@ -291,7 +287,7 @@ const NewSchedule = () => {
           console.error('API 응답 에러:', {
             status: response.status,
             statusText: response.statusText,
-            error: errorData
+            error: errorData,
           });
           errorMessage = errorData.message || errorMessage;
         } catch (e) {
@@ -304,15 +300,16 @@ const NewSchedule = () => {
 
       const result = await response.json();
       console.log('일정 생성 성공:', result);
-      
+
       console.log('결과 페이지로 이동');
-      router.push(`/schedule/result?id=${result._id}`);
+      router.push(`/schedule/result/${result._id}`);
     } catch (error) {
       console.error('일정 생성 중 오류 발생:', error);
       alert(error instanceof Error ? error.message : '일정 생성 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
     }
   };
-
 
   return (
     <div className="new-schedule-container">
@@ -505,9 +502,15 @@ const NewSchedule = () => {
                       <td
                         key={j}
                         className={
-                          d === null ? '' :
-                          d === endCalendar.selected ? 'calendar-selected-cal' :
-                          (endCalendar.year === today.year() && endCalendar.month === endCalendar.month && d === today.date()) ? 'calendar-today-cal' : ''
+                          d === null
+                            ? ''
+                            : d === endCalendar.selected
+                            ? 'calendar-selected-cal'
+                            : endCalendar.year === today.year() &&
+                              endCalendar.month === endCalendar.month &&
+                              d === today.date()
+                            ? 'calendar-today-cal'
+                            : ''
                         }
                         onClick={() => handleEndDateSelect(d)}
                         style={{ cursor: d ? 'pointer' : 'default' }}
@@ -541,10 +544,7 @@ const NewSchedule = () => {
                 }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
-                <img
-                  alt={region.name}
-                  style={{ width: 40, height: 40, marginBottom: 4 }}
-                />
+                <img alt={region.name} style={{ width: 40, height: 40, marginBottom: 4 }} />
                 <div>{region.name}</div>
               </div>
             ))}
@@ -591,7 +591,20 @@ const NewSchedule = () => {
           </button>
         </div>
         {/* 일정 생성하기 버튼 */}
-        <button className="create-schedule-btn" onClick={handleCreateSchedule}>일정 생성하기</button>
+        <button
+          className={`create-schedule-btn ${isLoading ? 'loading' : ''}`}
+          onClick={handleCreateSchedule}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="spinner-container">
+              <div className="spinner"></div>
+              <span>일정 생성 중...</span>
+            </div>
+          ) : (
+            '일정 생성하기'
+          )}
+        </button>
       </div>
       {isPlacePopupOpen && (
         <>

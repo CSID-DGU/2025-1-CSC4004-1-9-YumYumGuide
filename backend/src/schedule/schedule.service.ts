@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateScheduleDto, AttractionType, TravelStyle } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { Schedule, ScheduleDocument, Day, Event } from './schema/schedule.schema';
@@ -466,8 +466,16 @@ export class ScheduleService {
     return this.scheduleModel.find().exec();
   }
 
-  findOne(id: string) {
-    return this.scheduleModel.findById(id).exec();
+  async findOne(id: string) {
+    const ObjectId = mongoose.Types.ObjectId;
+
+    const schedule = await this.scheduleModel.findOne({ _id: new ObjectId(id) }).lean();
+
+    if (!schedule) {
+      throw new NotFoundException('해당 ID의 상품을 찾을 수 없습니다.');
+    }
+    return new ApiResponseDto(true, 200, 'success', schedule);
+
   }
 
   update(id: string, updateScheduleDto: UpdateScheduleDto) {
