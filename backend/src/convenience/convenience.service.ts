@@ -4,7 +4,7 @@ import { UpdateConvenienceDto } from './dto/update-convenience.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Convenience, ConvenienceDocument } from './schema/convenience.schema';
 import { Model } from 'mongoose';
-import { ApiResponseDto, PaginationResponseDto } from 'src/common/dto/api.response.dto';
+import { ApiResponseDto, PaginationResponseDto } from 'src/common/response/api.response.dto';
 import { ConvenienceCategory } from './enums/convenience-category.enum';
 import { GetConvenienceDto } from './dto/get-conveneience.dto';
 
@@ -58,7 +58,7 @@ export class ConvenienceService {
         .exec(),
       this.convenienceModel.countDocuments(filter)
     ]);
-    
+
     this.logger.debug(`[findOneConvenienceAllGoods] Found ${totalCount} items with filter. Returning ${itemsFromDb.length} items for page ${page}.`);
 
     const items = itemsFromDb.map(item => ({

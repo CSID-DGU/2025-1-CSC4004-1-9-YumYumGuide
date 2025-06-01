@@ -22,7 +22,6 @@ interface PlaceCardProps {
     } | null>
   >;
 }
-
 const PlaceCard: React.FC<PlaceCardProps> = ({
   name,
   category,
@@ -34,9 +33,9 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
 }) => {
   const getIconPath = (category: string) => {
     switch (category) {
-      case '관광':
+      case 'attraction':
         return '/icons/tour.svg';
-      case '맛집':
+      case 'meal':
         return '/icons/food.svg';
       default:
         return '/icons/default.svg';
@@ -59,7 +58,10 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
   return (
     <div className={styles.place}>
       <div className={styles.outBox} />
-      <div className={styles.div2} title={name}>{name}</div> {/* 관광지 이름 */}
+      <div className={styles.div2} title={name}>
+        {name}
+      </div>{' '}
+      {/* 관광지 이름 */}
       <Image
         className={styles.vectorIcon}
         width={19.67}
@@ -68,21 +70,15 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
         src={getIconPath(category)}
       />
       <div className={styles.div1}>
-        <span>{`${category} | `}</span>
+        <span>{`${category == 'attraction' ? `관광` : `맛집`} | `}</span>
         <span className={styles.span}>₩</span>
         <span>{price.toLocaleString()}</span>
       </div>
-      <div
-        className={`${styles.box1} ${isRouteActive ? styles.selectedBox : ''}`}
-        onClick={handleRouteClick}
-      />
+      <div className={`${styles.box1} ${isRouteActive ? styles.selectedBox : ''}`} onClick={handleRouteClick} />
       <div className={styles.div3} onClick={handleRouteClick}>
         길 찾기
       </div>
-      <div
-        className={`${styles.box2} ${isShowActive ? styles.selectedBox : ''}`}
-        onClick={handleShowClick}
-      />
+      <div className={`${styles.box2} ${isShowActive ? styles.selectedBox : ''}`} onClick={handleShowClick} />
       <div className={styles.div4} onClick={handleShowClick}>
         위치 표시
       </div>

@@ -8,7 +8,6 @@ export class ConvenienceController {
 
   @Get('goods/:id')
   findOneGoods(@Param('id') id: string) {
-
     return this.convenienceService.findOneGoods(id);
   }
 

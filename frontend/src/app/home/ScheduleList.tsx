@@ -2,40 +2,28 @@
 
 import React from 'react';
 import Image from 'next/image';
-
-type Schedule = {
-  id: number;
-  title: string;
-  image: string;
-  rating: number;
-  reviews: number;
-  location: string;
-};
-
-const defaultSchedules: Schedule[] = [
-  // 예시: 일정이 있을 때 아래 주석 해제
-  {
-    id: 1,
-    title: '도쿄타워',
-    image: '',
-    rating: 4.7,
-    reviews: 512,
-    location: 'Minato City, Tokyo',
-  },
-  {
-    id: 2,
-    title: '스카이트리',
-    image: '',
-    rating: 4.3,
-    reviews: 320,
-    location: 'Sumida City, Tokyo',
-  },
-];
+import { useQuerySchedule } from '@/api/schedule';
+import { useRouter } from 'next/navigation';
 
 const ScheduleList = () => {
-  const schedules = defaultSchedules;
-  const handleAdd = () => alert('일정 추가하기');
-  const handleSelect = (id: number) => alert(`일정 선택: ${id}`);
+  const router = useRouter();
+  const { data: scheduleResponse, isLoading } = useQuerySchedule();
+
+  const handleAdd = () => router.push('/newSchedule');
+  const handleSelect = () => router.push(`/schedule`);
+
+  if (isLoading) {
+    return (
+      <div>
+        <p className="text-2xl font-semibold mb-2">다음 일정</p>
+        <div className="flex items-center justify-center h-[100px]">
+          <div className="text-gray-500">로딩 중...</div>
+        </div>
+      </div>
+    );
+  }
+
+  const schedules = scheduleResponse?.data || [];
 
   if (!schedules || schedules.length === 0) {
     return (
@@ -55,31 +43,52 @@ const ScheduleList = () => {
   return (
     <div className="flex flex-col gap-3 w-full">
       <p className="text-2xl font-semibold mb-2">다음 일정</p>
-      {schedules.map((schedule) => (
-        <div
-          className="flex items-center justify-between bg-white rounded-xl shadow p-3 w-full hover:bg-gray-50 cursor-pointer h-[100px]"
-          key={schedule.id}
-          onClick={() => handleSelect(schedule.id)}
-        >
-          <div className="flex items-center gap-4">
-            <Image
-              src="/icons/80x80.svg"
-              alt={schedule.title}
-              width={80}
-              height={80}
-              className="rounded-lg object-cover"
-            />
-            <div className="flex flex-col flex-1">
-              <div className="font-bold text-base truncate font-['Pretendard']">{schedule.title}</div>
-              <div className="text-gray-500 text-sm font-['Pretendard']">
-                ⭐ {schedule.rating} ({schedule.reviews})
+      {schedules.map((schedule) => {
+        // 첫 번째 이벤트 찾기
+        const firstEvent = schedule.days[0]?.events[0];
+
+        return (
+          <div
+            className="flex items-center justify-between bg-white rounded-xl shadow p-3 w-full hover:bg-gray-50 cursor-pointer h-[100px]"
+            key={schedule._id}
+            onClick={() => handleSelect()}
+          >
+            <div className="flex items-center gap-4">
+              <img
+                src={
+                  firstEvent?.image ||
+                  (firstEvent?.type === 'attraction'
+                    ? '/attraction.png'
+                    : firstEvent?.type === 'restaurant'
+                    ? '/restaurant.png'
+                    : '/default-event.png')
+                }
+                alt={firstEvent?.name || '일정 이미지'}
+                width={80}
+                height={80}
+                className="rounded-lg object-cover"
+              />
+              <div className="flex flex-col flex-1">
+                <div className="font-bold text-base truncate">
+                  {`${schedule.startDate.substring(4, 6)}.${schedule.startDate.substring(
+                    6,
+                    8,
+                  )} ~ ${schedule.endDate.substring(4, 6)}.${schedule.endDate.substring(6, 8)}`}
+                </div>
+                <div className="text-gray-500 text-sm">
+                  {firstEvent
+                    ? `${firstEvent.name} 외 ${
+                        schedule.days.reduce((acc, day) => acc + day.events.length, 0) - 1
+                      }개 장소`
+                    : '일정 없음'}
+                </div>
+                <div className="text-gray-400 text-xs truncate">{schedule.days.length}일 일정</div>
               </div>
-              <div className="text-gray-400 text-xs truncate font-['Pretendard']">🚩 {schedule.location}</div>
             </div>
+            <Image src="/icons/arrow.svg" alt="arrow" width={24} height={24} className="mr-2" />
           </div>
-          <Image src="/icons/arrow.svg" alt="arrow" width={24} height={24} className="mr-2" />
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -3,9 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const logger = new Logger('Bootstrap');
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'debug', 'log', 'verbose'], // 모든 로그 레벨 활성화
+  });
 
   app.setGlobalPrefix('api'); // 전역 API 접두사 설정
 
@@ -23,7 +27,7 @@ async function bootstrap() {
   // 쿠키 파서 미들웨어 추가
   app.use(cookieParser());
 
-  // CORS 설정 통합
+  // CORS 설정
   app.enableCors({
     origin: [
       'http://localhost:3000',
@@ -48,8 +52,8 @@ async function bootstrap() {
     },
   }));
 
-  console.log('Attempting to start server on port:', process.env.PORT || 5000); // 로그 추가
-  await app.listen(process.env.PORT || 5000); 
-  console.log(`Server is listening on port ${await app.getUrl()}`); // 로그 추가
+  const port = process.env.PORT || 5000;
+  await app.listen(port);
+  logger.log(`Application is running on: http://localhost:${port}`);
 }
 bootstrap();

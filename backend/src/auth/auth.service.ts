@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { User, UserDocument } from 'src/user/schemas/user.schema';
+import { User, UserDocument } from '../user/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
