@@ -185,7 +185,7 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
             <thead>
               <tr>
                 {weekDays.map((day, i) => (
-                  <th key={i} className="text-gray-400 font-semibold text-base py-1">
+                  <th key={i} className="text-gray-400 font-semibold text-base py-1 w-9 md:w-10">
                     {day}
                   </th>
                 ))}
@@ -202,22 +202,27 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
                     return (
                       <td
                         key={j}
-                        className={
-                          date
-                            ? isSelected(date)
-                              ? 'calendar-selected-cal bg-[#4CC88A] text-white font-bold rounded-lg transition-all duration-150 cursor-pointer w-9 h-9 md:w-10 md:h-10'
-                              : scheduleDates.includes(dateStr)
-                              ? 'calendar-has-schedule transition-all duration-150 cursor-pointer w-9 h-9 md:w-10 md:h-10'
-                              : 'cursor-pointer w-9 h-9 md:w-10 md:h-10 transition-all duration-150'
-                            : ''
-                        }
+                        className={date ? 'cursor-pointer transition-all duration-150' : ''}
                         onClick={() => {
                           if (!date) return;
                           handleDateClick(date);
                         }}
-                        style={{ minWidth: 36, minHeight: 36 }}
                       >
-                        {date || ''}
+                        {date ? (
+                          <div
+                            className={
+                              isSelected(date)
+                                ? 'bg-[#4CC88A] text-white font-bold rounded-lg flex items-center justify-center w-9 h-10 md:w-10 md:h-11 mx-auto'
+                                : scheduleDates.includes(dateStr)
+                                ? 'bg-green-100 text-[#4CC88A] font-semibold rounded-lg flex items-center justify-center w-9 h-10 md:w-10 md:h-11 mx-auto'
+                                : 'flex items-center justify-center w-9 h-10 md:w-10 md:h-11 mx-auto'
+                            }
+                          >
+                            {date}
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </td>
                     );
                   })}

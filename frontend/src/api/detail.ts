@@ -66,6 +66,11 @@ interface RestaurantDetailData extends BaseDetailData {
   translated_restaurant_name_fuzzy: string[];
   smoking_code: number;
   drinking_code: number;
+  menus?: Array<{
+    _id: string;
+    menu: string;
+    price: number;
+  }>;
 }
 
 interface AttractionDetailData extends BaseDetailData {
