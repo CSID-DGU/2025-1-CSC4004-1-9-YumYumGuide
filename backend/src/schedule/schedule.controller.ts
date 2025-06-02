@@ -49,6 +49,36 @@ export class ScheduleController {
     return this.scheduleService.createSampleData(userId);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async deleteSchedule(@Param('id') id: string, @Req() req) {
+    return this.scheduleService.deleteSchedule(id, req.user._doc._id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':scheduleId/days/:dayIndex/events/:eventIndex')
+  async deleteEvent(
+    @Param('scheduleId') scheduleId: string,
+    @Param('dayIndex') dayIndex: number,
+    @Param('eventIndex') eventIndex: number,
+    @Req() req
+  ) {
+    const userId = req.user._id;
+    return this.scheduleService.deleteEvent(scheduleId, dayIndex, eventIndex, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':scheduleId/days/:dayIndex/budget')
+  async updateDayBudget(
+    @Param('scheduleId') scheduleId: string,
+    @Param('dayIndex') dayIndex: number,
+    @Body('totalBudget') totalBudget: number,
+    @Req() req
+  ) {
+    const userId = req.user._id;
+    return this.scheduleService.updateDayBudget(scheduleId, dayIndex, totalBudget, userId);
+  }
+
   // @Get(':id')
   // @UseGuards(JwtAuthGuard)
   // findOne(@Param('id') id: string) {
