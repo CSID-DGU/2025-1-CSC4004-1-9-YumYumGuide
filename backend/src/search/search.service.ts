@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Restaurant, RestaurantDocument, RestaurantModelType } from './schemas/restaurant.schema';
 import { Attraction, AttractionDocument, AttractionModelType } from './schemas/attraction.schema';
-import { SearchRequestDto } from './dto/search-request.dto';
+import { SearchRequestDto, SearchByIdRequestDto} from './dto/search-request.dto';
 import { 
   SearchResponseDto, 
   RestaurantSearchResultDto, 
@@ -61,6 +61,44 @@ export class SearchService {
         query,
         region,
         searchTime,
+      },
+    };
+  }
+
+  async searchByIdRestaurant(searchByIdDto: SearchByIdRequestDto): Promise<SearchResponseDto> {
+    const { id } = searchByIdDto;
+    const restaurantResults = await this.restaurantModel.find({ '_id': new Types.ObjectId(id)}).exec()
+    console.log(restaurantResults)
+    return {
+      restaurants: [{data: restaurantResults[0]}],
+      attractions: [],
+      totalCount: {
+        restaurants: 1,
+        attractions: 0,
+      },
+      searchInfo: {
+        query: id,
+        region: "id 검색",
+        searchTime: 0,
+      },
+    };
+  }
+
+  async searchByIdAttraction(searchByIdDto: SearchByIdRequestDto): Promise<SearchResponseDto> {
+    const { id } = searchByIdDto;
+    const attractionResults = await this.attractionModel.find({ '_id': new Types.ObjectId(id)}).exec()
+    console.log(attractionResults)
+    return {
+      restaurants: [],
+      attractions: [{data: attractionResults[0]}],
+      totalCount: {
+        restaurants: 0,
+        attractions: 1,
+      },
+      searchInfo: {
+        query: id,
+        region: "id 검색",
+        searchTime: 0,
       },
     };
   }

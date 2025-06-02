@@ -14,3 +14,11 @@ export class SearchRequestDto {
   @IsNotEmpty()
   region: string;
 }
+
+export class SearchByIdRequestDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+}
+

@@ -415,7 +415,8 @@ const NewSchedule = () => {
               placeholder="검색하기..." 
               value={searchQuery}
               onChange={(e) => {setSearchQuery(e.target.value)}}
-              onKeyDown={(e) => {console.log(searchQuery); searchPlaces(searchQuery)}}
+              onKeyDown={(e) => {console.log(searchQuery); searchPlaces(searchQuery); if (e.key === 'Enter') {e.preventDefault(); searchPlaces(searchQuery);
+              }}}
             />
             <div className="popup-place-list">
               {loading && <div>검색 중...</div>}
@@ -427,7 +428,8 @@ const NewSchedule = () => {
                       key={restaurant.data._id}
                     >
                       <div className="popup-place-title">
-                        {restaurant.data.translated_restaurant_name} 
+                        <div className='truncate w-[220px]'>
+                        {restaurant.data.translated_restaurant_name} </div>
                         <span className="popup-place-badge">식당</span>
                       </div>
                       <div className="popup-place-meta">{restaurant.data.genre} | {restaurant.data.budget}</div>
@@ -437,7 +439,8 @@ const NewSchedule = () => {
                       >
                         +
                       </button>
-                      <div 
+                      <button 
+                        type="button"
                         className="popup-place-detail" 
                         onClick={() => {
                           const id = restaurant.data._id;
@@ -446,7 +449,7 @@ const NewSchedule = () => {
                         }}
                       >
                         상세보기 &gt;
-                      </div>
+                      </button>
                     </div>
                   ))}
 
@@ -466,7 +469,7 @@ const NewSchedule = () => {
                       >
                         +
                       </button>
-                      <div className="popup-place-detail" onClick={() => {setDetailId(attraction.data._id);setIsPlacePopupOpen(false);}}>상세보기 &gt;</div>
+                      <button type="button" className="popup-place-detail" onClick={() => {setDetailId(attraction.data._id);setIsPlacePopupOpen(false);}}>상세보기 &gt;</button>
                     </div>
                   ))}
                   {searchResults.totalCount.restaurants === 0 && searchResults.totalCount.attractions === 0 && (
@@ -480,12 +483,12 @@ const NewSchedule = () => {
           </div>
         </>
       )}
-      {detailId && (
+      {detailId !== null ?(
         <TripDetailModal
           id={detailId}
-          onClose={() => setDetailId(null)}
+          onClose={() => {setDetailId(null); setIsPlacePopupOpen(true)}}
         />
-      )}
+      ):"<></>"}
 
       <Nav />
     </div>

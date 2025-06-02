@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, Query, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { SearchService } from './search.service';
-import { SearchRequestDto } from './dto/search-request.dto';
+import { SearchRequestDto, SearchByIdRequestDto } from './dto/search-request.dto';
 import { SearchResponseDto } from './dto/search-response.dto';
 
 @ApiTags('search')
@@ -29,6 +29,17 @@ export class SearchController {
     return this.searchService.search(searchDto);
   }
 
+  @Post('restaurantById')
+  async searchByIdRestaurant(@Body() searchByIdDto: SearchByIdRequestDto): Promise<SearchResponseDto> {
+    return this.searchService.searchByIdRestaurant(searchByIdDto);
+  }
+
+   @Post('attractionById')
+  async searchByIdAttraction(@Body() searchByIdDto: SearchByIdRequestDto): Promise<SearchResponseDto> {
+    return this.searchService.searchByIdAttraction(searchByIdDto);
+  }
+
+
   // 혼합 검색어 추천 API
   @Get('suggestions')
   async getSuggestions(
@@ -39,5 +50,7 @@ export class SearchController {
       return { suggestions: [], categories: [] };
     }
   }
+
+  
 }
 

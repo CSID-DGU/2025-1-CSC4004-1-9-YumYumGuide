@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
-  console.log('왔냐?')
   try {
     // 쿼리 파라미터 가져오기
     const { searchParams } = new URL(request.url);
@@ -21,7 +20,7 @@ export async function GET(request) {
     
     // 영화 컬렉션에서 데이터 조회 (페이지네이션 적용)
     const skip = (page - 1) * limit;
-    const movies = await db.collection('sample_mflix.movies')
+    const movies = await db.collection('')
       .find({})
       .sort({ year: -1 }) // 최신 영화부터 정렬
       .skip(skip)

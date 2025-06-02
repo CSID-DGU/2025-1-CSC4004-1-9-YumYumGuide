@@ -1,19 +1,41 @@
-'use client';
+'use client'
 
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 import './detail.css';
 
 interface TripDetailProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
+
+interface TripDetailData {
+    _id: string;
+    translated_restaurant_name: string;
+    location: string;
+    genre?: string;
+    budget?: string;
+    image?: string;
+}
+
+ // 더미데이터 실제 데이터로 교체해야함!
+  const mockDetail = {
+    //   id: string;
+    // translated_restaurant_name: string;
+    // location: string;
+    // genre?: string;
+    // budget?: string;
+    // image?: string;
+  };
+
+
 
 export default function TripDetailPage({ params }: TripDetailProps) {
   const router = useRouter();
-  const { id } = params;
-  const [tripDetail, setTripDetail] = useState<any>(null);
+  const { id } =  use(params);
+  const [tripDetail, setTripDetail] = useState<TripDetailData|null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,15 +46,10 @@ export default function TripDetailPage({ params }: TripDetailProps) {
       try {
         setLoading(true);
         // 실제 API로 교체
-        const response = await fetch(`/api/trips/${id}`, {
-          credentials: 'include'
-        });
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/search/restaurantById`, {id: id});
         
-        if (!response.ok) {
-          throw new Error('데이터를 불러오는데 실패했습니다');
-        }
-        
-        const data = await response.json();
+        const data = await response.data.restaurants[0].data;
+        console.log(data.budget);
         setTripDetail(data);
         setLoading(false);
       } catch (err) {
@@ -73,27 +90,15 @@ export default function TripDetailPage({ params }: TripDetailProps) {
     );
   }
 
-  // 더미데이터 실제 데이터로 교체해야함!
-  const mockData = tripDetail || {
-    id: id || '1',
-    name: '규카츠 모토무라 시부야점',
-    location: 'Shibuya, Tokyo',
-    area: 'Shibuya',
-    rating: 4.2,
-    reviewCount: 203,
-    price: '¥890/1인',
-    keywords: ['맛있다', '깨끗하다', '친절하다'],
-    image: '/restaurant.png',
-    description: '시부야에 위치한 유명한 규카츠 전문점입니다. 바삭하고 두꺼운 돈까스와 특제 소스가 일품이며, 현지인들에게도 인기가 많은 맛집입니다. 직원들이 매우 친절하고 가게 내부도 깨끗하게 유지되고 있습니다. 시부야역에서 도보 5분 거리에 위치해 있어 접근성도 좋습니다.',
-    createdBy: 'LoveTrip'
-  };
-
+ 
   return (
+    <>
+{tripDetail !== null ? 
     <div className="detail-container">
       <div className="detail-image-container">
         <img 
-          src={mockData.image || "/restaurant.png"} 
-          alt={mockData.name} 
+          src={tripDetail.image || "/restaurant.png"} 
+          alt={tripDetail.translated_restaurant_name} 
           className="detail-image"
         />
         {/* <button onClick={goBack} className="back-button">
@@ -107,44 +112,51 @@ export default function TripDetailPage({ params }: TripDetailProps) {
 
       <div className="content-container">
         <div className='flex title-container'>
-          <h1 className="title">{mockData.name}</h1>
-          <div className="rating-badge">
+          <h1 className="title">{tripDetail.translated_restaurant_name}</h1>
+          {/* <div className="rating-badge">
             <span className="rating-star">★</span>
-            <span className="rating-text">{mockData.rating}</span>
-          </div>
+            <span className="rating-text">{tripDetail.location}</span>
+          </div> */}
         </div>
         <div className="location">
           <span className="location-icon">📍</span>
-          <span>{mockData.location}</span>
+          <span>{tripDetail.location}</span>
         </div>
 
         <div className="divider"></div>
 
-        <h2 className="section-title">리뷰 키워드</h2>
+        {/* <h2 className="section-title">리뷰 키워드</h2>
         <div className="keyword-container">
-          {(mockData.keywords || []).map((keyword: string, index: number) => (
+          {(tripDetail.keywords || []).map((keyword: string, index: number) => (
             <span key={index} className="keyword">
               {keyword}
             </span>
           ))}
-        </div>
+        </div> */}
 
         <div className="divider"></div>
 
-        <h2 className="section-title">상세 리뷰</h2>
+        <h2 className="section-title">설명</h2>
         {/* <div className="review-profile">
           <div className="profile-icon">
             👤
           </div>
-          <span className="profile-name">{mockData.createdBy}</span>
+          <span className="profile-name">{tripDetail.createdBy}</span>
         </div> */}
-        <p className="review-text">{mockData.description}</p>
+        <p className="review-text">{tripDetail.genre}</p>
 
         <div className="divider"></div>
 
         <h2 className="section-title">가격 정보</h2>
-        <p className="price-info">{mockData.price}</p>
+        <p className="price-info">{tripDetail.budget}</p>
       </div>
     </div>
+    :
+    <div className="flex items-center justify-center h-screen max-w-[500px] mx-auto">
+        <div className="text-lg">로딩 중...</div>
+      </div>
+    
+    }
+    </>
   );
 }
