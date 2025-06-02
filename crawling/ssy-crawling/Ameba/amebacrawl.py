@@ -145,7 +145,7 @@ def find_from_ameba(find):
                     print(f"[post-{p}] 제목: {title}")
                     print("내용:", content[:30])
                     time.sleep(1)
-
+    driver.close()
     driver.quit()
 
 
