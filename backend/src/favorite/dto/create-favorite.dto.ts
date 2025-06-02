@@ -20,7 +20,7 @@ export class CreateFavoriteDto {
   @IsString()
   travelStyle: string;
 
-  @IsEnum(['육류', '해산물', '면류', '밥류'])
+  @IsEnum(['육류', '해산물', '면류', '이자카야'])
   @IsNotEmpty()
   @IsString()
   favoriteFood: string;

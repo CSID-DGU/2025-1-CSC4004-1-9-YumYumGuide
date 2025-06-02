@@ -211,9 +211,9 @@ const SigninForm: FC = () => {
             <div className={getLabelClass('div18')} onClick={() => setFavoriteFood('면류')}>
               면류
             </div>
-            <div className={getClass('box5_4', favoriteFood === '밥류')} onClick={() => setFavoriteFood('밥류')} />
-            <div className={getLabelClass('div19')} onClick={() => setFavoriteFood('밥류')}>
-              밥류
+            <div className={getClass('box5_4', favoriteFood === '이자카야')} onClick={() => setFavoriteFood('이자카야')} />
+            <div className={getLabelClass('div19')} onClick={() => setFavoriteFood('이자카야')}>
+              이자카야
             </div>
             <div className={styles.rrr11} />
             <div className={styles.result}>{favoriteFood}</div>

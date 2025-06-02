@@ -256,7 +256,7 @@ const NewSchedule = () => {
         smoking: userPreferences.smoking === 1,
         drinking: userPreferences.drinking === 1,
         travelStyle: userPreferences.travelStyle === '맛집 위주' ? 'food' : 'sightseeing',
-        foodPreference: userPreferences.favoriteFood || 0,
+        foodPreference: Number(userPreferences.favoriteFood) || 0,
         groupSize: userPreferences.groupType === '1인&2인' ? 0 : 1,
         attractionTypes: userPreferences.attractionTypes,
       };
@@ -428,7 +428,13 @@ const NewSchedule = () => {
                             : ''
                         }
                         onClick={() => handleStartDateSelect(d)}
-                        style={{ cursor: d ? 'pointer' : 'default' }}
+                        style={{ 
+                          cursor: d ? 'pointer' : 'default',
+                          textAlign: 'center',
+                          verticalAlign: 'middle',
+                          width: '40px',
+                          height: '40px'
+                        }}
                       >
                         {d || ''}
                       </td>
@@ -513,7 +519,13 @@ const NewSchedule = () => {
                             : ''
                         }
                         onClick={() => handleEndDateSelect(d)}
-                        style={{ cursor: d ? 'pointer' : 'default' }}
+                        style={{ 
+                          cursor: d ? 'pointer' : 'default',
+                          textAlign: 'center',
+                          verticalAlign: 'middle',
+                          width: '40px',
+                          height: '40px'
+                        }}
                       >
                         {d || ''}
                       </td>

@@ -19,7 +19,7 @@ export class Favorite {
   @Prop({ enum: ['맛집 위주', '관광지 위주'], required: true })
   travelStyle: string;
 
-  @Prop({ enum: ['육류', '해산물', '면류', '밥류'], required: true })
+  @Prop({ enum: ['육류', '해산물', '면류', '이자카야'], required: true })
   favoriteFood: string;
 
   @Prop({ enum: ['1인&2인', '3인 이상'], required: true })

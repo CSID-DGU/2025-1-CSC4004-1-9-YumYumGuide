@@ -3,7 +3,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import Nav from '../../../componets/nav';
 import AlertModal from '../../../../components/AlertModal';
 import { useQueryScheduleById } from '@/api/schedule';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import styles from '../result.module.css';
 
 // 타입 정의
 type PlaceType = 'attraction' | 'meal';
@@ -20,6 +22,7 @@ const categories = [
 
 export default function ScheduleResult() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const { data: scheduleResponse, isLoading } = useQueryScheduleById(id);
   const [activeTab, setActiveTab] = useState(1);
@@ -32,6 +35,8 @@ export default function ScheduleResult() {
   const [openedActionIdx, setOpenedActionIdx] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
+  const [schedule, setSchedule] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   console.log(scheduleResponse);
   // 탭 바 위치 계산
@@ -44,6 +49,37 @@ export default function ScheduleResult() {
       setUnderlineStyle({ left: ref.offsetLeft, width: ref.offsetWidth });
     }
   }, [activeTab]);
+
+  useEffect(() => {
+    fetchSchedule();
+  }, [params.id]);
+
+  const fetchSchedule = async () => {
+    try {
+      const token = Cookies.get('auth_token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/schedule/${params.id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSchedule(data.data);
+      } else {
+        console.error('Failed to fetch schedule');
+      }
+    } catch (error) {
+      console.error('Error fetching schedule:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 필터 팝업 위치 계산
   const handleFilterBtnClick = () => {
@@ -63,38 +99,64 @@ export default function ScheduleResult() {
 
   const handleDelete = () => {
     if (deleteIdx !== null) {
-      // TODO: API 호출로 삭제 구현
-      console.log('Delete event at index:', deleteIdx);
+      handleDeleteEvent(activeTab - 1, deleteIdx);
     }
     setModalOpen(false);
     setDeleteIdx(null);
     setOpenedActionIdx(null);
   };
 
+  const handleDeleteEvent = async (dayIndex: number, eventIndex: number) => {
+    try {
+      const token = Cookies.get('auth_token');
+      console.log('=== Frontend Delete Event Debug ===');
+      console.log('Token:', token);
+      
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/schedule/${id}/days/${dayIndex}/events/${eventIndex}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        console.log('Delete failed:', errorData);
+        alert(`삭제 실패: ${errorData.message || '알 수 없는 오류가 발생했습니다.'}`);
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      alert('장소 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
   // 로딩 상태 처리
-  if (isLoading) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-[#fafbfa] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">일정을 불러오는 중...</p>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingContent}>
+          <div className={styles.loadingSpinner}></div>
+          <p className={styles.loadingText}>일정을 불러오는 중...</p>
         </div>
       </div>
     );
   }
 
   // 데이터가 없는 경우 처리
-  if (!scheduleResponse?.data) {
-    return (
-      <div className="min-h-screen bg-[#fafbfa] flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600">일정을 찾을 수 없습니다.</p>
-        </div>
-      </div>
-    );
+  if (!schedule) {
+    return <div className={styles.error}>일정을 찾을 수 없습니다.</div>;
   }
 
-  const schedule = scheduleResponse.data;
   const currentDay = schedule.days[activeTab - 1];
 
   // 필터링된 데이터

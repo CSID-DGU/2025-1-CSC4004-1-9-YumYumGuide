@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { CreateScheduleDto, AttractionType, TravelStyle } from './dto/create-schedule.dto';
@@ -501,5 +501,81 @@ export class ScheduleService {
     });
 
     return await sampleSchedule.save();
+  }
+
+  async deleteSchedule(scheduleId: string, userId: string) {
+    const schedule = await this.scheduleModel.findById(scheduleId);
+    
+    if (!schedule) {
+      throw new NotFoundException('일정을 찾을 수 없습니다.');
+    }
+
+    if (schedule.userId !== userId) {
+      throw new UnauthorizedException('이 일정을 삭제할 권한이 없습니다.');
+    }
+
+    await this.scheduleModel.findByIdAndDelete(scheduleId);
+    return { message: '일정이 성공적으로 삭제되었습니다.' };
+  }
+
+  async deleteEvent(scheduleId: string, dayIndex: number, eventIndex: number, userId: string) {
+    console.log('=== Delete Event Debug ===');
+    console.log('Requested userId:', userId);
+    
+    const schedule = await this.scheduleModel.findById(scheduleId);
+    console.log('Found schedule:', schedule);
+    console.log('Schedule userId:', schedule?.userId);
+    
+    if (!schedule) {
+      throw new NotFoundException('일정을 찾을 수 없습니다.');
+    }
+
+    if (schedule.userId.toString() !== userId.toString()) {
+      console.log('Permission denied:');
+      console.log('Schedule userId:', schedule.userId.toString());
+      console.log('Request userId:', userId.toString());
+      throw new UnauthorizedException('이 일정을 수정할 권한이 없습니다.');
+    }
+
+    if (!schedule.days[dayIndex]) {
+      throw new NotFoundException('해당 날짜를 찾을 수 없습니다.');
+    }
+
+    if (!schedule.days[dayIndex].events[eventIndex]) {
+      throw new NotFoundException('해당 이벤트를 찾을 수 없습니다.');
+    }
+
+    // 삭제할 이벤트의 budget 값 저장
+    const eventToDelete = schedule.days[dayIndex].events[eventIndex];
+    const eventBudget = eventToDelete.budget || 0;
+
+    // 해당 이벤트 삭제
+    schedule.days[dayIndex].events.splice(eventIndex, 1);
+
+    // totalBudget 업데이트
+    schedule.days[dayIndex].totalBudget -= eventBudget;
+
+    // 변경사항 저장
+    await schedule.save();
+    
+    return { message: '이벤트가 성공적으로 삭제되었습니다.' };
+  }
+
+  async updateDayBudget(scheduleId: string, dayIndex: number, totalBudget: number, userId: string) {
+    const schedule = await this.scheduleModel.findById(scheduleId);
+    if (!schedule) {
+      throw new NotFoundException('Schedule not found');
+    }
+
+    if (schedule.userId.toString() !== userId) {
+      throw new UnauthorizedException('You are not authorized to update this schedule');
+    }
+
+    if (!schedule.days[dayIndex]) {
+      throw new NotFoundException('Day not found');
+    }
+
+    schedule.days[dayIndex].totalBudget = totalBudget;
+    return schedule.save();
   }
 }

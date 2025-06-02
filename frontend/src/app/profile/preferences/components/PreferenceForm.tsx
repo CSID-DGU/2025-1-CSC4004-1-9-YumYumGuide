@@ -231,7 +231,7 @@ const PreferenceForm: FC = () => {
               ['육류',    styles.box4_1, styles.div15],
               ['해산물',  styles.box4_2, styles.div16],
               ['면류',    styles.box4_3, styles.div17],
-              ['밥류',    styles.box4_4, styles.div18],
+              ['이자카야',    styles.box4_4, styles.div18],
             ].map(([lab, box, txt]) => (
               <div key={lab as string}>
                 <div className={`${box as string} ${styles.pointer} ${isSel('favoriteFood', lab as string) ? styles.selected : ''}`}

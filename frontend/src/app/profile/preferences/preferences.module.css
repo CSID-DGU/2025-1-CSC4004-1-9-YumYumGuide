@@ -342,13 +342,15 @@
 .div18 {
   position: absolute;
   top: 71px;
-  left: 317px;
+  left: 303px;
   letter-spacing: 0.3px;
   line-height: 16px;
   font-weight: 600;
   display: inline-block;
-  width: 28.5px;
+  width: 60px;
   height: 18px;
+  white-space: nowrap;
+  text-align: center;
 }
 .div19 {
   position: absolute;
@@ -360,7 +362,7 @@
   color: #1b1e28;
   text-align: left;
   display: inline-block;
-  width: 54.2px;
+  width: 60.2px;
 }
 .likeFood {
   width: 382px;
