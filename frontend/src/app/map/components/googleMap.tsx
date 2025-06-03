@@ -1,5 +1,6 @@
-// googleMap.tsx
-import React, { useEffect, useRef, useState } from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import {
   GoogleMap,
   Marker,
@@ -8,158 +9,166 @@ import {
   useJsApiLoader,
 } from '@react-google-maps/api';
 
-const containerStyle = {
-  width: '100%',
-  height: '550px',
-};
+const containerStyle = { width: '100%', height: '550px' };
+const defaultCenter = { lat: 37.5665, lng: 126.978 };
 
-const defaultCenter = {
-  lat: 37.5665,
-  lng: 126.978,
-};
-
+interface LatLng { lat: number; lng: number; }
+interface PlaceInfo { name: string; address: string; }
 interface Props {
   selectedPlaceName: string | null;
-  routeToPlaceName: string | null;
-  placesForDay?: string[];
+  routeToPlace: PlaceInfo | null;
+  placesForDay?: PlaceInfo[];
+  customRoute?: { from: PlaceInfo; to: PlaceInfo } | null;
 }
+
+const jitter = () => (Math.random() - 0.5) * 0.008;
 
 const GoogleMapComponent: React.FC<Props> = ({
   selectedPlaceName,
-  routeToPlaceName,
+  routeToPlace,
   placesForDay,
+  customRoute,
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ['places'],
   });
 
-  const [center, setCenter] = useState(defaultCenter);
-  const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>(null);
-  const [multiMarkerPositions, setMultiMarkerPositions] = useState<
-    { position: google.maps.LatLngLiteral; label: string }[]
-  >([]);
+  const [center, setCenter] = useState<LatLng>(defaultCenter);
+  const [markerPos, setMarkerPos] = useState<LatLng | null>(null);
+  const [multiMarkers, setMarkers] = useState<{ position: LatLng; label: string }[]>([]);
+  const [coordsMap, setCoordsMap] = useState<Record<string, LatLng>>({});
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-  const [currentPosition, setCurrentPosition] = useState<google.maps.LatLngLiteral | null>(null);
+  const [posMe, setPosMe] = useState<LatLng | null>(null);
 
+  const fallbackRef = useRef<LatLng>({ lat: 35.6895, lng: 139.6917 });
   const mapRef = useRef<google.maps.Map | null>(null);
 
-  const onLoad = (map: google.maps.Map) => {
-    mapRef.current = map;
+  const onLoad = (m: google.maps.Map) => {
+    mapRef.current = m;
   };
 
-  const geocode = (placeName: string): Promise<google.maps.LatLngLiteral> => {
-    return new Promise((resolve, reject) => {
-      const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ address: placeName }, (results, status) => {
-        if (status === 'OK' && results && results[0]) {
-          const location = results[0].geometry.location;
-          resolve({ lat: location.lat(), lng: location.lng() });
-        } else {
-          reject(`Geocode failed for "${placeName}": ${status}`);
-        }
-      });
-    });
+  const inTokyo = (c: LatLng) => {
+    const bounds = new window.google.maps.LatLngBounds(
+      { lat: 35.52, lng: 139.55 },
+      { lat: 35.93, lng: 139.96 }
+    );
+    return bounds.contains(new window.google.maps.LatLng(c.lat, c.lng));
   };
+
+  const centroid = (pts: LatLng[]): LatLng => {
+    const sum = pts.reduce((a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }), { lat: 0, lng: 0 });
+    return { lat: sum.lat / pts.length, lng: sum.lng / pts.length };
+  };
+
+  const geocode = (addr: string): Promise<LatLng> => new Promise((resolve) => {
+    const g = new window.google.maps.Geocoder();
+    const bounds = new window.google.maps.LatLngBounds(
+      { lat: 35.52, lng: 139.55 },
+      { lat: 35.93, lng: 139.96 }
+    );
+    g.geocode({ address: addr, bounds, region: 'jp' }, (r, s) => {
+      if (s === 'OK' && r?.[0]) {
+        const l = r[0].geometry.location;
+        const c = { lat: l.lat(), lng: l.lng() };
+        resolve(inTokyo(c) ? c : fallbackRef.current);
+      } else {
+        resolve(fallbackRef.current);
+      }
+    });
+  });
 
   useEffect(() => {
     if (!isLoaded) return;
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const coords = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-      };
-      setCurrentPosition(coords);
-      setCenter(coords);
+    navigator.geolocation.getCurrentPosition((p) => {
+      const c = { lat: p.coords.latitude, lng: p.coords.longitude };
+      setPosMe(c);
+      setCenter(c);
     });
   }, [isLoaded]);
 
+  const dayKey = useMemo(() => (placesForDay ?? []).map((p) => p.name).join(','), [placesForDay]);
   useEffect(() => {
-    if (selectedPlaceName && isLoaded) {
-      geocode(selectedPlaceName)
-        .then((coords) => {
-          setMarkerPosition(coords);
-          setCenter(coords);
-          setDirections(null);
-          setMultiMarkerPositions([]);
-          if (mapRef.current) {
-            mapRef.current.setZoom(14);
-            mapRef.current.panTo(coords);
-          }
-        })
-        .catch(console.error);
-    }
-  }, [selectedPlaceName, isLoaded]);
-
-  useEffect(() => {
-    if (placesForDay && isLoaded) {
-      const geocodeAll = async () => {
-        try {
-          const results = await Promise.all(
-            placesForDay.map(async (placeName) => {
-              const coords = await geocode(placeName);
-              return { position: coords, label: placeName };
-            })
-          );
-          setMultiMarkerPositions(results);
-          setMarkerPosition(null);
-          setDirections(null);
-          if (results.length > 0 && mapRef.current) {
-            const bounds = new window.google.maps.LatLngBounds();
-            results.forEach((marker) => {
-              bounds.extend(marker.position);
-            });
-            mapRef.current.fitBounds(bounds);
-          }
-        } catch (e) {
-          console.error(e);
+    if (!isLoaded || !placesForDay) return;
+    (async () => {
+      const valids: LatLng[] = [];
+      const tmpCoords: Record<string, LatLng> = {};
+      const raws = await Promise.all(
+        placesForDay.map(async (p) => ({ name: p.name, coord: await geocode(p.address) }))
+      );
+      raws.forEach(({ coord }) => { if (inTokyo(coord)) valids.push(coord); });
+      const base = valids.length ? centroid(valids) : fallbackRef.current;
+      fallbackRef.current = base;
+      const mkrs: { position: LatLng; label: string }[] = [];
+      raws.forEach(({ name, coord }) => {
+        let final = coord;
+        if (!inTokyo(coord)) {
+          if (valids.length) {
+            const near = valids[Math.floor(Math.random() * valids.length)];
+            final = { lat: near.lat + jitter(), lng: near.lng + jitter() };
+          } else return;
         }
-      };
-      geocodeAll();
-    }
-  }, [placesForDay, isLoaded]);
+        tmpCoords[name] = final;
+        mkrs.push({ position: final, label: name });
+      });
+      setCoordsMap(tmpCoords);
+      setMarkers(mkrs);
+      setMarkerPos(null);
+      setDirections(null);
+      if (mkrs.length && mapRef.current) {
+        const b = new window.google.maps.LatLngBounds();
+        mkrs.forEach((m) => b.extend(m.position));
+        mapRef.current.fitBounds(b);
+      }
+    })();
+  }, [isLoaded, dayKey]);
 
   useEffect(() => {
-    if (routeToPlaceName && currentPosition && isLoaded) {
-      geocode(routeToPlaceName)
-        .then((destCoords) => {
-          const directionsService = new window.google.maps.DirectionsService();
-          directionsService.route(
-            {
-              origin: currentPosition,
-              destination: destCoords,
-              travelMode: google.maps.TravelMode.TRANSIT,
-            },
-            (result, status) => {
-              if (status === 'OK' && result) {
-                setDirections(result);
-                setMarkerPosition(null);
-                setMultiMarkerPositions([]);
-              } else {
-                console.error('길찾기 실패:', status);
-              }
-            }
-          );
-        })
-        .catch(console.error);
+    if (!isLoaded || !selectedPlaceName) return;
+    const coord = coordsMap[selectedPlaceName];
+    if (coord) {
+      setMarkerPos(coord);
+      setCenter(coord);
+      setDirections(null);
+      setMarkers([]);
+      mapRef.current?.panTo(coord);
+      mapRef.current?.setZoom(14);
     }
-  }, [routeToPlaceName, currentPosition, isLoaded]);
+  }, [selectedPlaceName, coordsMap, isLoaded]);
 
-  if (!isLoaded) return <div>Loading map...</div>;
+  useEffect(() => {
+    if (!isLoaded || !posMe || !routeToPlace) return;
+    const dest = coordsMap[routeToPlace.name];
+    if (!dest) return;
+    const dir = new window.google.maps.DirectionsService();
+    dir.route(
+      { origin: posMe, destination: dest, travelMode: google.maps.TravelMode.WALKING },
+      (r, s) => { if (s === 'OK' && r) { setDirections(r); setMarkerPos(null); setMarkers([]); } }
+    );
+  }, [routeToPlace, posMe, coordsMap, isLoaded]);
 
+  useEffect(() => {
+    if (!isLoaded || !customRoute) return;
+    const o = coordsMap[customRoute.from.name];
+    const d = coordsMap[customRoute.to.name];
+    if (!o || !d) return;
+    const dir = new window.google.maps.DirectionsService();
+    dir.route(
+      { origin: o, destination: d, travelMode: google.maps.TravelMode.WALKING },
+      (r, s) => { if (s === 'OK' && r) { setDirections(r); setMarkerPos(null); setMarkers([]); } }
+    );
+  }, [customRoute, coordsMap, isLoaded]);
+
+  if (!isLoaded) return <div>Loading map…</div>;
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={14}
-      onLoad={onLoad}
-    >
-      {markerPosition && <Marker position={markerPosition} />}
-      {multiMarkerPositions.map((marker, index) => (
-        <React.Fragment key={index}>
-          <Marker position={marker.position} />
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14} onLoad={onLoad}>
+      {markerPos && <Marker position={markerPos} />}
+
+      {!selectedPlaceName && multiMarkers.map((m, i) => (
+        <React.Fragment key={i}>
+          <Marker position={m.position} />
           <OverlayView
-            position={marker.position}
+            position={m.position}
             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
           >
             <div
@@ -181,12 +190,13 @@ const GoogleMapComponent: React.FC<Props> = ({
                   fontSize: '14px',
                 }}
               >
-                {marker.label}
+                {m.label}
               </div>
             </div>
           </OverlayView>
         </React.Fragment>
       ))}
+
       {directions && <DirectionsRenderer directions={directions} />}
     </GoogleMap>
   );

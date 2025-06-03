@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
     remotePatterns: [
       {
@@ -28,7 +27,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/recommend/original/detail/img/**',
       },
-      // 필요하다면 다른 외부 이미지 호스트도 여기에 추가할 수 있습니다.
+      {
+        protocol: 'https',
+        hostname: 'ximg.retty.me',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

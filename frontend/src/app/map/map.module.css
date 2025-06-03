@@ -1,3 +1,4 @@
+/* map.module.css */
 .child {
   	position: absolute;
   	top: 0px;
@@ -105,7 +106,8 @@
   	width: 100%;
   	position: relative;
   	background-color: #fff;
-  	height: 830px;
+	height: 100vh;
+	overflow-y: hidden;
   	text-align: left;
   	color: #000;
   	font-family: 'Kantumruy Pro';
@@ -153,3 +155,17 @@
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
+
+/* map.module.css 예시 */
+.detailOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 99999;
+  }

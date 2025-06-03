@@ -109,12 +109,21 @@
   height: 17.8px;
   cursor: pointer;
 }
+.selectedBox2 {
+  border: 2px solid #27c289 !important;
+  box-sizing: border-box;
+}
+
+.outBox:hover {
+  cursor: pointer;
+}
 
 .place {
   position: relative;
   width: 210.8px;
   height: 111px;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .div {
@@ -129,4 +138,80 @@
 
 .selectedBox {
   background-color: #27c289 !important;
+}
+
+.box1 {
+  position: absolute;
+  border-radius: 16px;
+  background-color: #f8f8f8;
+  width: 54px;
+  height: 22.2px;
+  top: 79.05px;
+  left: 13.34px;
+  cursor: pointer;
+}
+
+.div3 {
+  position: absolute;
+  top: 82.41px;
+  left: 19.34px;
+  line-height: 15px;
+  font-weight: 500;
+  font-size: 10px;
+  text-align: center;
+  width: 41.4px;
+  height: 17.8px;
+  cursor: pointer;
+}
+
+.boxStart {
+  position: absolute;
+  top: 79.05px;
+  left: 79.34px;
+  width: 54px;
+  height: 22.2px;
+  border-radius: 16px;
+  background-color: #f8f8f8;
+}
+
+.divStart {
+  position: absolute;
+  top: 82.41px;
+  left: 85.34px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 15px;
+  text-align: center;
+  width: 41.4px;
+  height: 17.8px;
+}
+
+.boxEnd {
+  position: absolute;
+  top: 79.05px;
+  left: 145.34px;
+  width: 54px;
+  height: 22.2px;
+  border-radius: 16px;
+  background-color: #f8f8f8;
+}
+
+.divEnd {
+  position: absolute;
+  top: 82.41px;
+  left: 151.34px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 15px;
+  text-align: center;
+  width: 41.4px;
+  height: 17.8px;
+}
+
+.startSelected {
+  background-color: #3399ff !important;
+}
+
+.endSelected {
+  background-color: #ff5e5e !important;
 }
