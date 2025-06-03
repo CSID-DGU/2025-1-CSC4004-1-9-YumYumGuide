@@ -9,9 +9,10 @@ import { AttractionSchema } from './schemas/attraction.schema';
 
 @Module({
   imports: [MongooseModule.forFeature([
-      { name: Restaurant.name, schema: RestaurantSchema },
-      { name: Attraction.name, schema: AttractionSchema },])],
+    { name: Restaurant.name, schema: RestaurantSchema },
+    { name: Attraction.name, schema: AttractionSchema },])],
   controllers: [SearchController],
   providers: [SearchService],
+  exports: [SearchService]
 })
 export class SearchModule { }

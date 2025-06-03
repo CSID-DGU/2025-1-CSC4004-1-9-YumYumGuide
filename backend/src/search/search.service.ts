@@ -3,27 +3,27 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Restaurant, RestaurantDocument, RestaurantModelType } from './schemas/restaurant.schema';
 import { Attraction, AttractionDocument, AttractionModelType } from './schemas/attraction.schema';
-import { SearchRequestDto, SearchByIdRequestDto} from './dto/search-request.dto';
-import { 
-  SearchResponseDto, 
-  RestaurantSearchResultDto, 
-  AttractionSearchResultDto 
+import { SearchRequestDto, SearchByIdRequestDto } from './dto/search-request.dto';
+import {
+  SearchResponseDto,
+  RestaurantSearchResultDto,
+  AttractionSearchResultDto
 } from './dto/search-response.dto';
 
 @Injectable()
 export class SearchService {
   constructor(
-    @InjectModel(Restaurant.name) 
+    @InjectModel(Restaurant.name)
     private restaurantModel: RestaurantModelType,
     @InjectModel(Attraction.name) private attractionModel: AttractionModelType,
-  ) {}
+  ) { }
 
   async fixFuzzyTokens() {
-  const documents = await this.attractionModel.find({});
-  for (const doc of documents) {
-    await doc.save();
+    const documents = await this.attractionModel.find({});
+    for (const doc of documents) {
+      await doc.save();
+    }
   }
-}
 
   async search(searchDto: SearchRequestDto): Promise<SearchResponseDto> {
     const startTime = Date.now();
@@ -67,10 +67,10 @@ export class SearchService {
 
   async searchByIdRestaurant(searchByIdDto: SearchByIdRequestDto): Promise<SearchResponseDto> {
     const { id } = searchByIdDto;
-    const restaurantResults = await this.restaurantModel.find({ '_id': new Types.ObjectId(id)}).exec()
+    const restaurantResults = await this.restaurantModel.find({ '_id': new Types.ObjectId(id) }).exec()
     console.log(restaurantResults)
     return {
-      restaurants: [{data: restaurantResults[0]}],
+      restaurants: [{ data: restaurantResults[0] }],
       attractions: [],
       totalCount: {
         restaurants: 1,
@@ -86,11 +86,11 @@ export class SearchService {
 
   async searchByIdAttraction(searchByIdDto: SearchByIdRequestDto): Promise<SearchResponseDto> {
     const { id } = searchByIdDto;
-    const attractionResults = await this.attractionModel.find({ '_id': new Types.ObjectId(id)}).exec()
+    const attractionResults = await this.attractionModel.find({ '_id': new Types.ObjectId(id) }).exec()
     console.log(attractionResults)
     return {
       restaurants: [],
-      attractions: [{data: attractionResults[0]}],
+      attractions: [{ data: attractionResults[0] }],
       totalCount: {
         restaurants: 0,
         attractions: 1,
@@ -104,9 +104,9 @@ export class SearchService {
   }
 
   private buildSearchQueryRestaurant(query: string, region: string) {
-    return {query, region};
+    return { query, region };
     const mongoQuery: any = {
-       $text: { $search: query },
+      $text: { $search: query },
     };
 
     console.log(mongoQuery);
@@ -114,12 +114,12 @@ export class SearchService {
   }
 
   private buildSearchQueryAttraction(query: string, region: string) {
-    return {query, region};
+    return { query, region };
     const mongoQuery: any = {
-        // { region: { $regex: region, $options: 'i' } },
-        // isActive: true,
-        // $text: { $search: query },
-        description: { $regex: query }
+      // { region: { $regex: region, $options: 'i' } },
+      // isActive: true,
+      // $text: { $search: query },
+      description: { $regex: query }
     };
 
     console.log(mongoQuery);
@@ -129,7 +129,7 @@ export class SearchService {
   private async searchRestaurants(query: any): Promise<RestaurantDocument[]> {
     console.log(query)
     return this.restaurantModel
-      .fuzzySearch(query.query, {location: query.region})
+      .fuzzySearch(query.query, { location: query.region })
       .limit(10)
       .exec();
   }
@@ -144,7 +144,7 @@ export class SearchService {
   }
 
   private sortByRelevanceRestaurant<T extends { restaurant_name: string; genre: string; translated_restaurant_name: string }>(
-    results: T[], 
+    results: T[],
     keyword: string
   ): (T & { calculatedScore: number })[] {
     return results
@@ -156,7 +156,7 @@ export class SearchService {
   }
 
   private sortByRelevanceAttraction<T extends { attraction: string; description: string }>(
-    results: T[], 
+    results: T[],
     keyword: string
   ): (T & { calculatedScore: number })[] {
     return results
@@ -168,7 +168,7 @@ export class SearchService {
   }
 
   private calculateRelevanceScoreRestaurant(
-    item: { restaurant_name: string; genre: string}, 
+    item: { restaurant_name: string; genre: string },
     keyword: string
   ): number {
     const lowerKeyword = keyword.toLowerCase();
@@ -197,12 +197,12 @@ export class SearchService {
   }
 
   private calculateRelevanceScoreAttraction(
-    item: { attraction: string; description: string}, 
+    item: { attraction: string; description: string },
     keyword: string
   ): number {
     const lowerKeyword = keyword.toLowerCase();
-    const lowerName = item.attraction?.toLowerCase()  || "";
-    const lowerDescription = item.description?.toLowerCase()  || "";
+    const lowerName = item.attraction?.toLowerCase() || "";
+    const lowerDescription = item.description?.toLowerCase() || "";
 
     console.log(`q: ${lowerKeyword}\nn: ${lowerName}\nd:${lowerDescription}`)
 
@@ -242,7 +242,7 @@ export class SearchService {
     };
   }
 
-   async getAutocompleteSuggestions(query: string, limit: number = 10): Promise<string[]> {
+  async getAutocompleteSuggestions(query: string, limit: number = 10): Promise<string[]> {
     if (query.length < 2) {
       return [];
     }
@@ -285,7 +285,7 @@ export class SearchService {
       .sort((a, b) => {
         const aStartsWith = a.toLowerCase().startsWith(query.toLowerCase());
         const bStartsWith = b.toLowerCase().startsWith(query.toLowerCase());
-        
+
         if (aStartsWith && !bStartsWith) return -1;
         if (!aStartsWith && bStartsWith) return 1;
         return a.length - b.length;

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types, Model, Query} from 'mongoose';
+import { Document, Types, Model, Query } from 'mongoose';
 import mongooseFuzzySearching from 'mongoose-fuzzy-searching';
 
 export type AttractionDocument = Attraction & Document;
@@ -11,7 +11,7 @@ export interface AttractionModel extends Model<AttractionDocument> {
 
 @Schema({ timestamps: true })
 export class Attraction {
-  @Prop({ type: Types.ObjectId})
+  @Prop({ type: Types.ObjectId })
   _id: Types.ObjectId;
 
   @Prop({ required: true })
@@ -45,7 +45,7 @@ AttractionSchema.index({ region: 1 });
 AttractionSchema.index({ location: '2dsphere' });
 
 
-AttractionSchema.plugin(mongooseFuzzySearching, { 
+AttractionSchema.plugin(mongooseFuzzySearching, {
   fields: [
     {
       name: 'attraction',

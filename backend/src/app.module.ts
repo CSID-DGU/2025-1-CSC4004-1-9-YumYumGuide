@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Search } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { EventsModule } from './api/home/events.module';
@@ -10,6 +10,7 @@ import { ConvenienceModule } from './convenience/convenience.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { MenuModule } from './menu/menu.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { MenuModule } from './menu/menu.module';
     ScheduleModule,
     EventsModule,
     RestaurantModule,
-    MenuModule
+    MenuModule,
+    SearchModule
   ],
   providers: []
 })
