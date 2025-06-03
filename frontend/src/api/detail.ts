@@ -1,6 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import dbConnect from '../../../backend/db/connection';
+import Trip from '../../../backend/models/trip';
+
+import mongoose from 'mongoose';
+import { NextResponse } from 'next/server';
 
 interface BaseDetailData {
   id: string;
