@@ -1,0 +1,50 @@
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "edge_2_4": {
+          "type": "ngram",
+          "min_gram": 2,
+          "max_gram": 4,
+          "token_chars": ["letter", "digit"]
+        }
+      },
+      "analyzer": {
+        "autocomplete": {
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        },
+        "infix": {
+          "tokenizer": "edge_2_4",
+          "filter": ["lowercase"]
+        },
+        "korean_search": {
+          "tokenizer": "nori_tokenizer",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "attraction": {
+        "type": "text",
+        "fields": {
+          "autocomplete": { "type": "search_as_you_type" },
+          "infix": {
+            "type": "text",
+            "analyzer": "infix",
+            "search_analyzer": "korean_search"
+          }
+        }
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "korean_search"
+      },
+      "category": { "type": "keyword" },
+      "region":   { "type": "keyword" },
+      "location": { "type": "geo_point" }
+    }
+  }
+}

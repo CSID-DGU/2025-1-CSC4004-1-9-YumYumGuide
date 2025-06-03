@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types, Model, Query} from 'mongoose';
-import mongooseFuzzySearching from 'mongoose-fuzzy-searching';
+// import mongooseFuzzySearching from 'mongoose-fuzzy-searching';
 // import * as mongooseFuzzySearching from 'mongoose-fuzzy-searching';
 
 export type RestaurantDocument = Restaurant & Document;
@@ -62,20 +62,5 @@ RestaurantSchema.index({ location: '2dsphere' });
 RestaurantSchema.indexes().forEach(index => {
   if(index[1]['text']) RestaurantSchema.removeIndex(index[0]);
 });
-
-RestaurantSchema.plugin(mongooseFuzzySearching, { 
-  fields: [
-    {
-      name: 'translated_restaurant_name',
-      minSize: 2,
-      escapeSpecialCharacters: false
-    },
-    {
-      name: 'genre',
-      minSize: 2
-    }
-  ]
-});
-
 
 export type RestaurantModelType = Model<RestaurantDocument> & RestaurantModel;

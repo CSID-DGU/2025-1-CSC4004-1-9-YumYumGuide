@@ -183,26 +183,26 @@ const NewSchedule = () => {
     setSelectedPlaces(selectedPlaces.filter((_, i) => i !== index));
   };
 
-  const regionData = [
-    { name: '고탄다' },
-    { name: '긴자' },
-    { name: '나카메' },
-    { name: '니혼바시' },
-    { name: '도쿄역 주변' },
-    { name: '마루노우치' },
-    { name: '메구로' },
-    { name: '시부야' },
-    { name: '신바시' },
-    { name: '신주쿠' },
-    { name: '아사쿠사' },
-    { name: '아키하바라' },
-    { name: '에비스' },
-    { name: '우에노' },
-    { name: '유라쿠초' },
-    { name: '이케부코로' },
-    { name: '칸다' },
-    { name: '타마 치' },
-    { name: '하마 마츠' },
+    const regionData = [
+    { name: '고탄다', region: 'gotanda' },
+    { name: '긴자', region: 'ginza' },
+    { name: '나카메', region: 'nakame' },
+    { name: '니혼바시', region: 'nihonbashi' },
+    { name: '도쿄역 주변', region: 'tokyo_station' },
+    { name: '마루노우치', region: 'marunouchi' },
+    { name: '메구로', region: 'meguro' },
+    { name: '시부야', region: 'shibuya' },
+    { name: '신바시', region: 'shimbashi' },
+    { name: '신주쿠', region: 'shinjuku' },
+    { name: '아사쿠사', region: 'asakusa' },
+    { name: '아키하바라', region: 'akihabara' },
+    { name: '에비스', region: 'ebisu' },
+    { name: '우에노', region: 'ueno' },
+    { name: '유라쿠초', region: 'yurakucho' },
+    { name: '이케부코로', region: 'ikebukuro' },
+    { name: '칸다', region: 'kanda' },
+    { name: '타마 치', region: 'tamachi' },
+    { name: '하마 마츠', region: 'hamamatsu' },
   ];
 
   // Calculate trip duration
@@ -373,30 +373,6 @@ const NewSchedule = () => {
       </div>
     );
   }
-
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen max-w-[500px] mx-auto">
-        <div className="text-lg text-red-500 mb-4">상세 정보를 불러오는 중 오류가 발생했습니다.</div>
-        <button onClick={goBack} className="px-4 py-2 bg-blue-500 text-white rounded-md">
-          돌아가기
-        </button>
-      </div>
-    );
-  }
-
-  if (!data?.data) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen max-w-[500px] mx-auto">
-        <div className="text-lg text-red-500 mb-4">데이터를 찾을 수 없습니다.</div>
-        <button onClick={goBack} className="px-4 py-2 bg-blue-500 text-white rounded-md">
-          돌아가기
-        </button>
-      </div>
-    );
-  }
-  const detail = data.data;
-  console.log(detail);
   return (
     <div className="new-schedule-container">
       <div className="text-center p-6 font-bold text-[24px]">새로운 일정</div>

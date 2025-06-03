@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@elastic/elasticsearch": "^9.0.2",
+    "@nestjs/elasticsearch": "^11.1.0",
     "@tanstack/react-query": "^5.79.2",
     "axios": "^1.9.0",
     "cookie-parser": "^1.4.7",

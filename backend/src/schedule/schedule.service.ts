@@ -208,7 +208,6 @@ export class ScheduleService {
     this.logger.log('일일 추천 개수:', JSON.stringify(dailyRecommendations, null, 2));
 
     // 일별 일정 생성 
-    // 여기 부터 작동이 원하는대로 안됨....
     const days: Day[] = [];
     for (let i = 0; i < duration; i++) {
       const currentDate = startDate.add(i, 'day');

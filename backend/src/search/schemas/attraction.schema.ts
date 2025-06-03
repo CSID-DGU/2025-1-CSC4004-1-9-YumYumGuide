@@ -44,23 +44,4 @@ AttractionSchema.index({ region: 1 });
 // 지리적 검색을 위한 인덱스
 AttractionSchema.index({ location: '2dsphere' });
 
-
-AttractionSchema.plugin(mongooseFuzzySearching, {
-  fields: [
-    {
-      name: 'attraction',
-      minSize: 2,
-      escapeSpecialCharacters: false
-    },
-    {
-      name: 'description',
-      minSize: 2
-    },
-    {
-      name: 'category',
-      minSize: 2
-    }
-  ]
-});
-
 export type AttractionModelType = Model<AttractionDocument> & AttractionModel;
