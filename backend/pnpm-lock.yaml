@@ -40,7 +40,10 @@ importers:
         version: 11.2.0(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.2)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.0(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.2)(reflect-metadata@0.2.2)(rxjs@7.8.1)(typeorm@0.3.20(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)))
+        version: 11.0.0(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.2)(reflect-metadata@0.2.2)(rxjs@7.8.1)(typeorm@0.3.20(mongodb@6.16.0)(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)))
+      axios:
+        specifier: ^1.9.0
+        version: 1.9.0
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -68,9 +71,15 @@ importers:
       joi:
         specifier: ^17.13.3
         version: 17.13.3
+      mongodb:
+        specifier: ^6.16.0
+        version: 6.16.0
       mongoose:
         specifier: ^8.15.1
         version: 8.15.1
+      mongoose-fuzzy-searching:
+        specifier: ^2.0.2
+        version: 2.0.2(mongoose@8.15.1)
       openai:
         specifier: ^4.98.0
         version: 4.98.0
@@ -97,7 +106,7 @@ importers:
         version: 7.8.1
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3))
+        version: 0.3.20(mongodb@6.16.0)(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3))
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -2956,6 +2965,11 @@ packages:
       socks:
         optional: true
 
+  mongoose-fuzzy-searching@2.0.2:
+    resolution: {integrity: sha512-Hbmx59VWJjQJDNdoyQ8bdECaqpis0pKoliWzf5eILzFs2KO7laUJpaQWJySN9OvdQS/gM9fURMSzQVQoLeZ3DA==}
+    peerDependencies:
+      mongoose: 5.10.x
+
   mongoose@8.15.1:
     resolution: {integrity: sha512-RhQ4DzmBi5BNGcS0w4u1vdMRIKcteXTCNzDt1j7XRcdWYBz1MjMjulBhPaeC5jBCHOD1yinuOFTTSOWLLGexWw==}
     engines: {node: '>=16.20.1'}
@@ -4934,13 +4948,13 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-express': 11.1.2(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.2)
 
-  '@nestjs/typeorm@11.0.0(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.2)(reflect-metadata@0.2.2)(rxjs@7.8.1)(typeorm@0.3.20(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)))':
+  '@nestjs/typeorm@11.0.0(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.2)(reflect-metadata@0.2.2)(rxjs@7.8.1)(typeorm@0.3.20(mongodb@6.16.0)(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)))':
     dependencies:
       '@nestjs/common': 11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core': 11.1.2(@nestjs/common@11.1.2(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@11.1.2)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       reflect-metadata: 0.2.2
       rxjs: 7.8.1
-      typeorm: 0.3.20(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3))
+      typeorm: 0.3.20(mongodb@6.16.0)(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3))
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7207,6 +7221,10 @@ snapshots:
       bson: 6.10.3
       mongodb-connection-string-url: 3.0.2
 
+  mongoose-fuzzy-searching@2.0.2(mongoose@8.15.1):
+    dependencies:
+      mongoose: 8.15.1
+
   mongoose@8.15.1:
     dependencies:
       bson: 6.10.3
@@ -8066,7 +8084,7 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typeorm@0.3.20(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)):
+  typeorm@0.3.20(mongodb@6.16.0)(pg@8.13.3)(ts-node@10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)):
     dependencies:
       '@sqltools/formatter': 1.2.5
       app-root-path: 3.1.0
@@ -8084,6 +8102,7 @@ snapshots:
       uuid: 9.0.1
       yargs: 17.7.2
     optionalDependencies:
+      mongodb: 6.16.0
       pg: 8.13.3
       ts-node: 10.9.2(@swc/core@1.10.16)(@types/node@22.13.2)(typescript@5.7.3)
     transitivePeerDependencies:
