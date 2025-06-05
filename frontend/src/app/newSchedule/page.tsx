@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Nav from '../componets/nav';
 import './newSchedule.css';
 import dayjs from 'dayjs';
+import PlaceSearchPopup from './PlaceSearchPopup';
 
 const flightTimes = [
   { label: '오전', value: 'morning' },
@@ -12,6 +13,16 @@ const flightTimes = [
   { label: '저녁', value: 'evening' },
   { label: '새벽', value: 'dawn' },
 ];
+
+interface UserPreferences {
+  smoking: number;
+  drinking: number;
+  travelStyle: string;
+  favoriteFood: number;
+  groupType: string;
+  attractionTypes: string[];
+  [key: string]: any; // Allow other properties if they exist
+}
 
 const NewSchedule = () => {
   const [budget, setBudget] = useState(0);
@@ -24,16 +35,7 @@ const NewSchedule = () => {
   const [flightDeparture, setFlightDeparture] = useState('morning');
   const [flightArrival, setFlightArrival] = useState('morning');
   const [userId, setUserId] = useState<string | null>(null);
-  const [userPreferences, setUserPreferences] = useState<any>(null);
-
-  // 팝업에서 선택 가능한 명소 목록 (예시)
-  const popupPlaces = [
-    { name: '스카이트리', meta: '관광 | ₩14,949' },
-    { name: '규카츠 모토무라 시부야점', meta: '맛집 | ₩8,811' },
-    { name: '센소지', meta: '관광 | ₩1,980' },
-    { name: '도쿄타워', meta: '관광 | ₩13,860' },
-    { name: '금각사', meta: '' },
-  ];
+  const [userPreferences, setUserPreferences] = useState<UserPreferences | null>(null);
 
   // 캘린더 상태 추가
   const today = dayjs();
@@ -201,8 +203,6 @@ const NewSchedule = () => {
         }
 
         const userData = responseData.data;
-        console.log('사용자 데이터:', userData);
-        console.log('사용자 데이터:ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ', userData.preferences.attractionType.join(', '));
         setUserId(userData._id);
         // preferences가 없는 경우 기본값 설정
         setUserPreferences({
@@ -428,12 +428,12 @@ const NewSchedule = () => {
                             : ''
                         }
                         onClick={() => handleStartDateSelect(d)}
-                        style={{ 
+                        style={{
                           cursor: d ? 'pointer' : 'default',
                           textAlign: 'center',
                           verticalAlign: 'middle',
                           width: '40px',
-                          height: '40px'
+                          height: '40px',
                         }}
                       >
                         {d || ''}
@@ -519,12 +519,12 @@ const NewSchedule = () => {
                             : ''
                         }
                         onClick={() => handleEndDateSelect(d)}
-                        style={{ 
+                        style={{
                           cursor: d ? 'pointer' : 'default',
                           textAlign: 'center',
                           verticalAlign: 'middle',
                           width: '40px',
-                          height: '40px'
+                          height: '40px',
                         }}
                       >
                         {d || ''}
@@ -618,40 +618,16 @@ const NewSchedule = () => {
           )}
         </button>
       </div>
-      {isPlacePopupOpen && (
-        <>
-          <div className="popup-overlay" onClick={() => setIsPlacePopupOpen(false)} />
-          <div className="place-popup">
-            <button
-              className="popup-close-btn"
-              onClick={() => {
-                setIsPlacePopupOpen(false);
-                setEditingPlaceIndex(null);
-              }}
-            >
-              ←
-            </button>
-            <input className="popup-search" placeholder="검색하기..." />
-            <div className="popup-place-list">
-              {popupPlaces.map((place) => (
-                <div
-                  className={'popup-place-card' + (selectedPlaces.includes(place.name) ? ' selected' : '')}
-                  key={place.name}
-                >
-                  <div className="popup-place-title">
-                    {place.name} {place.meta.includes('추천') && <span className="popup-place-badge">추천</span>}
-                  </div>
-                  <div className="popup-place-meta">{place.meta}</div>
-                  <button className="popup-place-add-btn" onClick={() => handleAddPlace(place.name)}>
-                    +
-                  </button>
-                  <div className="popup-place-detail">상세보기 &gt;</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+      <PlaceSearchPopup
+        isOpen={isPlacePopupOpen}
+        onClose={() => {
+          setIsPlacePopupOpen(false);
+          setEditingPlaceIndex(null);
+        }}
+        onSelectPlace={handleAddPlace}
+        selectedRegions={selectedRegions}
+        existingSelectedPlaces={selectedPlaces}
+      />
       <Nav />
     </div>
   );
