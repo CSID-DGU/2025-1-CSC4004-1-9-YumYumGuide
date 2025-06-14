@@ -318,8 +318,7 @@ const NewSchedule = () => {
       <div className="flight-time-section">
         <div className="flight-time-block">
           <span className="flight-time-title">
-            <Image src="/icons/clock.png" alt="clock" width={20} height={20} className="flight-time-icon" /> 비행기 출발
-            시간
+            <Image src="/icons/clock.png" alt="clock" width={20} height={20} className="flight-time-icon" /> 출국 시간
           </span>
           <div className="flight-time-list">
             {flightTimes.map((t) => (
@@ -335,8 +334,7 @@ const NewSchedule = () => {
         </div>
         <div className="flight-time-block">
           <span className="flight-time-title">
-            <Image src="/icons/clock.png" alt="clock" width={20} height={20} className="flight-time-icon" /> 비행기 도착
-            시간
+            <Image src="/icons/clock.png" alt="clock" width={20} height={20} className="flight-time-icon" /> 귀국 시간
           </span>
           <div className="flight-time-list">
             {flightTimes.map((t) => (
@@ -554,9 +552,16 @@ const NewSchedule = () => {
                     setSelectedRegions([...selectedRegions, region.name]);
                   }
                 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+                style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  minHeight: '60px',
+                  padding: '12px 20px',
+                  fontSize: '1.2rem'
+                }}
               >
-                <img alt={region.name} style={{ width: 40, height: 40, marginBottom: 4 }} />
                 <div>{region.name}</div>
               </div>
             ))}

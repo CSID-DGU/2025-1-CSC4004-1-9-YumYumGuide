@@ -92,13 +92,14 @@
   margin-bottom: 2px;
   overflow-x: auto;
   white-space: nowrap;
-  padding-bottom: 4px;
+  padding-bottom: 8px;
+  min-height: 60px;
 }
 .region-item {
   background: #f3f5f7;
   border-radius: 13px;
-  padding: 8px 16px;
-  font-size: 1.01rem;
+  padding: 12px 20px;
+  font-size: 1.05rem;
   color: #222;
   cursor: pointer;
   border: 2px solid transparent;
@@ -106,6 +107,10 @@
   transition: border 0.2s, background 0.2s;
   display: inline-block;
   white-space: nowrap;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .region-selected {
   background: #e6faf2;
