@@ -37,8 +37,6 @@ YUMYUM GUIDE는 해외여행, 특히 일본 도쿄를 방문하는 여행객들�
 | **Data** | `Python`, `BeautifulSoup`, `Selenium`, `Google Translate API` |
 | **API** | `Google Maps API` |
 
-Sheets로 내보내기
-
 ## 🏗️ 아키텍처 (Architecture)
 
 프로젝트는 모듈화와 확장성을 고려하여 설계되었습니다. 클라이언트는 DNS를 통해 서버에 접근하며, 서버는 AWS EC2 환경에 구축되었습니다. 백엔드와 프론트엔드는 모두 `Next.js` 프레임워크를 기반으로 하며, 데이터베이스는 `MongoDB`를 사용합니다. 인증은 JWT와 카카오 소셜 로그인을 통해 구현되었습니다.
