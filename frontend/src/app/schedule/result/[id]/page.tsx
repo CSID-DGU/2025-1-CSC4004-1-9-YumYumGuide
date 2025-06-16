@@ -327,7 +327,7 @@ export default function ScheduleResult() {
       {detailViewOpen && selectedItem && (
         <div className="fixed inset-0 flex items-center justify-center z-[60]">
           <div className="absolute inset-0 bg-black/30" onClick={() => setDetailViewOpen(false)} />
-          <div className="relative bg-white rounded-2xl shadow-xl w-[400px] max-h-[80vh] overflow-y-auto">
+          <div className="relative bg-white rounded-2xl shadow-xl w-[400px] max-h-[80vh] overflow-y-hidden">
             <div className="p-4 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-medium">상세 정보</h3>
               <button onClick={() => setDetailViewOpen(false)} className="text-gray-400 hover:text-gray-600">
