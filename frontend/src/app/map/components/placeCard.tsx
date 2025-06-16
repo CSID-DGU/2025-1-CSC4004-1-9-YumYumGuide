@@ -60,10 +60,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
 
   const isStart = startPlace === name;
   const isEnd = endPlace === name;
-  const isRouteActive =
-    activeCard?.name === name &&
-    activeCard?.action === 'route' &&
-    !(startPlace && endPlace);
+  const isRouteActive = activeCard?.name === name && activeCard?.action === 'route' && !(startPlace && endPlace);
 
   const clearStartEnd = () => {
     if (startPlace || endPlace) {
@@ -99,12 +96,10 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
 
   return (
     <div className={styles.place} onClick={handleShowClick}>
-      <div
-        className={`${styles.outBox} ${
-          selectedPathCardName === name ? styles.selectedBox2 : ''
-        }`}
-      />
-      <div className={styles.div2} title={name}>{name}</div>
+      <div className={`${styles.outBox} ${selectedPathCardName === name ? styles.selectedBox2 : ''}`} />
+      <div className={styles.div2} title={name}>
+        {name}
+      </div>
       <Image
         className={styles.vectorIcon}
         width={19.67}
@@ -115,7 +110,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
       <div className={styles.div1}>
         <span>{`${category === 'attraction' ? '관광' : '맛집'} | `}</span>
         <span className={styles.span}>₩</span>
-        <span>{typeof price === 'number' ? price.toLocaleString() : price}</span>
+        <span>{typeof price === 'number' ? (price < 5000 ? price * 10 : price)?.toLocaleString() : price}</span>
       </div>
 
       <div
@@ -135,17 +130,15 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
         길 찾기
       </div>
 
-      <div
-        className={`${styles.boxStart} ${isStart ? styles.startSelected : ''}`}
-        onClick={handleStartClick}
-      />
-      <div className={styles.divStart} onClick={handleStartClick}>출발지</div>
+      <div className={`${styles.boxStart} ${isStart ? styles.startSelected : ''}`} onClick={handleStartClick} />
+      <div className={styles.divStart} onClick={handleStartClick}>
+        출발지
+      </div>
 
-      <div
-        className={`${styles.boxEnd} ${isEnd ? styles.endSelected : ''}`}
-        onClick={handleEndClick}
-      />
-      <div className={styles.divEnd} onClick={handleEndClick}>도착지</div>
+      <div className={`${styles.boxEnd} ${isEnd ? styles.endSelected : ''}`} onClick={handleEndClick} />
+      <div className={styles.divEnd} onClick={handleEndClick}>
+        도착지
+      </div>
     </div>
   );
 };
