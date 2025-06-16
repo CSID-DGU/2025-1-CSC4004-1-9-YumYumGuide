@@ -11,6 +11,7 @@ interface Event {
 
 interface Day {
   day: number;
+  date: string;
   events: Event[];
 }
 

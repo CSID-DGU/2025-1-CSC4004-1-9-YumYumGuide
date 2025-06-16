@@ -9,6 +9,7 @@ interface PlanListProps {
     startDate?: string;
     endDate?: string;
   };
+  selectedDate?: string | null;
 }
 
 // --- 날짜 헬퍼 함수 ---
@@ -26,8 +27,12 @@ function formatDateToDisplay(date: Date): string {
   return `${year}.${month}.${dayOfMonth}`;
 }
 
-export default function PlanList({ dateRange }: PlanListProps) {
-  const { data: scheduleAPIResponse, isLoading, isError, refetch } = useQuerySchedule(dateRange);
+export default function PlanList({ dateRange, selectedDate }: PlanListProps) {
+  const { data, isLoading, isError, refetch } = useQuerySchedule(dateRange);
+
+  // 디버깅: API에서 받아온 일정 데이터 콘솔 출력
+  console.log('PlanList API data:', data);
+
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       refetch();
@@ -42,7 +47,45 @@ export default function PlanList({ dateRange }: PlanListProps) {
     return <div className="schedule-list px-4 mt-6 text-center text-red-500">일정을 불러오는데 실패했습니다.</div>;
   }
 
-  const schedules = scheduleAPIResponse?.data || [];
+  let schedules = data?.data || [];
+  if (selectedDate) {
+    schedules = [
+      ...schedules.filter(schedule =>
+        schedule.days.some(day => {
+          const dateObj = new Date(day.date);
+          const kstDate = new Date(dateObj.getTime() + 9 * 60 * 60 * 1000);
+          const yyyy = kstDate.getFullYear();
+          const mm = String(kstDate.getMonth() + 1).padStart(2, '0');
+          const dd = String(kstDate.getDate()).padStart(2, '0');
+          return `${yyyy}${mm}${dd}` === selectedDate;
+        })
+      ),
+      ...schedules.filter(schedule =>
+        !schedule.days.some(day => {
+          const dateObj = new Date(day.date);
+          const kstDate = new Date(dateObj.getTime() + 9 * 60 * 60 * 1000);
+          const yyyy = kstDate.getFullYear();
+          const mm = String(kstDate.getMonth() + 1).padStart(2, '0');
+          const dd = String(kstDate.getDate()).padStart(2, '0');
+          return `${yyyy}${mm}${dd}` === selectedDate;
+        })
+      ),
+    ];
+  }
+
+  // days의 date(UTC)를 KST로 변환하여 'YYYYMMDD' 포맷으로 scheduleDates 생성
+  const scheduleDates = (data?.data || []).flatMap(schedule =>
+    schedule.days.map(day => {
+      const dateObj = new Date(day.date);
+      // KST 변환: UTC + 9시간
+      const kstDate = new Date(dateObj.getTime() + 9 * 60 * 60 * 1000);
+      const yyyy = kstDate.getFullYear();
+      const mm = String(kstDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(kstDate.getDate()).padStart(2, '0');
+      return `${yyyy}${mm}${dd}`;
+    })
+  );
+
   return (
     <div className="schedule-list px-4 mt-6">
       <h3 className="list-title text-lg font-bold mb-4">나의 일정</h3>
