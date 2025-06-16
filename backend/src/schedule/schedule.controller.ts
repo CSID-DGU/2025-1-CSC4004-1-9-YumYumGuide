@@ -56,6 +56,12 @@ export class ScheduleController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Delete('user/all')
+  async deleteAllSchedules(@Req() req) {
+    return this.scheduleService.deleteAllSchedules(req.user._doc._id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete(':scheduleId/days/:dayIndex/events/:eventIndex')
   async deleteEvent(
     @Param('scheduleId') scheduleId: string,

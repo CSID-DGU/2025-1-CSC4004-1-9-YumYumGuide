@@ -147,24 +147,6 @@ export class ScheduleService {
   }
 
   async create(createScheduleDto: CreateScheduleDto) {
-    const logger = new Logger('ScheduleService');
-    logger.log('일정 생성 시작');
-    logger.log('사용자 선호도:', {
-      smoking: createScheduleDto.smoking,
-      drinking: createScheduleDto.drinking,
-      travelStyle: createScheduleDto.travelStyle,
-      foodPreference: createScheduleDto.foodPreference,
-      groupSize: createScheduleDto.groupSize,
-      attractionTypes: createScheduleDto.attractionTypes
-    });
-
-    logger.log('선택된 지역:', createScheduleDto.selectedRegions);
-    logger.log('선택된 장소:', createScheduleDto.selectedPlaces);
-    logger.log('여행 기간:', {
-      startDate: createScheduleDto.startDate,
-      endDate: createScheduleDto.endDate
-    });
-    logger.log('예산:', createScheduleDto.budget);
 
     this.logger.log('=== 일정 생성 시작 ===');
     this.logger.log('입력 데이터:', JSON.stringify(createScheduleDto, null, 2));
@@ -225,50 +207,8 @@ export class ScheduleService {
     const dailyRecommendations = this.calculateDailyRecommendations(createScheduleDto.travelStyle);
     this.logger.log('일일 추천 개수:', JSON.stringify(dailyRecommendations, null, 2));
 
-    // selectedPlaces를 객체 배열로 변환
-    let selectedPlacesObjects: any[] = [];
-    if (createScheduleDto.selectedPlaces && createScheduleDto.selectedPlaces.length > 0) {
-      selectedPlacesObjects = createScheduleDto.selectedPlaces.map(placeName => {
-        // 관광지에서 찾기
-        const attraction = attractions.find(a => a.attraction === placeName);
-        if (attraction) {
-          return {
-            type: 'attraction',
-            refId: attraction._id.toString(),
-            name: attraction.attraction,
-            image: attraction.image,
-            location: attraction.location,
-            address: attraction.address || '',
-            budget: attraction.price || attraction.budget || 0,
-            description: `${attraction.category || ''} | ${attraction.address || ''}`
-          };
-        }
-        // 레스토랑에서 찾기 (1. 번역명 정확 일치 → 2. 부분 일치)
-        let restaurant = restaurants.find(r => r.translated_restaurant_name === placeName);
-        if (!restaurant) {
-          restaurant = restaurants.find(r => 
-            r.restaurant_name.toLowerCase().includes(placeName.toLowerCase()) ||
-            (r.translated_restaurant_name && r.translated_restaurant_name.toLowerCase().includes(placeName.toLowerCase()))
-          );
-        }
-        if (restaurant) {
-          return {
-            type: 'meal',
-            refId: restaurant._id.toString(),
-            name: restaurant.translated_restaurant_name || restaurant.restaurant_name,
-            image: restaurant.video,
-            location: restaurant.location,
-            address: restaurant.address || '',
-            budget: Number(restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0) || Number(restaurant.budget) || 0,
-            description: `${restaurant.genre || ''} | ${restaurant.address || ''}`
-          };
-        }
-        // 못 찾으면 null
-        return null;
-      }).filter(Boolean); // null 제거
-    }
-
-    // 일별 일정 생성
+    // 일별 일정 생성 
+    // 여기 부터 작동이 원하는대로 안됨....
     const days: Day[] = [];
     for (let i = 0; i < duration; i++) {
       const currentDate = startDate.add(i, 'day');
@@ -308,8 +248,7 @@ export class ScheduleService {
         transportationBudget: dailyBudget.transportation,
         foodBudget: dailyBudget.food,
         activityBudget: dailyBudget.activity,
-        events: [],
-        selectedPlaces: selectedPlacesObjects // 객체 배열 할당
+        events: []
       };
 
       // 식사 일정 추가
@@ -317,14 +256,14 @@ export class ScheduleService {
         const mealEvent: Event = {
           type: 'meal',
           refId: restaurant._id.toString(),
-          name: restaurant.translated_restaurant_name || restaurant.restaurant_name,
+          name: restaurant.translated_restaurant_name || restaurant.restaurant_name || restaurant.name,
           image: restaurant.video,
           location: restaurant.location,
           address: restaurant.address || '',
           startTime: this.generateRandomTime(9, 21), // 9시부터 21시 사이
           endTime: this.generateRandomTime(9, 21),
-          budget: Number(restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0) || Number(restaurant.budget) || 0,
-          description: `${restaurant.genre || ''} | ${restaurant.address || ''}`
+          budget: (restaurant.menuAvgPrice != null ? restaurant.menuAvgPrice * 10 : (restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0)) || restaurant.budget || 0,
+          description: `${restaurant.cuisine || ''} | 평점: ${restaurant.rating || ''} | ${restaurant.address || ''}`
         };
         day.events.push(mealEvent);
       });
@@ -367,137 +306,23 @@ export class ScheduleService {
           const newMealEvent: Event = {
             type: 'meal',
             refId: newRestaurant._id.toString(),
-            name: newRestaurant.translated_restaurant_name || newRestaurant.restaurant_name,
+            name: newRestaurant.translated_restaurant_name || newRestaurant.restaurant_name || newRestaurant.name,
             image: newRestaurant.video,
             location: newRestaurant.location,
             address: newRestaurant.address || '',
             startTime: this.generateRandomTime(9, 21),
             endTime: this.generateRandomTime(9, 21),
-            budget: Number(newRestaurant.dinner_budget ? newRestaurant.dinner_budget * 10 : 0) || Number(newRestaurant.budget) || 0,
-            description: `${newRestaurant.genre || ''} | ${newRestaurant.address || ''}`
+            budget: (newRestaurant.menuAvgPrice != null ? newRestaurant.menuAvgPrice : (newRestaurant.dinner_budget ? newRestaurant.dinner_budget * 10 : 0)) || newRestaurant.budget || 0,
+            description: `${newRestaurant.cuisine || ''} | 평점: ${newRestaurant.rating || ''} | ${newRestaurant.address || ''}`
           };
           day.events.push(newMealEvent);
         }
       }
     }
 
-    // 꼭 가고 싶은 장소들을 해당 지역에 맞는 날짜에 배정
-    if (createScheduleDto.selectedPlaces && createScheduleDto.selectedPlaces.length > 0) {
-      const mustVisitPlaces = createScheduleDto.selectedPlaces;
-      this.logger.log('=== 꼭 가고 싶은 장소 목록 ===');
-      this.logger.log('선택된 장소들:', mustVisitPlaces);
-
-      mustVisitPlaces.forEach(placeName => {
-        // 관광지에서 찾기
-        const attraction = attractions.find(a => a.attraction === placeName);
-        if (attraction) {
-          this.logger.log(`관광지 찾음: ${attraction.attraction}`);
-          this.logger.log(`- 위치: ${attraction.location}`);
-          this.logger.log(`- 카테고리: ${attraction.category}`);
-          this.logger.log(`- 주소: ${attraction.address}`);
-          this.logger.log(`- 예산: ${attraction.price || attraction.budget || 0}원`);
-
-          // 해당 관광지의 지역에 맞는 날짜 찾기
-          const matchingDayIndex = days.findIndex(day => {
-            const dayRegion = selectedRegions[day.day - 1 % selectedRegions.length];
-            return dayRegion === attraction.location;
-          });
-
-          if (matchingDayIndex !== -1) {
-            this.logger.log(`- 배정된 날짜: ${days[matchingDayIndex].day}일차 (${days[matchingDayIndex].date})`);
-            const mustVisitEvent: Event = {
-              type: 'attraction',
-              refId: attraction._id.toString(),
-              name: attraction.attraction,
-              image: attraction.image,
-              location: attraction.location,
-              address: attraction.address || '',
-              startTime: '10:00',
-              endTime: '12:00',
-              budget: attraction.price || attraction.budget || 0,
-              description: `${attraction.category} | 평점: ${attraction.rating} | ${attraction.address || ''} | 꼭 가고 싶은 장소`
-            };
-            days[matchingDayIndex].events.push(mustVisitEvent);
-          } else {
-            this.logger.warn(`- 경고: ${attraction.location} 지역에 해당하는 날짜를 찾을 수 없습니다.`);
-          }
-        }
-
-        // 레스토랑에서 찾기 (1. 번역명 정확 일치 → 2. 부분 일치)
-        let restaurant = restaurants.find(r => r.translated_restaurant_name === placeName);
-        if (!restaurant) {
-          restaurant = restaurants.find(r => 
-            r.restaurant_name.toLowerCase().includes(placeName.toLowerCase()) ||
-            (r.translated_restaurant_name && r.translated_restaurant_name.toLowerCase().includes(placeName.toLowerCase()))
-          );
-        }
-        if (restaurant) {
-          this.logger.log(`레스토랑 찾음: ${restaurant.restaurant_name}`);
-          this.logger.log(`- 번역명: ${restaurant.translated_restaurant_name || '없음'}`);
-          this.logger.log(`- 위치: ${restaurant.location}`);
-          this.logger.log(`- 장르: ${restaurant.genre}`);
-          this.logger.log(`- 주소: ${restaurant.address}`);
-          this.logger.log(`- 예산: ${Number(restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0) || Number(restaurant.budget) || 0}원`);
-
-          // 해당 레스토랑의 지역에 맞는 날짜 찾기
-          const matchingDayIndex = days.findIndex(day => {
-            const dayRegion = selectedRegions[day.day - 1 % selectedRegions.length];
-            return dayRegion === restaurant.location;
-          });
-
-          if (matchingDayIndex !== -1) {
-            this.logger.log(`- 배정된 날짜: ${days[matchingDayIndex].day}일차 (${days[matchingDayIndex].date})`);
-            const mustVisitEvent: Event = {
-              type: 'meal',
-              refId: restaurant._id.toString(),
-              name: restaurant.translated_restaurant_name || restaurant.restaurant_name,
-              image: restaurant.video,
-              location: restaurant.location,
-              address: restaurant.address || '',
-              startTime: '12:00',
-              endTime: '14:00',
-              budget: Number(restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0) || Number(restaurant.budget) || 0,
-              description: `${restaurant.genre || ''} | ${restaurant.address || ''} | 꼭 가고 싶은 장소`
-            };
-            days[matchingDayIndex].events.push(mustVisitEvent);
-          } else {
-            this.logger.warn(`- 경고: ${restaurant.location} 지역에 해당하는 날짜를 찾을 수 없습니다.`);
-          }
-        }
-
-        if (!attraction && !restaurant) {
-          this.logger.warn(`경고: "${placeName}" 장소를 찾을 수 없습니다.`);
-          // 디버깅을 위해 모든 레스토랑 이름 출력
-          this.logger.log('사용 가능한 레스토랑 목록:');
-          restaurants.forEach(r => {
-            this.logger.log(`- ${r.restaurant_name} (${r.translated_restaurant_name || '번역명 없음'})`);
-          });
-        }
-      });
-      this.logger.log('=== 꼭 가고 싶은 장소 배정 완료 ===');
-    }
-
     // 일정 최적화 days에 대해 schedule.days 말고
     const optimizedDays = await this.openAIClient.optimizeSchedule(days);
     schedule.days = optimizedDays;
-
-    // AI에 전송되는 프롬프트 로깅
-    logger.log('AI에 전송되는 프롬프트:', {
-      userPreferences: {
-        smoking: createScheduleDto.smoking,
-        drinking: createScheduleDto.drinking,
-        travelStyle: createScheduleDto.travelStyle,
-        foodPreference: createScheduleDto.foodPreference,
-        groupSize: createScheduleDto.groupSize,
-        attractionTypes: createScheduleDto.attractionTypes
-      },
-      selectedRegions: createScheduleDto.selectedRegions,
-      selectedPlaces: createScheduleDto.selectedPlaces,
-      duration: duration,
-      dailyBudgets: dailyBudgets,
-      availableRestaurants: restaurants.length,
-      availableAttractions: attractions.length
-    });
 
     return schedule.save();
   }
@@ -678,29 +503,41 @@ export class ScheduleService {
     return await sampleSchedule.save();
   }
 
-  async deleteSchedule(scheduleId: string, userId: string) {
-    const schedule = await this.scheduleModel.findById(scheduleId);
-    
+  async deleteSchedule(id: string, userId: string) {
+    const schedule = await this.scheduleModel.findById(id);
     if (!schedule) {
       throw new NotFoundException('일정을 찾을 수 없습니다.');
     }
 
-    if (schedule.userId !== userId) {
+    if (schedule.userId.toString() !== userId.toString()) {
       throw new UnauthorizedException('이 일정을 삭제할 권한이 없습니다.');
     }
 
-    await this.scheduleModel.findByIdAndDelete(scheduleId);
+    await this.scheduleModel.findByIdAndDelete(id);
     return { message: '일정이 성공적으로 삭제되었습니다.' };
+  }
+
+  async deleteAllSchedules(userId: string) {
+    const result = await this.scheduleModel.deleteMany({ userId: userId });
+
+    if (result.deletedCount === 0) {
+      throw new NotFoundException('삭제할 일정이 없습니다.');
+    }
+
+    return {
+      message: '모든 일정이 성공적으로 삭제되었습니다.',
+      deletedCount: result.deletedCount
+    };
   }
 
   async deleteEvent(scheduleId: string, dayIndex: number, eventIndex: number, userId: string) {
     console.log('=== Delete Event Debug ===');
     console.log('Requested userId:', userId);
-    
+
     const schedule = await this.scheduleModel.findById(scheduleId);
     console.log('Found schedule:', schedule);
     console.log('Schedule userId:', schedule?.userId);
-    
+
     if (!schedule) {
       throw new NotFoundException('일정을 찾을 수 없습니다.');
     }
@@ -732,7 +569,7 @@ export class ScheduleService {
 
     // 변경사항 저장
     await schedule.save();
-    
+
     return { message: '이벤트가 성공적으로 삭제되었습니다.' };
   }
 
