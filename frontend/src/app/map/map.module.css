@@ -136,16 +136,27 @@
 }
 
 .scrollWrapper {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  top: 550px;
-  gap: 0px;
-  padding: 0px 0px 0px 0;
-  white-space: nowrap;
-  scrollbar-width: thin;
-  position: relative;
-}
+	display: flex;
+	flex-direction: row;
+	overflow-x: auto;
+	top: 550px;
+	gap: 0px;
+	padding: 0px 0px 0px 0;
+	white-space: nowrap;
+	scrollbar-width: thin;
+	position: relative;
+	width: 100%;
+  }
+  
+  .scrollWrapper.moreThanThree {
+	overflow-x: auto;
+  }
+  
+  .scrollWrapper.threeOrLess {
+	overflow-x: hidden;
+	justify-content: space-between;
+	width: 100%;
+  }
 
 .scrollWrapper::-webkit-scrollbar {
   height: 6px;
@@ -156,7 +167,6 @@
   border-radius: 4px;
 }
 
-/* map.module.css 예시 */
 .detailOverlay {
 	position: fixed;
 	top: 0;
