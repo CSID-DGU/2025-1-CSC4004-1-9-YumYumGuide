@@ -244,11 +244,12 @@ export class ScheduleService {
       const day: Day = {
         day: i + 1,
         date: currentDate.toDate(),
-        totalBudget: dailyBudget.total,
-        transportationBudget: dailyBudget.transportation,
-        foodBudget: dailyBudget.food,
-        activityBudget: dailyBudget.activity,
-        events: []
+        totalBudget: dailyBudgets[i].total,
+        transportationBudget: dailyBudgets[i].transportation,
+        foodBudget: dailyBudgets[i].food,
+        activityBudget: dailyBudgets[i].activity,
+        events: [],
+        selectedPlaces: []
       };
 
       // 식사 일정 추가
