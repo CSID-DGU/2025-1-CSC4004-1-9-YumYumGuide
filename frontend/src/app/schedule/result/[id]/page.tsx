@@ -54,13 +54,6 @@ export default function ScheduleResult() {
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
-    const ref = tabRefs[activeTab - 1].current;
-    if (ref) {
-      setUnderlineStyle({ left: ref.offsetLeft, width: ref.offsetWidth });
-    }
-  }, [activeTab]);
-
-  useEffect(() => {
     fetchSchedule();
   }, [params.id]);
 
@@ -203,7 +196,7 @@ export default function ScheduleResult() {
         <div className="flex items-center gap-2 bg-white rounded-full px-6 py-2 shadow">
           <span>🏛️x{currentDay.events.filter((p) => p.type === 'attraction').length}</span>
           <span>🍜x{currentDay.events.filter((p) => p.type === 'meal').length}</span>
-          <span className="ml-2 font-semibold">₩{currentDay.totalBudget.toLocaleString()}</span>
+          {/* <span className="ml-2 font-semibold">₩{currentDay.totalBudget.toLocaleString()}</span> */}
         </div>
       </div>
       {/* 필터 팝업 */}
@@ -297,7 +290,7 @@ export default function ScheduleResult() {
               <div className="font-bold text-lg">{item.name}</div>
               <div className="text-gray-500 text-sm mt-1">
                 {icons[item.type]} {item.type === 'attraction' ? '관광' : '맛집'} | ₩
-                {item.budget?.toLocaleString() || '-'}
+                {(item.budget && item.budget < 5000 ? item.budget * 10 : item.budget)?.toLocaleString() || '-'}
               </div>
               <div
                 className="mt-2 text-green-600 cursor-pointer font-semibold"

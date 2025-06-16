@@ -14,7 +14,7 @@ export class Event {
   @Prop({ required: true })
   startTime: string;
 
-  @Prop({ required: true })
+  @Prop({})
   image: string;
 
   @Prop({ required: true })

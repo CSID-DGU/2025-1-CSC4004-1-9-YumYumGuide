@@ -333,17 +333,18 @@ const NewSchedule = () => {
       if (!response.ok) {
         let errorMessage = '일정 생성에 실패했습니다.';
         try {
-          const errorData = await response.json();
-          console.error('API 응답 에러:', {
-            status: response.status,
-            statusText: response.statusText,
-            error: errorData,
-          });
-          errorMessage = errorData.message || errorMessage;
+          // const errorData = await response.json();
+          // console.error('API 응답 에러:', {
+          //   status: response.status,
+          //   statusText: response.statusText,
+          //   error: errorData,
+          // });
+          // errorMessage = errorData.message || errorMessage;
         } catch (e) {
-          console.error('에러 응답 파싱 실패:', e);
-          const text = await response.text();
-          console.error('원본 응답:', text);
+          alert('데이터상에 여행지역이 적어요. 여행지역을 추가해주세요');
+          // console.error('에러 응답 파싱 실패:', e);
+          // const text = await response.text();
+          // console.error('원본 응답:', text);
         }
         throw new Error(errorMessage);
       }

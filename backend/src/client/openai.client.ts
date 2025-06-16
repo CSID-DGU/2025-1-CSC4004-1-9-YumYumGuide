@@ -249,7 +249,7 @@ Remember, the final schedule MUST NOT contain any duplicate locations across any
         { role: "user", content: userPrompt }
       ],
       temperature: 0.7,
-      max_tokens: 3000,
+      max_tokens: 4000,
     });
 
     const content = completion.choices[0].message.content;
