@@ -173,6 +173,11 @@ const NewSchedule = () => {
     }
   }, [startCalendar, endCalendar]);
 
+  useEffect(() => {
+    console.log('머지', selectedPlaces);
+    setSelectedPlaces([]);
+  }, [selectedRegions]);
+
   // 사용자 정보 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -552,14 +557,14 @@ const NewSchedule = () => {
                     setSelectedRegions([...selectedRegions, region.name]);
                   }
                 }}
-                style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   minHeight: '60px',
                   padding: '12px 20px',
-                  fontSize: '1.2rem'
+                  fontSize: '1.2rem',
                 }}
               >
                 <div>{region.name}</div>
