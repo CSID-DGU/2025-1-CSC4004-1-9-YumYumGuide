@@ -55,7 +55,10 @@ function DetailModal({ id, onClose }: { id: string; onClose: () => void }) {
             <div className="space-y-4">
               {imageUrl && (
                 <div className="relative w-full h-48 rounded-lg overflow-hidden">
-                  <Image src={imageUrl} alt={`${data.data.name} 이미지`} fill className="object-cover" />
+                  <Image src={imageUrl} onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/default_image.png';
+                }} alt={`${data.data.name} 이미지`} fill className="object-cover" />
                 </div>
               )}
               <h4 className="font-medium text-lg break-words w-full">{data?.data.name}</h4>
@@ -249,7 +252,10 @@ export default function PlaceSearchPopup({
         <div className="flex-shrink-0 px-6 py-5 border-b border-gray-100">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Image src="/icons/search.png" alt="Search" width={20} height={20} className="text-gray-400" />
+              <Image src="/icons/search.png" onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/default_image.png';
+                }} alt="Search" width={20} height={20} className="text-gray-400" />
             </div>
             <input
               className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border-0 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-colors"
@@ -285,11 +291,18 @@ export default function PlaceSearchPopup({
                     <div className="flex items-start space-x-4">
                       <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                         {place.image ? (
-                          <Image src={place.image} alt={`${place.title} 이미지`} fill className="object-cover" />
+                          <Image src={place.image}  onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = '/default_image.png';
+                          }}alt={`${place.title} 이미지`} fill className="object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <Image
                               src="/icons/location.png"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = '/default_image.png';
+                              }}
                               alt="No image"
                               width={24}
                               height={24}
@@ -355,7 +368,10 @@ export default function PlaceSearchPopup({
                 <p>검색 결과가 없습니다</p>
               ) : (
                 <>
-                  <Image src="/icons/search.png" alt="Search" width={40} height={40} className="mb-3 opacity-40" />
+                  <Image src="/icons/search.png" onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/default_image.png';
+                }} alt="Search" width={40} height={40} className="mb-3 opacity-40" />
                   <p>검색어를 입력해주세요</p>
                 </>
               )}
