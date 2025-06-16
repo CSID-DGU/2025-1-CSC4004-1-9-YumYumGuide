@@ -291,10 +291,22 @@ export default function PlaceSearchPopup({
                     <div className="flex items-start space-x-4">
                       <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                         {place.image ? (
-                          <Image src={place.image}  onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = '/default_image.png';
-                          }}alt={`${place.title} 이미지`} fill className="object-cover" />
+                         <img
+                         src={place.image} // 초기 이미지 소스
+                         onError={(e) => {
+                           // 이미지 로드에 실패하면 실행되는 함수
+                           // 현재 src가 이미 default_image.png가 아니라면 변경
+                           if (e.currentTarget.src !== window.location.origin + '/default_image.png') {
+                               e.currentTarget.src = '/default_image.png';
+                           }
+                         }}
+                         alt={`${place.title} 이미지`}
+                         // fill 대신 CSS로 부모 컨테이너에 꽉 채우는 스타일 적용
+                         // 예를 들어, Tailwind CSS를 사용한다면:
+                         className="w-full h-full object-cover"
+                         // 또는 인라인 스타일:
+                         // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                       />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <Image
@@ -366,7 +378,8 @@ export default function PlaceSearchPopup({
                 <p>검색 결과가 없습니다</p>
               ) : (
                 <>
-                  <Image src="/icons/search.png" onError={(e) => {
+                  <Image src="/icons/search.png" 
+                  onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = '/default_image.png';
                 }} alt="Search" width={40} height={40} className="mb-3 opacity-40" />
