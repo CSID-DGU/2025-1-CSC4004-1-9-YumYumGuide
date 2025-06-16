@@ -121,17 +121,20 @@ const Map: React.FC = () => {
 
   const filteredPlacesForMap =
     selectedPathCardName && !customRoute && !routeToPlace && selectedPlaceName
-      ? [{ name: selectedPlaceName, address: placesForSelectedDay.find(p => p.name === selectedPlaceName)?.address || '' }]
+      ? [
+          {
+            name: selectedPlaceName,
+            address: placesForSelectedDay.find((p) => p.name === selectedPlaceName)?.address || '',
+          },
+        ]
       : placesForSelectedDay.map((place) => ({ name: place.name, address: place.address }));
 
-  const selectedPlace = selectedPlaceName
-    ? placesForSelectedDay.find(p => p.name === selectedPlaceName)
-    : null;
+  const selectedPlace = selectedPlaceName ? placesForSelectedDay.find((p) => p.name === selectedPlaceName) : null;
 
   // description 로직 수정
   const getDescriptionText = (place: MappedPlace | null) => {
     if (!place) return '';
-    
+
     if (place.category === 'restaurant') {
       return place.genre || '';
     } else {
@@ -152,9 +155,7 @@ const Map: React.FC = () => {
     return (
       <div className={styles.div}>
         <Nav />
-        <div className="flex justify-center items-center h-full text-red-500">
-          일정 데이터를 불러오는데 실패했습니다.
-        </div>
+        <div className="flex justify-center items-center h-full text-lime-500">일정을 만들고 이용해주세요</div>
       </div>
     );
   }
@@ -170,7 +171,9 @@ const Map: React.FC = () => {
         />
       </div>
 
-      <div className={`${styles.scrollWrapper} ${availableDays.length <= 3 ? styles.threeOrLess : styles.moreThanThree}`}>
+      <div
+        className={`${styles.scrollWrapper} ${availableDays.length <= 3 ? styles.threeOrLess : styles.moreThanThree}`}
+      >
         {availableDays.map((dayNum: number) => (
           <DayCard
             key={dayNum}
