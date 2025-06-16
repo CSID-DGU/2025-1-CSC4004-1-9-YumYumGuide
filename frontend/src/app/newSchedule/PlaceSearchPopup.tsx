@@ -6,9 +6,20 @@ import { useSearchPlaces } from '@/api/search';
 import { useQueryDetail } from '../../api/detail';
 import { useInView } from 'react-intersection-observer';
 
+interface Place {
+  name: string;
+  type: 'restaurant' | 'attraction';
+  address: string;
+  budget?: number;
+  description?: string;
+  image?: string;
+  genre?: string;
+  category?: string;
+}
+
 interface PlaceSearchPopupProps {
   onClose: () => void;
-  onSelectPlace: (placeName: string) => void;
+  onSelectPlace: (place: Place) => void;
   existingSelectedPlaces: string[];
   isOpen: boolean;
   selectedRegions: string[];
@@ -203,6 +214,20 @@ export default function PlaceSearchPopup({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
+  const handlePlaceSelect = (place: any) => {
+    const placeData: Place = {
+      name: place.title,
+      type: place.type === 'restaurant' ? 'restaurant' : 'attraction',
+      address: place.address || '',
+      budget: place.budget || 0,
+      description: place.description || '',
+      image: place.image || '',
+      genre: place.genre || '',
+      category: place.category || '',
+    };
+    onSelectPlace(placeData);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -308,7 +333,7 @@ export default function PlaceSearchPopup({
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              onSelectPlace(place.title);
+                              handlePlaceSelect(place);
                             }}
                             className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
                               isSelected ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'

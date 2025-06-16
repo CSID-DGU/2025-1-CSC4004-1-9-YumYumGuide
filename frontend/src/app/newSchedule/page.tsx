@@ -24,10 +24,21 @@ interface UserPreferences {
   [key: string]: any; // Allow other properties if they exist
 }
 
+interface Place {
+  name: string;
+  type: 'restaurant' | 'attraction';
+  address: string;
+  budget?: number;
+  description?: string;
+  image?: string;
+  genre?: string;
+  category?: string;
+}
+
 const NewSchedule = () => {
   const [budget, setBudget] = useState(0);
   const [isPlacePopupOpen, setIsPlacePopupOpen] = useState(false);
-  const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
+  const [selectedPlaces, setSelectedPlaces] = useState<Place[]>([]);
   const [editingPlaceIndex, setEditingPlaceIndex] = useState<number | null>(null);
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -101,15 +112,15 @@ const NewSchedule = () => {
     setEndCalendar((cal) => ({ ...cal, selected: day }));
   };
 
-  const handleAddPlace = (placeName: string) => {
+  const handleAddPlace = (place: Place) => {
     if (editingPlaceIndex !== null) {
       const newPlaces = [...selectedPlaces];
-      newPlaces[editingPlaceIndex] = placeName;
+      newPlaces[editingPlaceIndex] = place;
       setSelectedPlaces(newPlaces);
       setEditingPlaceIndex(null);
     } else {
-      if (!selectedPlaces.includes(placeName) && selectedPlaces.length < 5) {
-        setSelectedPlaces([...selectedPlaces, placeName]);
+      if (!selectedPlaces.some(p => p.name === place.name) && selectedPlaces.length < 5) {
+        setSelectedPlaces([...selectedPlaces, place]);
       }
     }
     setIsPlacePopupOpen(false);
@@ -251,7 +262,7 @@ const NewSchedule = () => {
         startDate: new Date(startCalendar.year, startCalendar.month, startCalendar.selected),
         endDate: new Date(endCalendar.year, endCalendar.month, endCalendar.selected),
         selectedRegions,
-        selectedPlaces,
+        selectedPlaces: selectedPlaces.map(place => place.name),
         budget,
         smoking: userPreferences.smoking === 1,
         drinking: userPreferences.drinking === 1,
@@ -305,7 +316,7 @@ const NewSchedule = () => {
       router.push(`/schedule/result/${result._id}`);
     } catch (error) {
       console.error('일정 생성 중 오류 발생:', error);
-      alert(error instanceof Error ? error.message : '일정 생성 중 오류가 발생했습니다.');
+      alert('일정 생성 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -572,9 +583,9 @@ const NewSchedule = () => {
           <div className="place-title">꼭 가고 싶은 명소</div>
           <div className="place-list">
             {selectedPlaces.map((place, idx) => (
-              <div key={place} className="place-item place-selected">
+              <div key={place.name} className="place-item place-selected">
                 <span className="place-name" onClick={() => handleEditPlace(idx)}>
-                  {place}
+                  {place.name}
                 </span>
                 <button className="place-delete-btn" onClick={() => handleDeletePlace(idx)}>
                   ×
@@ -631,7 +642,7 @@ const NewSchedule = () => {
         }}
         onSelectPlace={handleAddPlace}
         selectedRegions={selectedRegions}
-        existingSelectedPlaces={selectedPlaces}
+        existingSelectedPlaces={selectedPlaces.map(p => p.name)}
       />
       <Nav />
     </div>

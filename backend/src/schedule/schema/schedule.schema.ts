@@ -62,7 +62,6 @@ export class Day {
 
 @Schema({ timestamps: true })
 export class Schedule {
-
   @Prop({ required: true })
   userId: string;
 

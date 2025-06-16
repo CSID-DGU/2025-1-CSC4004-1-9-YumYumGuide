@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // 요일 데이터
-const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
 // 오늘 날짜 기준 초기 연/월
 const today = new Date();
@@ -73,8 +73,9 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
     const yyyy = dateObj.getFullYear();
     const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
     const dd = String(dateObj.getDate()).padStart(2, '0');
-    return `${yyyy}.${mm}.${dd}`;
+    return `${yyyy}${mm}${dd}`;
   }
+
   const todayDateObj = new Date();
   const tomorrowDateObj = new Date();
   tomorrowDateObj.setDate(todayDateObj.getDate() + 1);
@@ -99,34 +100,21 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
     },
   ];
 
-  // 일정이 있는 날짜 배열 (YYYY.MM.DD) (이 데이터는 PlanList에서 가져와야 함)
+  // 일정이 있는 날짜 배열 (YYYYMMDD) (이 데이터는 PlanList에서 가져와야 함)
   const scheduleDates = schedules.map((s) => s.date);
 
   // 날짜 클릭 핸들러
   const handleDateClick = (date: number) => {
-    if (range.start === null || (range.start !== null && range.end !== null)) {
-      setRange({ start: date, end: null });
-    } else {
-      const newRange = { start: range.start, end: date };
-      setRange(newRange);
-
-      // 날짜 범위가 선택되면 부모 컴포넌트에 전달
-      if (newRange.start !== null && newRange.end !== null) {
-        const [start, end] = [newRange.start, newRange.end].sort((a, b) => a - b);
-        const startDate = `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(start).padStart(2, '0')}`;
-        const endDate = `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(end).padStart(2, '0')}`;
-        console.log(startDate, endDate);
-        onDateSelect(startDate, endDate);
-      }
-    }
+    const newRange = { start: date, end: date };
+    setRange(newRange);
+    
+    // 즉시 날짜 선택 이벤트 발생
+    const formattedDate = `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(date).padStart(2, '0')}`;
+    onDateSelect(formattedDate, formattedDate);
   };
 
   // 날짜가 선택된 범위에 포함되는지
   const isSelected = (date: number) => {
-    if (range.start !== null && range.end !== null) {
-      const [min, max] = [range.start, range.end].sort((a, b) => a - b);
-      return date >= min && date <= max;
-    }
     return date === range.start;
   };
 
@@ -144,6 +132,7 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
 
     setCurrentYear(newYear);
     setCurrentMonth(newMonth);
+    setRange({ start: null, end: null }); // 월이 변경되면 선택 초기화
   };
 
   const handleNextMonth = () => {
@@ -159,6 +148,7 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
 
     setCurrentYear(newYear);
     setCurrentMonth(newMonth);
+    setRange({ start: null, end: null }); // 월이 변경되면 선택 초기화
   };
 
   // 월/일 포맷
@@ -197,7 +187,7 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
                   {row.map((date, j) => {
                     // 날짜 포맷 맞추기
                     const dateStr = date
-                      ? `${currentYear}.${String(currentMonth + 1).padStart(2, '0')}.${String(date).padStart(2, '0')}`
+                      ? `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(date).padStart(2, '0')}`
                       : '';
                     return (
                       <td
