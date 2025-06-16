@@ -55,6 +55,10 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
         <div className="detail-image-container">
           <img
             src={detail.video || '/restaurant.png'}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/default_image.png';
+            }}
             alt={detail.restaurant_name}
             sizes="(max-width: 768px) 100vw, 600px"
             className="detail-image "

@@ -67,7 +67,7 @@ const PlaceDetail2: React.FC<PlaceDetail2Props> = ({ placeId, onClose }) => {
 
         <div className={styles.imageContainer}>
           <Image
-            src={detail.video || detail.image || '/default.png'}
+            src={detail.video || detail.image}
             alt={detail.restaurant_name || detail.attraction || '장소 이미지'}
             fill
             className={styles.image}
