@@ -225,6 +225,49 @@ export class ScheduleService {
     const dailyRecommendations = this.calculateDailyRecommendations(createScheduleDto.travelStyle);
     this.logger.log('일일 추천 개수:', JSON.stringify(dailyRecommendations, null, 2));
 
+    // selectedPlaces를 객체 배열로 변환
+    let selectedPlacesObjects: any[] = [];
+    if (createScheduleDto.selectedPlaces && createScheduleDto.selectedPlaces.length > 0) {
+      selectedPlacesObjects = createScheduleDto.selectedPlaces.map(placeName => {
+        // 관광지에서 찾기
+        const attraction = attractions.find(a => a.attraction === placeName);
+        if (attraction) {
+          return {
+            type: 'attraction',
+            refId: attraction._id.toString(),
+            name: attraction.attraction,
+            image: attraction.image,
+            location: attraction.location,
+            address: attraction.address || '',
+            budget: attraction.price || attraction.budget || 0,
+            description: `${attraction.category || ''} | ${attraction.address || ''}`
+          };
+        }
+        // 레스토랑에서 찾기 (1. 번역명 정확 일치 → 2. 부분 일치)
+        let restaurant = restaurants.find(r => r.translated_restaurant_name === placeName);
+        if (!restaurant) {
+          restaurant = restaurants.find(r => 
+            r.restaurant_name.toLowerCase().includes(placeName.toLowerCase()) ||
+            (r.translated_restaurant_name && r.translated_restaurant_name.toLowerCase().includes(placeName.toLowerCase()))
+          );
+        }
+        if (restaurant) {
+          return {
+            type: 'meal',
+            refId: restaurant._id.toString(),
+            name: restaurant.translated_restaurant_name || restaurant.restaurant_name,
+            image: restaurant.video,
+            location: restaurant.location,
+            address: restaurant.address || '',
+            budget: Number(restaurant.dinner_budget ? restaurant.dinner_budget * 10 : 0) || Number(restaurant.budget) || 0,
+            description: `${restaurant.genre || ''} | ${restaurant.address || ''}`
+          };
+        }
+        // 못 찾으면 null
+        return null;
+      }).filter(Boolean); // null 제거
+    }
+
     // 일별 일정 생성
     const days: Day[] = [];
     for (let i = 0; i < duration; i++) {
@@ -266,7 +309,7 @@ export class ScheduleService {
         foodBudget: dailyBudget.food,
         activityBudget: dailyBudget.activity,
         events: [],
-        selectedPlaces: createScheduleDto.selectedPlaces || []
+        selectedPlaces: selectedPlacesObjects // 객체 배열 할당
       };
 
       // 식사 일정 추가
@@ -380,12 +423,14 @@ export class ScheduleService {
           }
         }
 
-        // 레스토랑에서 찾기 (부분 일치 포함)
-        const restaurant = restaurants.find(r => 
-          r.restaurant_name.toLowerCase().includes(placeName.toLowerCase()) ||
-          (r.translated_restaurant_name && r.translated_restaurant_name.toLowerCase().includes(placeName.toLowerCase()))
-        );
-        
+        // 레스토랑에서 찾기 (1. 번역명 정확 일치 → 2. 부분 일치)
+        let restaurant = restaurants.find(r => r.translated_restaurant_name === placeName);
+        if (!restaurant) {
+          restaurant = restaurants.find(r => 
+            r.restaurant_name.toLowerCase().includes(placeName.toLowerCase()) ||
+            (r.translated_restaurant_name && r.translated_restaurant_name.toLowerCase().includes(placeName.toLowerCase()))
+          );
+        }
         if (restaurant) {
           this.logger.log(`레스토랑 찾음: ${restaurant.restaurant_name}`);
           this.logger.log(`- 번역명: ${restaurant.translated_restaurant_name || '없음'}`);
