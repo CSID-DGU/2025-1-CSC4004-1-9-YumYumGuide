@@ -1,4 +1,4 @@
-// placeDetail2.tsx
+// placeDetail2.tsx 사진 수정
 'use client';
 
 import React, { useState } from 'react';
@@ -38,6 +38,7 @@ type DetailData = {
 
 const PlaceDetail2: React.FC<PlaceDetail2Props> = ({ placeId, onClose }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const { data, isLoading, error } = useQueryDetail(placeId);
 
   // 백그라운드 클릭 시 모달 닫기
@@ -67,10 +68,11 @@ const PlaceDetail2: React.FC<PlaceDetail2Props> = ({ placeId, onClose }) => {
 
         <div className={styles.imageContainer}>
           <Image
-            src={detail.video || detail.image}
+            src={imageError ? '/default_image.png' : (detail.video || detail.image || '/default_image.png')}
             alt={detail.restaurant_name || detail.attraction || '장소 이미지'}
             fill
             className={styles.image}
+            onError={() => setImageError(true)}
           />
         </div>
 

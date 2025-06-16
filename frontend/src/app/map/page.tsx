@@ -229,9 +229,9 @@ const Map: React.FC = () => {
           address={selectedPlace?.address || ''}
           description={getDescriptionText(selectedPlace)}
           imageSrc={selectedPlace?.image }
-        
           isEmpty={!selectedPlace}
         />
+        
       </div>
 
       {detail2PlaceId && (
