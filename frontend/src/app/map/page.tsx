@@ -228,7 +228,8 @@ const Map: React.FC = () => {
           name={selectedPlace?.name || ''}
           address={selectedPlace?.address || ''}
           description={getDescriptionText(selectedPlace)}
-          imageSrc={selectedPlace?.image || '/default-image.jpg'}
+          imageSrc={selectedPlace?.image }
+        
           isEmpty={!selectedPlace}
         />
       </div>

@@ -342,6 +342,10 @@ export default function ScheduleResult() {
                         <img
                           src={detailData.data.type === 'restaurant' ? detailData.data.video : detailData.data.image}
                           alt={`${detailData.data.name} 이미지`}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = '/default_image.png';
+                          }}
                           width={400}
                           height={400}
                           className="object-cover"

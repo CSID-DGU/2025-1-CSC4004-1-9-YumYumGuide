@@ -613,7 +613,7 @@ const NewSchedule = () => {
         </div>
         {/* 가고 싶은 명소 */}
         <div className="place-section">
-          <div className="place-title">꼭 가고 싶은 명소</div>
+          <div className="place-title"> 가고 싶은 명소</div>
           <div className="place-list">
             {selectedPlaces.map((place, idx) => (
               <div key={place.name} className="place-item place-selected">
