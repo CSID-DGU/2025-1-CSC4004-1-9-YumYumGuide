@@ -6,6 +6,8 @@ import { useQueryScheduleById } from '@/api/schedule';
 import { useParams, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import styles from '../result.module.css';
+import Image from 'next/image';
+import { useQueryDetail } from '@/api/detail';
 
 // 타입 정의
 type PlaceType = 'attraction' | 'meal';
@@ -37,8 +39,17 @@ export default function ScheduleResult() {
   const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
   const [schedule, setSchedule] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [detailViewOpen, setDetailViewOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showHours, setShowHours] = useState(false);
+  const {
+    data: detailData,
+    isLoading: detailLoading,
+    isError: detailError,
+  } = useQueryDetail(selectedItem?.refId || '');
 
-  console.log(scheduleResponse);
+  console.log('scheduleResponse', scheduleResponse);
   // 탭 바 위치 계산
   const tabRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
@@ -64,7 +75,7 @@ export default function ScheduleResult() {
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/schedule/${params.id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -111,7 +122,7 @@ export default function ScheduleResult() {
       const token = Cookies.get('auth_token');
       console.log('=== Frontend Delete Event Debug ===');
       console.log('Token:', token);
-      
+
       if (!token) {
         router.push('/login');
         return;
@@ -122,9 +133,9 @@ export default function ScheduleResult() {
         {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -289,7 +300,15 @@ export default function ScheduleResult() {
                 {icons[item.type]} {item.type === 'attraction' ? '관광' : '맛집'} | ₩
                 {item.budget?.toLocaleString() || '-'}
               </div>
-              <div className="mt-2 text-green-600 cursor-pointer font-semibold">상세보기 &gt;</div>
+              <div
+                className="mt-2 text-green-600 cursor-pointer font-semibold"
+                onClick={() => {
+                  setSelectedItem(item);
+                  setDetailViewOpen(true);
+                }}
+              >
+                상세보기 &gt;
+              </div>
             </div>
           </div>
         ))}
@@ -305,6 +324,116 @@ export default function ScheduleResult() {
         onConfirm={handleDelete}
         onCancel={() => setModalOpen(false)}
       />
+      {detailViewOpen && selectedItem && (
+        <div className="fixed inset-0 flex items-center justify-center z-[60]">
+          <div className="absolute inset-0 bg-black/30" onClick={() => setDetailViewOpen(false)} />
+          <div className="relative bg-white rounded-2xl shadow-xl w-[400px] max-h-[80vh] overflow-y-auto">
+            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="font-medium">상세 정보</h3>
+              <button onClick={() => setDetailViewOpen(false)} className="text-gray-400 hover:text-gray-600">
+                ×
+              </button>
+            </div>
+            <div className="p-4">
+              {detailLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-emerald-500 border-t-transparent"></div>
+                </div>
+              ) : detailError ? (
+                <div className="text-red-500 text-center py-4">정보를 불러오는데 실패했습니다.</div>
+              ) : (
+                <div className="space-y-4">
+                  {/* 이미지 */}
+                  {detailData &&
+                    (detailData.data.type === 'restaurant' ? detailData.data.video : detailData.data.image) && (
+                      <div className="relative w-full h-48 rounded-lg overflow-hidden">
+                        <img
+                          src={detailData.data.type === 'restaurant' ? detailData.data.video : detailData.data.image}
+                          alt={`${detailData.data.name} 이미지`}
+                          width={400}
+                          height={400}
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                  {/* 이름 */}
+                  <h4 className="font-medium text-lg break-words w-full">{detailData?.data.name}</h4>
+                  {/* 설명 */}
+                  <p className="text-gray-600 text-sm break-words w-full">{detailData?.data.description}</p>
+                  {/* 키워드 */}
+                  <div className="flex flex-wrap gap-2">
+                    {detailData?.data.keywords?.map((keyword, idx) => (
+                      <span key={idx} className="px-2 py-1 bg-gray-100 text-sm rounded-full text-gray-600">
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                  {/* 음식점 상세 */}
+                  {detailData?.data.type === 'restaurant' && (
+                    <>
+                      <div className="space-y-2">
+                        {/* 영업시간 토글 */}
+                        <div>
+                          <div
+                            className="flex items-center justify-between cursor-pointer"
+                            onClick={() => setShowHours(!showHours)}
+                          >
+                            <h5 className="font-medium">영업시간</h5>
+                            <span className="text-gray-400">{showHours ? '▼' : '▶'}</span>
+                          </div>
+                          {showHours && (
+                            <p className="text-sm mt-2">
+                              <span className="break-words w-[300px] inline-block">
+                                {detailData.data.business_hours}
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                        {/* 예산/전화 */}
+                        <p className="text-sm">
+                          <span className="font-medium">예산:</span>{' '}
+                          <span className="break-words w-[300px] inline-block">{detailData.data.budget}</span>
+                        </p>
+                        {detailData.data.tel && (
+                          <p className="text-sm">
+                            <span className="font-medium">전화:</span>{' '}
+                            <span className="break-words w-[300px] inline-block">{detailData.data.tel}</span>
+                          </p>
+                        )}
+                      </div>
+                      {/* 메뉴 토글 */}
+                      {detailData.data.menus && detailData.data.menus.length > 0 && (
+                        <div className="mt-4">
+                          <div
+                            className="flex items-center justify-between cursor-pointer"
+                            onClick={() => setShowMenu(!showMenu)}
+                          >
+                            <h5 className="font-medium">메뉴</h5>
+                            <span className="text-gray-400">{showMenu ? '▼' : '▶'}</span>
+                          </div>
+                          {showMenu && (
+                            <div className="mt-2 max-h-[200px] overflow-y-auto pr-2">
+                              {detailData.data.menus.map((menuItem: any) => (
+                                <div
+                                  key={menuItem._id}
+                                  className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0"
+                                >
+                                  <span className="text-gray-900 break-words w-[200px]">{menuItem.menu}</span>
+                                  <span className="text-gray-600 ml-2">¥{menuItem.price.toLocaleString()}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       <Nav />
     </div>
   );
