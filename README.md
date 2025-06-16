@@ -30,7 +30,7 @@ YUMYUM GUIDE는 해외여행, 특히 일본 도쿄를 방문하는 여행객들�
 
 | 구분 | 기술 |
 | --- | --- |
-| **Backend** | `Node.js`, `NestJS`, `Express.js` |
+| **Backend** | `NestJS` |
 | **Frontend** | `Next.js`, `Redux/Context API` |
 | **Database** | `MongoDB` (Atlas Cluster) |
 | **Infra** | `AWS EC2`, `AWS VPC`  |
