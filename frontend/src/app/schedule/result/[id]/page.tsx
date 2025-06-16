@@ -6,7 +6,6 @@ import { useQueryScheduleById } from '@/api/schedule';
 import { useParams, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import styles from '../result.module.css';
-import Image from 'next/image';
 import { useQueryDetail } from '@/api/detail';
 
 // 타입 정의

@@ -109,6 +109,13 @@ const NewSchedule = () => {
       return;
     }
 
+    // 10일 제한 체크
+    const duration = newEndDate.diff(currentStartDate, 'day') + 1;
+    if (duration > 10) {
+      alert('최대 여행 기간은 10일입니다.');
+      return;
+    }
+
     setEndCalendar((cal) => ({ ...cal, selected: day }));
   };
 
@@ -119,7 +126,7 @@ const NewSchedule = () => {
       setSelectedPlaces(newPlaces);
       setEditingPlaceIndex(null);
     } else {
-      if (!selectedPlaces.some(p => p.name === place.name) && selectedPlaces.length < 5) {
+      if (!selectedPlaces.some((p) => p.name === place.name) && selectedPlaces.length < 5) {
         setSelectedPlaces([...selectedPlaces, place]);
       }
     }
@@ -249,8 +256,36 @@ const NewSchedule = () => {
     fetchUserInfo();
   }, [router]);
 
+  // 여행 지역 선택 핸들러 추가
+  const handleRegionSelect = (regionName: string) => {
+    const duration = calculateTripDuration();
+    const minRegions = Math.ceil(duration / 2); // 최소 선택해야 하는 지역 수 (날짜의 절반)
+
+    if (selectedRegions.includes(regionName)) {
+      // 지역을 제거하려고 할 때
+      const newSelectedRegions = selectedRegions.filter((r) => r !== regionName);
+      if (newSelectedRegions.length < minRegions) {
+        alert(`최소 ${minRegions}개의 지역을 선택해야 합니다.`);
+        return;
+      }
+      setSelectedRegions(newSelectedRegions);
+    } else if (selectedRegions.length < duration) {
+      // 새로운 지역을 추가할 때
+      setSelectedRegions([...selectedRegions, regionName]);
+    }
+  };
+
+  // 일정 생성 핸들러 수정
   const handleCreateSchedule = async () => {
     try {
+      const duration = calculateTripDuration();
+      const minRegions = Math.ceil(duration / 2);
+
+      if (selectedRegions.length < minRegions) {
+        alert(`최소 ${minRegions}개의 지역을 선택해야 합니다.`);
+        return;
+      }
+
       setIsLoading(true);
       if (!userId || !userPreferences) {
         alert('로그인이 필요합니다.');
@@ -267,7 +302,7 @@ const NewSchedule = () => {
         startDate: new Date(startCalendar.year, startCalendar.month, startCalendar.selected),
         endDate: new Date(endCalendar.year, endCalendar.month, endCalendar.selected),
         selectedRegions,
-        selectedPlaces: selectedPlaces.map(place => place.name),
+        selectedPlaces: selectedPlaces.map((place) => place.name),
         budget,
         smoking: userPreferences.smoking === 1,
         drinking: userPreferences.drinking === 1,
@@ -560,14 +595,7 @@ const NewSchedule = () => {
               <div
                 key={region.name}
                 className={`region-item ${selectedRegions.includes(region.name) ? 'region-selected' : ''}`}
-                onClick={() => {
-                  const duration = calculateTripDuration();
-                  if (selectedRegions.includes(region.name)) {
-                    setSelectedRegions(selectedRegions.filter((r) => r !== region.name));
-                  } else if (selectedRegions.length < duration) {
-                    setSelectedRegions([...selectedRegions, region.name]);
-                  }
-                }}
+                onClick={() => handleRegionSelect(region.name)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -647,7 +675,7 @@ const NewSchedule = () => {
         }}
         onSelectPlace={handleAddPlace}
         selectedRegions={selectedRegions}
-        existingSelectedPlaces={selectedPlaces.map(p => p.name)}
+        existingSelectedPlaces={selectedPlaces.map((p) => p.name)}
       />
       <Nav />
     </div>
