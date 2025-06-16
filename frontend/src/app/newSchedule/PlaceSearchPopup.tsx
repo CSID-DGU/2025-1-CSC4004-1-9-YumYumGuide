@@ -6,20 +6,9 @@ import { useSearchPlaces } from '@/api/search';
 import { useQueryDetail } from '../../api/detail';
 import { useInView } from 'react-intersection-observer';
 
-interface Place {
-  name: string;
-  type: 'restaurant' | 'attraction';
-  address: string;
-  budget?: number;
-  description?: string;
-  image?: string;
-  genre?: string;
-  category?: string;
-}
-
 interface PlaceSearchPopupProps {
   onClose: () => void;
-  onSelectPlace: (place: Place) => void;
+  onSelectPlace: (placeName: string) => void;
   existingSelectedPlaces: string[];
   isOpen: boolean;
   selectedRegions: string[];
@@ -35,7 +24,7 @@ function DetailModal({ id, onClose }: { id: string; onClose: () => void }) {
   const imageUrl = data?.data.type === 'restaurant' ? data.data.video : data?.data.image;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-[60]">
+    <div className="fixed inset-0 flex items-center justify-center z-[700]">
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-xl w-[400px] max-h-[80vh] overflow-y-auto">
         <div className="p-4 border-b border-gray-100 flex justify-between items-center">
@@ -214,24 +203,10 @@ export default function PlaceSearchPopup({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
-  const handlePlaceSelect = (place: any) => {
-    const placeData: Place = {
-      name: place.title,
-      type: place.type === 'restaurant' ? 'restaurant' : 'attraction',
-      address: place.address || '',
-      budget: place.budget || 0,
-      description: place.description || '',
-      image: place.image || '',
-      genre: place.genre || '',
-      category: place.category || '',
-    };
-    onSelectPlace(placeData);
-  };
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-[9999]">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
 
@@ -301,7 +276,7 @@ export default function PlaceSearchPopup({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <h3 className="text-base font-medium text-gray-900 truncate pr-4">{place.title}</h3>
+                            <h3 className="text-base font-medium text-gray-900 truncate w-full">{place.title}</h3>
                             <div className="flex items-center gap-2 mt-1">
                               {place.type === '음식점' && (
                                 <span className="inline-block px-2 py-0.5 text-xs font-medium text-emerald-700 bg-emerald-50 rounded-full">
@@ -315,12 +290,8 @@ export default function PlaceSearchPopup({
                               )}
                             </div>
                             {place.description && (
-                              <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                                {place.description.split(',').map((item, i) => (
-                                  <span key={i} className="after:content-[','] after:mr-1 last:after:content-none">
-                                    {item.trim()}
-                                  </span>
-                                ))}
+                              <p className="mt-1 text-sm text-gray-500 line-clamp-2 w-full">
+                                {place.description}
                               </p>
                             )}
                             <button
@@ -333,7 +304,7 @@ export default function PlaceSearchPopup({
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              handlePlaceSelect(place);
+                              onSelectPlace(place.title);
                             }}
                             className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
                               isSelected ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
