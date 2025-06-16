@@ -46,7 +46,6 @@ export default function TripDetailPage({ params }: { params: Promise<{ id: strin
 
   const detail = data.data;
 
-  console.log(detail);
   if (detail.type === 'restaurant') {
     return (
       <div className="detail-container">

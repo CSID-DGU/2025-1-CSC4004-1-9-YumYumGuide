@@ -234,7 +234,7 @@ export default function PlaceSearchPopup({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-500">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
 
@@ -312,37 +312,8 @@ export default function PlaceSearchPopup({
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <h3 className="text-base font-medium text-gray-900 truncate pr-4">{place.title}</h3>
-                            <div className="flex items-center gap-2 mt-1">
-                              {place.type === '음식점' && (
-                                <span className="inline-block px-2 py-0.5 text-xs font-medium text-emerald-700 bg-emerald-50 rounded-full">
-                                  맛집
-                                </span>
-                              )}
-                              {place.score > 5 && (
-                                <span className="inline-block px-2 py-0.5 text-xs font-medium text-amber-700 bg-amber-50 rounded-full">
-                                  인기
-                                </span>
-                              )}
-                            </div>
-                            {place.description && (
-                              <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                                {place.description.split(',').map((item, i) => (
-                                  <span key={i} className="after:content-[','] after:mr-1 last:after:content-none">
-                                    {item.trim()}
-                                  </span>
-                                ))}
-                              </p>
-                            )}
-                            <button
-                              onClick={() => setSelectedDetailId(place._id)}
-                              className="mt-2 text-sm text-emerald-600 hover:text-emerald-700"
-                            >
-                              상세보기 &gt;
-                            </button>
-                          </div>
+                        <div className="flex items-center justify-between gap-2">
+                          <h3 className="text-base font-medium text-gray-900 truncate w-full whitespace-nowrap overflow-hidden flex-1 min-w-0">{place.title}</h3>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -355,6 +326,33 @@ export default function PlaceSearchPopup({
                             {isSelected ? '✓' : '+ '}
                           </button>
                         </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          {place.type === '음식점' && (
+                            <span className="inline-block px-2 py-0.5 text-xs font-medium text-emerald-700 bg-emerald-50 rounded-full">
+                              맛집
+                            </span>
+                          )}
+                          {place.score > 5 && (
+                            <span className="inline-block px-2 py-0.5 text-xs font-medium text-amber-700 bg-amber-50 rounded-full">
+                              인기
+                            </span>
+                          )}
+                        </div>
+                        {place.description && (
+                          <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                            {place.description.split(',').map((item, i) => (
+                              <span key={i} className="after:content-[','] after:mr-1 last:after:content-none">
+                                {item.trim()}
+                              </span>
+                            ))}
+                          </p>
+                        )}
+                        <button
+                          onClick={() => setSelectedDetailId(place._id)}
+                          className="mt-2 text-sm text-emerald-600 hover:text-emerald-700"
+                        >
+                          상세보기 &gt;
+                        </button>
                       </div>
                     </div>
                   </div>

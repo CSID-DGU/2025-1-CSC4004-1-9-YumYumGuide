@@ -192,7 +192,6 @@ const NewSchedule = () => {
   }, [startCalendar, endCalendar]);
 
   useEffect(() => {
-    console.log('머지', selectedPlaces);
     setSelectedPlaces([]);
   }, [selectedRegions]);
 

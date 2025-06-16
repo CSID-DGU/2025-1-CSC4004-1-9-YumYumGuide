@@ -11,9 +11,10 @@ const today = new Date();
 
 interface CustomCalenderProps {
   onDateSelect: (startDate: string, endDate: string) => void;
+  scheduleDates: string[]; // KST로 변환된 'YYYYMMDD' 날짜 배열을 props로 받음
 }
 
-export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
+export default function CustomCalender({ onDateSelect, scheduleDates = [] }: CustomCalenderProps) {
   const searchParams = useSearchParams();
 
   // URL에서 startDate 파라미터를 가져와서 초기 연/월 설정
@@ -100,24 +101,6 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
     },
   ];
 
-  // 일정이 있는 날짜 배열 (YYYYMMDD) (이 데이터는 PlanList에서 가져와야 함)
-  const scheduleDates = schedules.map((s) => s.date);
-
-  // 날짜 클릭 핸들러
-  const handleDateClick = (date: number) => {
-    const newRange = { start: date, end: date };
-    setRange(newRange);
-    
-    // 즉시 날짜 선택 이벤트 발생
-    const formattedDate = `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(date).padStart(2, '0')}`;
-    onDateSelect(formattedDate, formattedDate);
-  };
-
-  // 날짜가 선택된 범위에 포함되는지
-  const isSelected = (date: number) => {
-    return date === range.start;
-  };
-
   // 월 이동 핸들러
   const handlePrevMonth = () => {
     let newYear = currentYear;
@@ -154,6 +137,13 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
   // 월/일 포맷
   const monthLabel = `${currentYear}년 ${currentMonth + 1}월`;
 
+  // 날짜 클릭 핸들러 복구
+  const handleDateClick = (date: number) => {
+    if (!date) return;
+    const dateStr = `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(date).padStart(2, '0')}`;
+    onDateSelect(dateStr, dateStr);
+  };
+
   return (
     <>
       <div className="date-block-cal px-4 py-4 border border-gray-200 rounded-xl bg-white">
@@ -189,21 +179,27 @@ export default function CustomCalender({ onDateSelect }: CustomCalenderProps) {
                     const dateStr = date
                       ? `${currentYear}${String(currentMonth + 1).padStart(2, '0')}${String(date).padStart(2, '0')}`
                       : '';
+
+                    // 디버깅 코드 추가
+                    if (date) {
+                      console.log(
+                        `[캘린더] date: ${date}, dateStr: ${dateStr}, scheduleDates:`,
+                        scheduleDates,
+                        '포함여부:',
+                        scheduleDates.includes(dateStr)
+                      );
+                    }
+
                     return (
                       <td
                         key={j}
                         className={date ? 'cursor-pointer transition-all duration-150' : ''}
-                        onClick={() => {
-                          if (!date) return;
-                          handleDateClick(date);
-                        }}
+                        onClick={() => handleDateClick(date)}
                       >
                         {date ? (
                           <div
                             className={
-                              isSelected(date)
-                                ? 'bg-[#4CC88A] text-white font-bold rounded-lg flex items-center justify-center w-9 h-10 md:w-10 md:h-11 mx-auto'
-                                : scheduleDates.includes(dateStr)
+                              scheduleDates.includes(dateStr)
                                 ? 'bg-green-100 text-[#4CC88A] font-semibold rounded-lg flex items-center justify-center w-9 h-10 md:w-10 md:h-11 mx-auto'
                                 : 'flex items-center justify-center w-9 h-10 md:w-10 md:h-11 mx-auto'
                             }
