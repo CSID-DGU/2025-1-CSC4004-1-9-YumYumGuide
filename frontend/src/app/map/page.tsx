@@ -170,12 +170,13 @@ const Map: React.FC = () => {
         />
       </div>
 
-      <div className={styles.scrollWrapper}>
+      <div className={`${styles.scrollWrapper} ${availableDays.length <= 3 ? styles.threeOrLess : styles.moreThanThree}`}>
         {availableDays.map((dayNum: number) => (
           <DayCard
             key={dayNum}
             day={dayNum}
             selected={selectedDay === dayNum}
+            totalDays={availableDays.length}
             onClick={() => {
               setSelectedDay(dayNum);
               setSelectedPlaceName(null);
