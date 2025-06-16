@@ -50,14 +50,17 @@ const Navbar = () => {
               onClick={() => setActive(item.name)}
               className="flex flex-col items-center justify-center relative"
             >
-              {item.name === "search" ? (
+              {item.name === "newSchedule" ? (
                 <div className="absolute" style={{ top: '10px' }}>
-                  <div className="w-14 h-14 rounded-full bg-[#27C289] flex items-center justify-center shadow-md">
+                  <div className="w-14 h-14 flex items-center justify-center">
                     <img
                       src={item.icon}
                       alt="검색"
-                      className="w-6 h-6 object-contain"
-                      style={{ filter: "brightness(0) invert(1)" }}
+                      className="w-9 h-9 object-contain"
+                      style={{
+                        filter: active === item.name ? "none" : "grayscale(100%) opacity(50%)"
+                      }}
+                      //style={{ filter: "brightness(0) invert(1)" }}
                     />
                   </div>
                 </div>
