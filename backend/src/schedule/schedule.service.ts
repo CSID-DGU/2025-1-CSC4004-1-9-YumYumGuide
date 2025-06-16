@@ -265,7 +265,8 @@ export class ScheduleService {
         transportationBudget: dailyBudget.transportation,
         foodBudget: dailyBudget.food,
         activityBudget: dailyBudget.activity,
-        events: []
+        events: [],
+        selectedPlaces: createScheduleDto.selectedPlaces || []
       };
 
       // 식사 일정 추가

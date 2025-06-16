@@ -56,8 +56,11 @@ export class Day {
   @Prop({ required: true })
   activityBudget: number;
 
-  @Prop({ type: [Event], required: true })
+  @Prop({ type: [Event], default: [] })
   events: Event[];
+
+  @Prop({ type: [String], default: [] })
+  selectedPlaces: string[];
 }
 
 @Schema({ timestamps: true })
