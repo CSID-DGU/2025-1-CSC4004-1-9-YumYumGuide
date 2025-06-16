@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import './schedule.css';
 import { useQuerySchedule } from '@/api/schedule';
 
@@ -93,19 +94,16 @@ export default function PlanList({ dateRange }: PlanListProps) {
                                 >
                                   <div className="event-card bg-gray-50 p-3 rounded-lg shadow-sm flex items-center hover:bg-gray-100 transition-colors duration-150">
                                     {/* Image container to maintain size even if image fails to load */}
-                                    <div className="image-container w-[80px] h-[80px] rounded-md mr-4 flex-shrink-0 overflow-hidden">
-                                      <img
-                                        src={
-                                          event?.image ||
-                                          (event.type === 'attraction'
-                                            ? '/attraction.png'
-                                            : event.type === 'restaurant'
-                                            ? '/restaurant.png'
-                                            : '/default-event.png')
-                                        }
-                                        alt={'img'}
-                                        className="custom-image w-full h-full object-cover"
-                                      />
+                                    <div className="image-container w-[80px] h-[80px] rounded-md mr-4 flex-shrink-0 overflow-hidden relative">
+                                    <img
+                                      src={event?.image} // 초기 로드 시도 (event.image가 없으면 default_image.png 시도)
+                                      alt={'img'}
+                                      className="custom-image w-full h-full object-cover"
+                                      onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = '/default_image.png';
+                                      }}
+                                    />
                                     </div>
                                     <div className="event-details flex-1 min-w-0">
                                       <div className="text-xs text-gray-400 mb-0.5">

@@ -56,18 +56,23 @@ const ScheduleList = () => {
             <div className="flex items-center gap-4">
               <img
                 src={
-                  firstEvent?.image ||
+                  firstEvent?.image  ||
                   (firstEvent?.type === 'attraction'
                     ? '/attraction.png'
                     : firstEvent?.type === 'restaurant'
                     ? '/restaurant.png'
                     : '/default-event.png')
                 }
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/default_image.png';
+                }}
                 alt={firstEvent?.name || '일정 이미지'}
                 width={80}
                 height={80}
                 className="rounded-lg object-cover"
               />
+              
               <div className="flex flex-col flex-1">
                 <div className="font-bold text-base truncate">
                   {`${schedule.startDate.substring(4, 6)}.${schedule.startDate.substring(

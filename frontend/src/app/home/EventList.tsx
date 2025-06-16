@@ -61,6 +61,10 @@ const EventList = () => {
             <div className="flex items-center gap-4">
               <Image
                 src={event.image || '/icons/80x80.svg'}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/default_image.png';
+                }}
                 alt={event.attraction}
                 width={80}
                 height={80}
@@ -90,6 +94,10 @@ const EventList = () => {
               src={selectedEvent.image}
               alt={selectedEvent.attraction}
               className="rounded-lg w-full h-52 object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/default_image.png';
+              }}
             />
             <h2 className="text-xl font-bold mt-4">{selectedEvent.attraction}</h2>
             {/* <p className="text-gray-500 mb-1">{selectedEvent.address}</p> */}
